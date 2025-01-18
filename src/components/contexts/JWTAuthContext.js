@@ -206,38 +206,79 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // const register = async (fullname, email, phone, address, password) => {
+  //   try {
+  //     const response = await axios.post(`${apiUrl}/api/auth/signup`, {
+  //       fullname,
+  //       email,
+  //       phone,
+  //       address,
+  //       password, // This matches your backend field for the hashed password
+  //     });
+
+  //     if (response.status === 201) {
+  //       const { token, user } = response.data;
+
+  //       // Set the token in session (or localStorage)
+  //       setSession(token);
+  //       localStorage.setItem("user", JSON.stringify(user));
+
+  //       // Dispatch action to update state
+  //       dispatch({
+  //         type: "REGISTER",
+  //         payload: { user },
+  //       });
+
+  //       return response;
+  //     } else {
+  //       return response;
+  //     }
+  //   } catch (error) {
+  //     // Handle error
+  //     console.error(
+  //       "Error during registration:",
+  //       error.response?.data?.message || error.message
+  //     );
+  //     throw error;
+  //   }
+  // };
+
   const register = async (
     fullname,
-    company_name,
     email,
-    phone,
-    address,
-    password
+    password,
+    phone = "",
+    address = ""
   ) => {
     try {
       const response = await axios.post(`${apiUrl}/api/auth/signup`, {
         fullname,
-        company_name,
         email,
-        phone,
-        address,
         password,
+        phone, // Optional
+        address, // Optional
       });
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         const { token, user } = response.data;
 
+        // Save token and user in local storage or context
         setSession(token);
         localStorage.setItem("user", JSON.stringify(user));
         dispatch({
           type: "REGISTER",
           payload: { user },
         });
+
         return response;
       } else {
         return response;
       }
     } catch (error) {
+      console.error(
+        "Registration error:",
+        error.response?.data?.message || error.message
+      );
       throw error;
     }
   };
