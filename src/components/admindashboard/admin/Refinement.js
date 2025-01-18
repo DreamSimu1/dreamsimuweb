@@ -128,6 +128,11 @@ const Refinement = () => {
             <div className="card-body">
               {loading ? (
                 <p>Loading...</p>
+              ) : refinements.length === 0 ? (
+                <p className="text-center">
+                  No refinements added yet. Please add activities to get
+                  started.
+                </p>
               ) : (
                 <div className="table-responsive dataview">
                   <table className="table dashboard-expired-products">
@@ -139,13 +144,11 @@ const Refinement = () => {
                         <th>Sprint</th>
                       </tr>
                     </thead>
-
                     <tbody>
                       {refinements.map((refine) => {
                         let estimatedtime = refine.estimatedtime;
 
                         try {
-                          // Parse JSON string back into an object
                           estimatedtime = JSON.parse(estimatedtime);
                         } catch (error) {
                           console.error("Error parsing estimatedtime:", error);
@@ -154,10 +157,10 @@ const Refinement = () => {
 
                         const { startDate, endDate } = estimatedtime || {};
                         const formattedStartDate = startDate
-                          ? format(new Date(startDate), "MMM d, yyyy, h:mm a") // Example: "Jan 13, 2025, 12:00 AM"
+                          ? format(new Date(startDate), "MMM d, yyyy, h:mm a")
                           : "N/A";
                         const formattedEndDate = endDate
-                          ? format(new Date(endDate), "MMM d, yyyy, h:mm a") // Example: "Feb 6, 2025, 11:04 PM"
+                          ? format(new Date(endDate), "MMM d, yyyy, h:mm a")
                           : "N/A";
 
                         return (
@@ -196,8 +199,8 @@ const Refinement = () => {
                                 <FaEdit
                                   style={{ color: "#28a745" }}
                                   onClick={() => {
-                                    setRefineId(refine._id); // Set the correct refineId when the delete button is clicked
-                                    setShowModals(true); // Show the delete confirmation modal
+                                    setRefineId(refine._id);
+                                    setShowModals(true);
                                   }}
                                 />
                               </button>
@@ -216,8 +219,8 @@ const Refinement = () => {
                                 <FaTrash
                                   style={{ color: "#dc3545" }}
                                   onClick={() => {
-                                    setRefineId(refine._id); // Set the correct refineId when the delete button is clicked
-                                    setShowModalss(true); // Show the delete confirmation modal
+                                    setRefineId(refine._id);
+                                    setShowModalss(true);
                                   }}
                                 />
                               </button>
@@ -231,6 +234,7 @@ const Refinement = () => {
               )}
             </div>
           </div>
+
           <CreateRefine
             showModal={showModal}
             setShowModal={setShowModal}
