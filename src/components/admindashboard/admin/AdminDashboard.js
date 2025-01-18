@@ -142,6 +142,7 @@ const AdminDashboard = () => {
                     <button
                       className="btn btn-primary"
                       // onClick={handleCreateVision}
+                      onClick={() => setShowModal(true)}
                     >
                       Create Vision
                     </button>
