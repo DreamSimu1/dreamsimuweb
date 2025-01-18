@@ -417,9 +417,15 @@ const JwtRegister = () => {
   const handleFormSubmit = async (values) => {
     setLoading(true);
     try {
-      const response = await register(values);
+      const response = await register(
+        values.fullname,
+        values.email,
+        values.password,
+        values.phone,
+        values.address
+      );
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         toast.success("Registration successful!");
         navigate("/login");
       } else {
