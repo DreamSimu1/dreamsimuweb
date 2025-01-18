@@ -85,6 +85,23 @@ const Refinement = () => {
     await fetchRefinements(); // Ensure the table updates dynamically
   };
 
+  const moveToSprint = async (refineId) => {
+    try {
+      const token = localStorage.getItem("jwtToken");
+      await axios.post(
+        `${apiUrl}/api/move-to-sprint`, // Adjust the endpoint as needed
+        { refineId },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      // After moving, you can refresh the table to reflect the change
+      updateTableData();
+    } catch (error) {
+      console.error("Error moving activity to sprint:", error);
+    }
+  };
+
   return (
     <div className={`main-wrapper ${isSidebarOpen ? "sidebar-open" : ""}`}>
       <TopNav />
@@ -153,6 +170,7 @@ const Refinement = () => {
                             <td>
                               <a
                                 href={`/sprint/${ideaId}`}
+                                onClick={() => moveToSprint(refine._id)}
                                 className="btn btn-danger"
                                 style={{
                                   padding: "8px 12px",
