@@ -118,14 +118,24 @@ const AdminRoute = [
     ),
   },
 
+  // {
+  //   path: "/sprint/:ideaId",
+  //   element: (
+  //     <AuthGuard>
+  //       <Sprint />
+  //     </AuthGuard>
+  //   ),
+  // },
+
   {
-    path: "/sprint/:ideaId",
+    path: "/sprint/:activities",
     element: (
       <AuthGuard>
         <Sprint />
       </AuthGuard>
     ),
   },
+
   {
     path: "/view-admin",
     element: (

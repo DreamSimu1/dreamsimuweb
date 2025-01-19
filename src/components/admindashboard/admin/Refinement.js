@@ -172,8 +172,8 @@ const Refinement = () => {
                             <td>{refine.resources}</td>
                             <td>
                               <a
-                                href={`/sprint/${ideaId}`}
-                                onClick={() => moveToSprint(refine._id)}
+                                href={`/sprint/${refine.activities}`}
+                                // onClick={() => moveToSprint(refine._id)}
                                 className="btn btn-danger"
                                 style={{
                                   padding: "8px 12px",
