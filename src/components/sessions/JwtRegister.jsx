@@ -462,11 +462,27 @@ const JwtRegister = () => {
                   <form onSubmit={handleSubmit}>
                     <div className="login-userset">
                       <div className="login-userheading">
-                        <h1 className="logo" style={{ textAlign: "center" }}>
-                          DreamSimu
-                        </h1>
-                        <h3 style={{ textAlign: "center" }}>
-                          Signup to continue
+                        <div className="logo">
+                          <p
+                            style={{
+                              fontSize: "30px",
+                              fontWeight: "800",
+                              textAlign: "center",
+                              color: "black",
+                            }}
+                          >
+                            {" "}
+                            Let's sign you in
+                          </p>
+                        </div>
+                        <h3
+                          style={{
+                            fontSize: "20px",
+                            fontWeight: "800",
+                            textAlign: "center",
+                          }}
+                        >
+                          Welcome back, you have been missed
                         </h3>
                       </div>
                       <div className="form-login mb-3">
