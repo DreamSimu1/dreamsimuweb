@@ -76,13 +76,14 @@ const JwtLogin = () => {
                           <div className="logo">
                             <p
                               style={{
-                                fontSize: "40px",
+                                fontSize: "30px",
                                 fontWeight: "800",
                                 textAlign: "center",
+                                color: "black",
                               }}
                             >
                               {" "}
-                              DreamSimu{" "}
+                              Let's sign you in
                             </p>
                           </div>
                           <h3
@@ -92,7 +93,7 @@ const JwtLogin = () => {
                               textAlign: "center",
                             }}
                           >
-                            Login to continue
+                            Welcome back, you have been missed
                           </h3>
                           {/*} <h4>
                             Keep your visions, dream in a safe place and see how
