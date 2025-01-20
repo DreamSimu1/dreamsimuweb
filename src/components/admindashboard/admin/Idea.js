@@ -7,12 +7,17 @@ import { useSidebar } from "../SidebarProvider";
 import TopNav from "../TopNav";
 import news from "./pic.jpeg";
 import CreateIdea from "./CreateIdea";
+import DeleteIdea from "./DeleteIdea";
+import EditIdea from "./EditIdea";
 
 const Idea = () => {
   const { user } = useAuth(); // Access the authenticated user
   const [ideas, setIdeas] = useState([]);
   const { isSidebarOpen } = useSidebar(); // Sidebar state
-  const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [showModals, setShowModals] = useState(false);
+  const [showModalss, setShowModalss] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   const { title } = useParams(); // Get title from URL params
   const decodedTitle = decodeURIComponent(title); // Decode the title to restore spaces
@@ -28,9 +33,15 @@ const Idea = () => {
 
   const totalPages = Math.ceil(cards.length / itemsPerPage); // Calculate total pages
 
-  const [visions, setVisions] = useState([]);
+  // const [visions, setVisions] = useState([]);
+  // const apiUrl = process.env.REACT_APP_API_URL;
+  // const [currentPage, setCurrentPage] = useState(1); // Start with the first page
+
+  const [loading, setLoading] = useState(true);
+  const [ideaId, setIdeaId] = useState(null);
   const apiUrl = process.env.REACT_APP_API_URL;
   const [currentPage, setCurrentPage] = useState(1); // Start with the first page
+  const [visions, setVisions] = useState([]);
 
   // // Fetch vision by title and then fetch ideas for that vision
   // const fetchVisionAndIdeas = async () => {
@@ -284,7 +295,13 @@ const Idea = () => {
                                 }}
                                 title="Edit"
                               >
-                                <FaEdit style={{ color: "#28a745" }} />
+                                <FaEdit
+                                  style={{ color: "#28a745" }}
+                                  onClick={() => {
+                                    setIdeaId(idea._id);
+                                    setShowEditModal(true);
+                                  }}
+                                />
                               </button>
                               <button
                                 style={{
@@ -297,7 +314,13 @@ const Idea = () => {
                                 }}
                                 title="Delete"
                               >
-                                <FaTrash style={{ color: "#dc3545" }} />
+                                <FaTrash
+                                  style={{ color: "#dc3545" }}
+                                  onClick={() => {
+                                    setIdeaId(idea._id);
+                                    setShowModalss(true);
+                                  }}
+                                />
                               </button>
                             </div>
                           </div>
@@ -308,6 +331,18 @@ const Idea = () => {
                 )}
               </div>
             </div>
+            <DeleteIdea
+              showModalss={showModalss}
+              setShowModalss={setShowModalss}
+              updateTableData={updateTableData}
+              ideaId={ideaId}
+            />
+            <EditIdea
+              showEditModal={showEditModal}
+              setShowEditModal={setShowEditModal}
+              updateTableData={updateTableData}
+              ideaId={ideaId}
+            />
             <CreateIdea
               showModalsss={showModalsss}
               setShowModalsss={setShowModalsss}
