@@ -16,12 +16,17 @@ import news from "./pic.jpeg";
 import CreateIdea from "./CreateIdea";
 import Template from "./Template";
 import CreateVision from "./CreateVision";
+import DeleteVision from "./DeleteVision";
+import EditVision from "./EditVision";
 const AdminDashboard = () => {
   const { user } = useAuth(); // Access the authenticated user
   const [points, setPoints] = useState([]);
   const { isSidebarOpen } = useSidebar(); // use context to get sidebar state
   const [showModal, setShowModal] = useState(false);
   const [showModals, setShowModals] = useState(false);
+  const [showModalss, setShowModalss] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+
   const apiUrl = process.env.REACT_APP_API_URL;
 
   const itemsPerPage = 6; // Number of cards per page
@@ -35,6 +40,7 @@ const AdminDashboard = () => {
   const totalPages = Math.ceil(cards.length / itemsPerPage);
   const [visions, setVisions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [visionId, setVisionId] = useState(null);
 
   useEffect(() => {
     const fetchVisions = async () => {
@@ -200,7 +206,13 @@ const AdminDashboard = () => {
                               }}
                               title="Edit"
                             >
-                              <FaEdit style={{ color: "#28a745" }} />
+                              <FaEdit
+                                style={{ color: "#28a745" }}
+                                onClick={() => {
+                                  setVisionId(vision._id);
+                                  setShowEditModal(true);
+                                }}
+                              />
                             </button>
                             <button
                               style={{
@@ -213,7 +225,13 @@ const AdminDashboard = () => {
                               }}
                               title="Delete"
                             >
-                              <FaTrash style={{ color: "#dc3545" }} />
+                              <FaTrash
+                                style={{ color: "#dc3545" }}
+                                onClick={() => {
+                                  setVisionId(vision._id);
+                                  setShowModalss(true);
+                                }}
+                              />
                             </button>
                           </div>
                         </div>
@@ -221,6 +239,18 @@ const AdminDashboard = () => {
                     ))}
                   </div>
                 )}
+                <DeleteVision
+                  showModalss={showModalss}
+                  setShowModalss={setShowModalss}
+                  updateTableData={updateTableData}
+                  visionId={visionId}
+                />
+                <EditVision
+                  showEditModal={showEditModal}
+                  setShowEditModal={setShowEditModal}
+                  updateTableData={updateTableData}
+                  visionId={visionId}
+                />
                 <CreateVision
                   showModal={showModal}
                   setShowModal={setShowModal}
