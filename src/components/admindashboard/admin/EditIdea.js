@@ -9,7 +9,7 @@ const EditIdea = ({
 }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [visibility, setVisibility] = useState("Public");
+  const [status, setStatus] = useState("");
   const [imageUrl, setImageUrl] = useState("");
 
   const [message, setMessage] = useState("");
@@ -26,7 +26,7 @@ const EditIdea = ({
           const { title, description, status, imageUrl } = response.data.idea;
           setTitle(title);
           setDescription(description);
-          setVisibility(status || "Public"); // Use "status" for visibility if provided
+          setStatus(status || "Public"); // Use "status" for visibility if provided
           setImageUrl(imageUrl);
         })
         .catch((error) => {
@@ -46,8 +46,8 @@ const EditIdea = ({
       case "description":
         setDescription(value);
         break;
-      case "visibility":
-        setVisibility(value);
+      case "status":
+        setStatus(value);
         break;
       case "imageUrl":
         setImageUrl(value);
@@ -60,17 +60,20 @@ const EditIdea = ({
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const token = localStorage.getItem("jwtToken");
 
+      // Construct payload with only the fields that have values
+      const payload = {};
+      if (title) payload.title = title;
+      if (description) payload.description = description;
+      if (status) payload.status = status;
+      if (imageUrl) payload.imageUrl = imageUrl;
+
       const response = await axios.put(
         `${apiUrl}/api/editidea/${ideaId}`,
-        {
-          title,
-          description,
-          visibility,
-          imageUrl,
-        },
+        payload,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -85,7 +88,7 @@ const EditIdea = ({
       await updateTableData();
       setShowEditModal(false);
     } catch (error) {
-      setMessage("Error editing idea.");
+      setMessage(error.response?.data?.message || "Error editing idea.");
       setIsSuccess(false);
       console.error(error.response ? error.response.data : error.message);
     }
@@ -142,11 +145,11 @@ const EditIdea = ({
                 </div>
                 <br />
                 <div className="form-group">
-                  <label>Visibility</label>
+                  <label>Status</label>
                   <select
                     className="form-control"
-                    name="visibility"
-                    value={visibility}
+                    name="status"
+                    value={status}
                     onChange={handleChange}
                     required
                   >
