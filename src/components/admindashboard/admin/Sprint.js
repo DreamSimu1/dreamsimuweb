@@ -1527,105 +1527,109 @@ const Sprint = () => {
   };
 
   return (
-    <div className="main-wrapper">
-      <div
-        className="page-wrapper"
-        style={{ marginBottom: "100px", width: "100%", margin: "auto" }}
-      >
-        <div className="content">
-          <div className="sprint-container">
-            <h2 className="sprint-title">Sprint Board for {activities}</h2>
-            <p className="sprint-description">
-              Break down your activities between columns to manage your
-              progress.
-            </p>
+    <body>
+      <div className="main-wrapper">
+        {/*}  <SideNav />*/}
+        <TopNav />
+        <div
+          className="page-wrapper"
+          style={{ marginBottom: "100px", width: "100%", margin: "auto" }}
+        >
+          <div className="content">
+            <div className="sprint-container">
+              <h2 className="sprint-title">Sprint Board for {activities}</h2>
+              <p className="sprint-description">
+                Break down your activities between columns to manage your
+                progress.
+              </p>
 
-            {loading ? (
-              <p>Loading tasks...</p>
-            ) : (
-              <DragDropContext onDragEnd={onDragEnd}>
-                <div className="columns-container">
-                  {["todo", "inProgress", "completed"].map((status) => (
-                    <Droppable key={status} droppableId={status}>
-                      {(provided) => (
-                        <div
-                          className="column"
-                          ref={provided.innerRef}
-                          {...provided.droppableProps}
-                        >
-                          <h3>{status === "todo" ? "To-Do" : status}</h3>
+              {loading ? (
+                <p>Loading tasks...</p>
+              ) : (
+                <DragDropContext onDragEnd={onDragEnd}>
+                  <div className="columns-container">
+                    {["todo", "inProgress", "completed"].map((status) => (
+                      <Droppable key={status} droppableId={status}>
+                        {(provided) => (
+                          <div
+                            className="column"
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}
+                          >
+                            <h3>{status === "todo" ? "To-Do" : status}</h3>
 
-                          {Array.isArray(tasks[status]) &&
-                          tasks[status].length > 0 ? (
-                            tasks[status].map((task, index) => {
-                              // Ensure the task has a valid _id
-                              if (!task || !task._id) {
-                                console.error("Task is missing '_id':", task);
-                                return null; // Skip invalid task
-                              }
-
-                              return (
-                                <Draggable
-                                  key={task._id}
-                                  draggableId={task._id.toString()}
-                                  index={index}
-                                >
-                                  {(provided) => (
-                                    <div
-                                      className="task"
-                                      ref={provided.innerRef}
-                                      {...provided.draggableProps}
-                                      {...provided.dragHandleProps}
-                                    >
-                                      <div className="task-content">
-                                        <h4>{task.title}</h4>
-                                        <p>
-                                          {new Date(
-                                            task.day
-                                          ).toLocaleDateString()}
-                                        </p>
-                                      </div>
-                                      <FaEdit style={{ color: "#28a745" }} />
-                                    </div>
-                                  )}
-                                </Draggable>
-                              );
-                            })
-                          ) : (
-                            <p></p>
-                          )}
-
-                          {status === "todo" && (
-                            <div className="task-input-card">
-                              <input
-                                type="text"
-                                placeholder="Enter task title..."
-                                value={newTaskTitle}
-                                onChange={(e) =>
-                                  setNewTaskTitle(e.target.value)
+                            {Array.isArray(tasks[status]) &&
+                            tasks[status].length > 0 ? (
+                              tasks[status].map((task, index) => {
+                                // Ensure the task has a valid _id
+                                if (!task || !task._id) {
+                                  console.error("Task is missing '_id':", task);
+                                  return null; // Skip invalid task
                                 }
-                                className="task-input"
-                              />
-                              <button
-                                onClick={handleAddTask}
-                                className="add-task-btn"
-                              >
-                                Add Task
-                              </button>
-                            </div>
-                          )}
-                          {provided.placeholder}
-                        </div>
-                      )}
-                    </Droppable>
-                  ))}
-                </div>
-              </DragDropContext>
-            )}
+
+                                return (
+                                  <Draggable
+                                    key={task._id}
+                                    draggableId={task._id.toString()}
+                                    index={index}
+                                  >
+                                    {(provided) => (
+                                      <div
+                                        className="task"
+                                        ref={provided.innerRef}
+                                        {...provided.draggableProps}
+                                        {...provided.dragHandleProps}
+                                      >
+                                        <div className="task-content">
+                                          <h4>{task.title}</h4>
+                                          <p>
+                                            {new Date(
+                                              task.day
+                                            ).toLocaleDateString()}
+                                          </p>
+                                        </div>
+                                        <FaEdit style={{ color: "#28a745" }} />
+                                      </div>
+                                    )}
+                                  </Draggable>
+                                );
+                              })
+                            ) : (
+                              <p></p>
+                            )}
+
+                            {status === "todo" && (
+                              <div className="task-input-card">
+                                <input
+                                  type="text"
+                                  placeholder="Enter task title..."
+                                  value={newTaskTitle}
+                                  onChange={(e) =>
+                                    setNewTaskTitle(e.target.value)
+                                  }
+                                  className="task-input"
+                                />
+                                <button
+                                  onClick={handleAddTask}
+                                  className="add-task-btn"
+                                >
+                                  Add Task
+                                </button>
+                              </div>
+                            )}
+                            {provided.placeholder}
+                          </div>
+                        )}
+                      </Droppable>
+                    ))}
+                  </div>
+                </DragDropContext>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </body>
   );
 };
 
