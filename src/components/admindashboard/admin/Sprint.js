@@ -973,480 +973,659 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
 import "./Sprint.css";
 import TopNav from "../TopNav";
 import moment from "moment"; // Add this for easier date manipulation
 
+// const Sprint = () => {
+//   const { activities } = useParams(); // Get title from URL params
+//   const decodedActivities = decodeURIComponent(activities); // Decode title to restore spaces
+//   const [sprints, setSprints] = useState([]);
+//   const [refineId, setRefineId] = useState(null);
+//   const [estimatedTime, setEstimatedTime] = useState("");
+//   const [loading, setLoading] = useState(false);
+//   const [showModal, setShowModal] = useState(false);
+//   const [showModals, setShowModals] = useState(false);
+//   const [showModalss, setShowModalss] = useState(false);
+//   const [newTaskTitle, setNewTaskTitle] = useState("");
+//   const [sprintId, setSprintId] = useState(null);
+//   const [tasks, setTasks] = useState({
+//     todo: [],
+//     inProgress: [],
+//     completed: [],
+//   });
+
+//   const [refinements, setRefinements] = useState([]);
+//   const [daysArray, setDaysArray] = useState([]); // This is the state you will update with the days array
+
+//   const apiUrl = process.env.REACT_APP_API_URL;
+
+//   const fetchSprint = async () => {
+//     try {
+//       setLoading(true);
+//       const token = localStorage.getItem("jwtToken");
+//       const response = await axios.get(
+//         `${apiUrl}/api/sprint-by-refine-activity?activities=${encodeURIComponent(
+//           decodedActivities
+//         )}`,
+//         {
+//           headers: {
+//             Authorization: `Bearer ${token}`,
+//           },
+//         }
+//       );
+//       setSprints(response.data.sprints);
+//       setRefineId(response.data.refineId);
+//       setEstimatedTime(response.data.refineEstimatedTime);
+//     } catch (error) {
+//       console.error("Error fetching sprints:", error);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchSprint();
+//   }, [decodedActivities]);
+
+//   const parseEstimatedTime = () => {
+//     try {
+//       if (!estimatedTime) {
+//         console.error("Estimated time is empty or undefined.");
+//         return []; // Return an empty array if estimatedTime is invalid
+//       }
+
+//       const estimatedTimeObj = JSON.parse(estimatedTime);
+//       const startDate = new Date(estimatedTimeObj.startDate);
+//       const endDate = new Date(estimatedTimeObj.endDate);
+
+//       const days = [];
+//       let currentDay = new Date(startDate);
+//       let dayCounter = 1;
+
+//       while (currentDay <= endDate) {
+//         days.push(`Day ${dayCounter}`);
+//         currentDay.setDate(currentDay.getDate() + 1);
+//         dayCounter++;
+//       }
+
+//       return days;
+//     } catch (error) {
+//       console.error("Error parsing estimated time:", error);
+//       return [];
+//     }
+//   };
+
+//   // Update the days array state once estimatedTime is parsed
+//   useEffect(() => {
+//     const parsedDays = parseEstimatedTime();
+//     setDaysArray(parsedDays); // Set the parsed days array to state
+//   }, [estimatedTime]); // Only run this when estimatedTime changes
+
+//   const onDragEnd = (result) => {
+//     const { destination, source } = result;
+//     if (!destination) return;
+
+//     const sourceColumn = tasks[source.droppableId];
+//     const destColumn = tasks[destination.droppableId];
+
+//     const [movedTask] = sourceColumn.splice(source.index, 1);
+//     destColumn.splice(destination.index, 0, movedTask);
+
+//     setTasks({
+//       ...tasks,
+//       [source.droppableId]: sourceColumn,
+//       [destination.droppableId]: destColumn,
+//     });
+//   };
+
+//   // const fetchSprintData = async () => {
+//   //   try {
+//   //     setLoading(true);
+//   //     const token = localStorage.getItem("jwtToken");
+//   //     const response = await axios.get(
+//   //       `${apiUrl}/api/tasks?activities=${encodeURIComponent(
+//   //         decodedActivities
+//   //       )}`,
+//   //       {
+//   //         headers: {
+//   //           Authorization: `Bearer ${token}`,
+//   //         },
+//   //       }
+//   //     );
+//   //     const tasks = response.data.tasks;
+
+//   //     setTasks(tasks); // Load saved tasks from the backend
+
+//   //     // Get unique days from the tasks if not already set
+//   //     const uniqueDays = [
+//   //       ...new Set(
+//   //         tasks.map((task) => new Date(task.day).toLocaleDateString())
+//   //       ),
+//   //     ];
+//   //     setDaysArray(uniqueDays); // Only set days if they are not set already
+//   //   } catch (error) {
+//   //     console.error("Error fetching sprint data:", error);
+//   //   } finally {
+//   //     setLoading(false);
+//   //   }
+//   // };
+
+//   // useEffect(() => {
+//   //   fetchSprintData();
+//   // }, [decodedActivities]);
+
+//   // const handleAddTask = (e, day) => {
+//   //   // Ensure you don't pass the whole event object
+//   //   e.preventDefault(); // prevent default behavior (if needed)
+
+//   //   if (!newTaskTitle) return; // Avoid adding empty tasks
+
+//   //   // Construct the task object without passing the event object
+//   //   const newTask = {
+//   //     id: (tasks[day]?.length + 1 || 1).toString(),
+//   //     title: newTaskTitle, // Ensure this is a string
+//   //     day: day, // Use day directly (no event object)
+//   //     activities: decodedActivities, // Ensure decodedActivities is a simple value
+//   //   };
+
+//   //   // Log the new task for debugging
+//   //   console.log("New Task to Send:", newTask);
+
+//   //   // Update the tasks state
+//   //   setTasks((prevTasks) => ({
+//   //     ...prevTasks,
+//   //     [day]: [newTask, ...(prevTasks[day] || [])], // Add the new task to the correct day
+//   //   }));
+
+//   //   setNewTaskTitle(""); // Clear the input field
+
+//   //   // Save the task to the backend (ensure you send the correct data)
+//   //   saveTaskToBackend(day, newTask);
+//   // };
+//   // const handleAddTask = (e, day) => {
+//   //   e.preventDefault(); // prevent default behavior (if needed)
+
+//   //   if (!newTaskTitle) return; // Avoid adding empty tasks
+
+//   //   // Construct the task object without passing the event object
+//   //   const newTask = {
+//   //     id: (tasks[day]?.length + 1 || 1).toString(),
+//   //     title: newTaskTitle, // Ensure this is a string
+//   //     day: day, // Use day directly (no event object)
+//   //     activities: decodedActivities, // Ensure decodedActivities is a simple value
+//   //   };
+
+//   //   // Log the new task for debugging
+//   //   console.log("New Task to Send:", newTask);
+
+//   //   // Update the tasks state
+//   //   setTasks((prevTasks) => ({
+//   //     ...prevTasks,
+//   //     [day]: [newTask, ...(prevTasks[day] || [])], // Add the new task to the correct day
+//   //   }));
+
+//   //   setNewTaskTitle(""); // Clear the input field
+
+//   //   // Save the task to the backend (ensure you send the correct data)
+//   //   saveTaskToBackend(day, newTask);
+//   // };
+
+//   // const saveTaskToBackend = async (day, task) => {
+//   //   try {
+//   //     // Log the task data to check for any issues
+//   //     console.log("Task to send:", task);
+
+//   //     const taskData = {
+//   //       title: task.title, // Ensure this matches the backend expected property
+//   //       day: task.day, // Send day directly
+//   //       activities: decodedActivities, // Send activities correctly
+//   //     };
+
+//   //     // Log the taskData before sending it to the backend
+//   //     console.log("Task Data to Backend:", taskData);
+
+//   //     const token = localStorage.getItem("jwtToken");
+
+//   //     await axios.post(
+//   //       `${apiUrl}/api/save-task`,
+//   //       taskData, // Send the taskData with the correct properties
+//   //       {
+//   //         headers: {
+//   //           Authorization: `Bearer ${token}`,
+//   //         },
+//   //       }
+//   //     );
+//   //   } catch (error) {
+//   //     console.error("Error saving task:", error);
+//   //   }
+//   // };
+//   const fetchSprintData = async () => {
+//     try {
+//       setLoading(true); // Start loading indicator
+//       const token = localStorage.getItem("jwtToken"); // Get JWT token for authorization
+//       const response = await axios.get(
+//         `${apiUrl}/api/tasks?activity=${encodeURIComponent(decodedActivities)}`,
+//         {
+//           headers: {
+//             Authorization: `Bearer ${token}`, // Set Authorization header
+//           },
+//         }
+//       );
+
+//       const fetchedTasks = response.data.tasks; // Extract tasks from response
+
+//       // Group tasks by day
+//       const groupedTasks = fetchedTasks.reduce(
+//         (acc, task) => {
+//           const dayKey = new Date(task.day).toLocaleDateString(); // Format the day
+//           if (!acc[dayKey]) acc[dayKey] = [];
+//           acc[dayKey].push(task); // Group tasks by day
+//           return acc;
+//         },
+//         { todo: [], inProgress: [], completed: [] } // Initial structure
+//       );
+
+//       setTasks(groupedTasks); // Update tasks state
+//       setDaysArray(Object.keys(groupedTasks)); // Set unique days for display
+//     } catch (error) {
+//       console.error("Error fetching sprint data:", error);
+//     } finally {
+//       setLoading(false); // Stop loading indicator
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchSprint();
+//     fetchSprintData(); // Fetch tasks data from the backend
+//   }, [decodedActivities]);
+
+//   // const handleAddTask = (e, day) => {
+//   //   e.preventDefault(); // prevent default behavior (if needed)
+
+//   //   if (!newTaskTitle) return; // Avoid adding empty tasks
+
+//   //   const newTask = {
+//   //     id: (tasks[day]?.length + 1 || 1).toString(),
+//   //     title: newTaskTitle, // Ensure this is a string
+//   //     day: day, // Use day directly (no event object)
+//   //     activities: decodedActivities, // Ensure decodedActivities is a simple value
+//   //   };
+
+//   //   // Update the tasks state
+//   //   setTasks((prevTasks) => ({
+//   //     ...prevTasks,
+//   //     [day]: [newTask, ...(prevTasks[day] || [])], // Add the new task to the correct day
+//   //   }));
+
+//   //   setNewTaskTitle(""); // Clear the input field
+
+//   //   saveTaskToBackend(day, newTask); // Save the task to the backend
+//   // };
+
+//   // const saveTaskToBackend = async (day, task) => {
+//   //   try {
+//   //     const taskData = {
+//   //       title: task.title,
+//   //       day: task.day,
+//   //       activities: decodedActivities,
+//   //     };
+
+//   //     const token = localStorage.getItem("jwtToken");
+
+//   //     await axios.post(`${apiUrl}/api/save-task`, taskData, {
+//   //       headers: {
+//   //         Authorization: `Bearer ${token}`,
+//   //       },
+//   //     });
+//   //   } catch (error) {
+//   //     console.error("Error saving task:", error);
+//   //   }
+//   // };
+//   const handleAddTask = (e, day) => {
+//     e.preventDefault(); // prevent default behavior (if needed)
+
+//     if (!newTaskTitle) return; // Avoid adding empty tasks
+
+//     // Construct the task object with both title and day
+//     const newTask = {
+//       id: (tasks[day]?.length + 1 || 1).toString(),
+//       title: newTaskTitle, // Make sure the title is properly set
+//       day: day, // Use day directly (no event object)
+//       activities: decodedActivities, // Make sure this is a simple value
+//     };
+
+//     // Log the new task for debugging
+//     console.log("New Task to Send:", newTask);
+
+//     // Update the tasks state
+//     setTasks((prevTasks) => ({
+//       ...prevTasks,
+//       [day]: [newTask, ...(prevTasks[day] || [])], // Add the new task to the correct day
+//     }));
+
+//     setNewTaskTitle(""); // Clear the input field
+
+//     // Save the task to the backend
+//     saveTaskToBackend(day, newTask);
+//   };
+
+//   const saveTaskToBackend = async (day, task) => {
+//     try {
+//       const taskData = {
+//         title: task.title, // Ensure title is properly passed
+//         day: task.day, // Ensure day is passed
+//         activities: decodedActivities, // Ensure activities are passed correctly
+//       };
+
+//       const token = localStorage.getItem("jwtToken");
+
+//       await axios.post(`${apiUrl}/api/save-task`, taskData, {
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//         },
+//       });
+//     } catch (error) {
+//       console.error("Error saving task:", error);
+//     }
+//   };
+
+//   // Handle adding a new day (input day)
+//   const handleAddDay = (e) => {
+//     e.preventDefault();
+//     const newDay = e.target.value; // Get the value from the input field
+//     setDaysArray((prevDays) => [...prevDays, newDay]); // Add new day to the list
+//   };
+
+//   const formatDate = (isoDate) => {
+//     const options = {
+//       year: "numeric",
+//       month: "long",
+//       day: "numeric",
+//       hour: "2-digit",
+//       minute: "2-digit",
+//     };
+//     return new Date(isoDate).toLocaleString("en-US", options);
+//   };
+//   return (
+//     <div>
+//       {loading ? (
+//         <p>Loading tasks...</p>
+//       ) : (
+//         daysArray.map((day) => (
+//           <div key={day}>
+//             <div>
+//               {tasks[day]?.map((task) => (
+//                 <div key={task._id} className="task">
+//                   <h4>{task.title}</h4>
+//                   <p>{formatDate(task.day)}</p>
+//                 </div>
+//               ))}
+//             </div>
+//           </div>
+//         ))
+//       )}
+//     </div>
+//   );
+// };
+
+// export default Sprint;
+
 const Sprint = () => {
-  const { activities } = useParams(); // Get title from URL params
-  const decodedActivities = decodeURIComponent(activities); // Decode title to restore spaces
-  const [sprints, setSprints] = useState([]);
-  const [refineId, setRefineId] = useState(null);
-  const [estimatedTime, setEstimatedTime] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [showModals, setShowModals] = useState(false);
-  const [showModalss, setShowModalss] = useState(false);
-  const [newTaskTitle, setNewTaskTitle] = useState("");
-  const [sprintId, setSprintId] = useState(null);
+  const { activities } = useParams();
+  const decodedActivities = decodeURIComponent(activities);
   const [tasks, setTasks] = useState({
     todo: [],
     inProgress: [],
     completed: [],
   });
-
-  const [refinements, setRefinements] = useState([]);
-  const [daysArray, setDaysArray] = useState([]); // This is the state you will update with the days array
+  const [newTaskTitle, setNewTaskTitle] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const apiUrl = process.env.REACT_APP_API_URL;
 
-  const fetchSprint = async () => {
+  // Fetch tasks from the backend
+  const fetchTasks = async () => {
     try {
       setLoading(true);
       const token = localStorage.getItem("jwtToken");
       const response = await axios.get(
-        `${apiUrl}/api/sprint-by-refine-activity?activities=${encodeURIComponent(
-          decodedActivities
-        )}`,
+        `${apiUrl}/api/tasks?activity=${encodeURIComponent(decodedActivities)}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      setSprints(response.data.sprints);
-      setRefineId(response.data.refineId);
-      setEstimatedTime(response.data.refineEstimatedTime);
+
+      // Initialize tasksByStatus with expected statuses
+      const tasksByStatus = {
+        todo: [],
+        inProgress: [],
+        completed: [],
+      };
+
+      // Check if response.data.tasks exists and is an array
+      if (Array.isArray(response.data.tasks)) {
+        response.data.tasks.forEach((task) => {
+          const status = task.status || "todo"; // Default to 'todo' if no status
+
+          if (tasksByStatus.hasOwnProperty(status)) {
+            tasksByStatus[status].push({
+              ...task,
+              formattedDate: formatDate(task.day),
+            });
+          } else {
+            console.warn(`Unexpected task status: ${status}`, task);
+          }
+        });
+      } else {
+        console.error(
+          "Invalid response format: tasks is not an array",
+          response.data
+        );
+      }
+
+      setTasks(tasksByStatus);
     } catch (error) {
-      console.error("Error fetching sprints:", error);
+      console.error("Error fetching tasks:", error);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchSprint();
+    fetchTasks();
   }, [decodedActivities]);
 
-  const parseEstimatedTime = () => {
-    try {
-      if (!estimatedTime) {
-        console.error("Estimated time is empty or undefined.");
-        return []; // Return an empty array if estimatedTime is invalid
-      }
-
-      const estimatedTimeObj = JSON.parse(estimatedTime);
-      const startDate = new Date(estimatedTimeObj.startDate);
-      const endDate = new Date(estimatedTimeObj.endDate);
-
-      const days = [];
-      let currentDay = new Date(startDate);
-      let dayCounter = 1;
-
-      while (currentDay <= endDate) {
-        days.push(`Day ${dayCounter}`);
-        currentDay.setDate(currentDay.getDate() + 1);
-        dayCounter++;
-      }
-
-      return days;
-    } catch (error) {
-      console.error("Error parsing estimated time:", error);
-      return [];
-    }
-  };
-
-  // Update the days array state once estimatedTime is parsed
-  useEffect(() => {
-    const parsedDays = parseEstimatedTime();
-    setDaysArray(parsedDays); // Set the parsed days array to state
-  }, [estimatedTime]); // Only run this when estimatedTime changes
-
-  const onDragEnd = (result) => {
-    const { destination, source } = result;
-    if (!destination) return;
-
-    const sourceColumn = tasks[source.droppableId];
-    const destColumn = tasks[destination.droppableId];
-
-    const [movedTask] = sourceColumn.splice(source.index, 1);
-    destColumn.splice(destination.index, 0, movedTask);
-
-    setTasks({
-      ...tasks,
-      [source.droppableId]: sourceColumn,
-      [destination.droppableId]: destColumn,
-    });
-  };
-
-  // const fetchSprintData = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const token = localStorage.getItem("jwtToken");
-  //     const response = await axios.get(
-  //       `${apiUrl}/api/tasks?activities=${encodeURIComponent(
-  //         decodedActivities
-  //       )}`,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     );
-  //     const tasks = response.data.tasks;
-
-  //     setTasks(tasks); // Load saved tasks from the backend
-
-  //     // Get unique days from the tasks if not already set
-  //     const uniqueDays = [
-  //       ...new Set(
-  //         tasks.map((task) => new Date(task.day).toLocaleDateString())
-  //       ),
-  //     ];
-  //     setDaysArray(uniqueDays); // Only set days if they are not set already
-  //   } catch (error) {
-  //     console.error("Error fetching sprint data:", error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchSprintData();
-  // }, [decodedActivities]);
-
-  // const handleAddTask = (e, day) => {
-  //   // Ensure you don't pass the whole event object
-  //   e.preventDefault(); // prevent default behavior (if needed)
-
-  //   if (!newTaskTitle) return; // Avoid adding empty tasks
-
-  //   // Construct the task object without passing the event object
-  //   const newTask = {
-  //     id: (tasks[day]?.length + 1 || 1).toString(),
-  //     title: newTaskTitle, // Ensure this is a string
-  //     day: day, // Use day directly (no event object)
-  //     activities: decodedActivities, // Ensure decodedActivities is a simple value
-  //   };
-
-  //   // Log the new task for debugging
-  //   console.log("New Task to Send:", newTask);
-
-  //   // Update the tasks state
-  //   setTasks((prevTasks) => ({
-  //     ...prevTasks,
-  //     [day]: [newTask, ...(prevTasks[day] || [])], // Add the new task to the correct day
-  //   }));
-
-  //   setNewTaskTitle(""); // Clear the input field
-
-  //   // Save the task to the backend (ensure you send the correct data)
-  //   saveTaskToBackend(day, newTask);
-  // };
-  // const handleAddTask = (e, day) => {
-  //   e.preventDefault(); // prevent default behavior (if needed)
-
-  //   if (!newTaskTitle) return; // Avoid adding empty tasks
-
-  //   // Construct the task object without passing the event object
-  //   const newTask = {
-  //     id: (tasks[day]?.length + 1 || 1).toString(),
-  //     title: newTaskTitle, // Ensure this is a string
-  //     day: day, // Use day directly (no event object)
-  //     activities: decodedActivities, // Ensure decodedActivities is a simple value
-  //   };
-
-  //   // Log the new task for debugging
-  //   console.log("New Task to Send:", newTask);
-
-  //   // Update the tasks state
-  //   setTasks((prevTasks) => ({
-  //     ...prevTasks,
-  //     [day]: [newTask, ...(prevTasks[day] || [])], // Add the new task to the correct day
-  //   }));
-
-  //   setNewTaskTitle(""); // Clear the input field
-
-  //   // Save the task to the backend (ensure you send the correct data)
-  //   saveTaskToBackend(day, newTask);
-  // };
-
-  // const saveTaskToBackend = async (day, task) => {
-  //   try {
-  //     // Log the task data to check for any issues
-  //     console.log("Task to send:", task);
-
-  //     const taskData = {
-  //       title: task.title, // Ensure this matches the backend expected property
-  //       day: task.day, // Send day directly
-  //       activities: decodedActivities, // Send activities correctly
-  //     };
-
-  //     // Log the taskData before sending it to the backend
-  //     console.log("Task Data to Backend:", taskData);
-
-  //     const token = localStorage.getItem("jwtToken");
-
-  //     await axios.post(
-  //       `${apiUrl}/api/save-task`,
-  //       taskData, // Send the taskData with the correct properties
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     );
-  //   } catch (error) {
-  //     console.error("Error saving task:", error);
-  //   }
-  // };
-  const fetchSprintData = async () => {
-    try {
-      setLoading(true);
-      const token = localStorage.getItem("jwtToken");
-      const response = await axios.get(
-        `${apiUrl}/api/tasks?activities=${encodeURIComponent(
-          decodedActivities
-        )}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const tasks = response.data.tasks;
-
-      setTasks(tasks); // Load saved tasks from the backend
-
-      // Extract days from the backend tasks and set daysArray
-      const uniqueDays = [
-        ...new Set(
-          tasks.map((task) => new Date(task.day).toLocaleDateString())
-        ),
-      ];
-      setDaysArray(uniqueDays); // Update the days array with unique days from backend
-    } catch (error) {
-      console.error("Error fetching sprint data:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchSprint();
-    fetchSprintData(); // Fetch tasks data from the backend
-  }, [decodedActivities]);
-
-  const handleAddTask = (e, day) => {
-    e.preventDefault(); // prevent default behavior (if needed)
-
-    if (!newTaskTitle) return; // Avoid adding empty tasks
-
-    const newTask = {
-      id: (tasks[day]?.length + 1 || 1).toString(),
-      title: newTaskTitle, // Ensure this is a string
-      day: day, // Use day directly (no event object)
-      activities: decodedActivities, // Ensure decodedActivities is a simple value
+  const formatDate = (isoDate) => {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     };
-
-    // Update the tasks state
-    setTasks((prevTasks) => ({
-      ...prevTasks,
-      [day]: [newTask, ...(prevTasks[day] || [])], // Add the new task to the correct day
-    }));
-
-    setNewTaskTitle(""); // Clear the input field
-
-    saveTaskToBackend(day, newTask); // Save the task to the backend
+    return new Date(isoDate).toLocaleString("en-US", options);
   };
 
-  const saveTaskToBackend = async (day, task) => {
-    try {
-      const taskData = {
-        title: task.title,
-        day: task.day,
+  const handleAddTask = async (e) => {
+    e.preventDefault();
+
+    if (newTaskTitle.trim()) {
+      const newTask = {
+        title: newTaskTitle,
+        day: new Date().toISOString(),
         activities: decodedActivities,
       };
 
-      const token = localStorage.getItem("jwtToken");
+      try {
+        const token = localStorage.getItem("jwtToken");
+        const response = await axios.post(`${apiUrl}/api/save-task`, newTask, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
 
-      await axios.post(`${apiUrl}/api/save-task`, taskData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-    } catch (error) {
-      console.error("Error saving task:", error);
+        if (response.status === 201 || response.status === 200) {
+          const savedTask = response.data.task; // Use the backend's task object
+          setTasks((prevTasks) => ({
+            ...prevTasks,
+            todo: [
+              ...prevTasks.todo,
+              {
+                ...savedTask,
+                formattedDate: formatDate(savedTask.day),
+              },
+            ],
+          }));
+          setNewTaskTitle("");
+        } else {
+          console.error("Failed to add task:", response);
+        }
+      } catch (error) {
+        if (error.response) {
+          console.error("Backend error response:", error.response.data);
+        } else {
+          console.error("Error adding task:", error);
+        }
+      }
     }
   };
 
-  // Handle adding a new day (input day)
-  const handleAddDay = (e) => {
-    e.preventDefault();
-    const newDay = e.target.value; // Get the value from the input field
-    setDaysArray((prevDays) => [...prevDays, newDay]); // Add new day to the list
+  const onDragEnd = (result) => {
+    const { source, destination } = result;
+
+    if (!destination) return; // Dropped outside a droppable area
+
+    // Reorder within the same column
+    if (source.droppableId === destination.droppableId) {
+      const items = Array.from(tasks[source.droppableId]);
+      const [movedItem] = items.splice(source.index, 1);
+      items.splice(destination.index, 0, movedItem);
+      setTasks((prevTasks) => ({ ...prevTasks, [source.droppableId]: items }));
+    } else {
+      // Move between columns
+      const sourceItems = Array.from(tasks[source.droppableId]);
+      const destinationItems = Array.from(tasks[destination.droppableId]);
+      const [movedItem] = sourceItems.splice(source.index, 1);
+      movedItem.status = destination.droppableId; // Update the status of the task
+      destinationItems.splice(destination.index, 0, movedItem);
+
+      setTasks((prevTasks) => ({
+        ...prevTasks,
+        [source.droppableId]: sourceItems,
+        [destination.droppableId]: destinationItems,
+      }));
+
+      // Optionally make an API call to update the task status in the backend.
+    }
   };
 
   return (
-    <>
-      <body>
-        <div className="main-wrapper">
-          <TopNav />
-          <div
-            className="page-wrapper"
-            style={{ marginBottom: "100px", width: "80%", margin: "auto" }}
-          >
-            <div className="content">
-              <div className="sprint-container">
-                <h2 className="sprint-title">Sprint Board for {activities}</h2>
-                <p className="sprint-description">
-                  Break down your activities between columns to manage your
-                  progress.
-                </p>
+    <div className="main-wrapper">
+      <div
+        className="page-wrapper"
+        style={{ marginBottom: "100px", width: "100%", margin: "auto" }}
+      >
+        <div className="content">
+          <div className="sprint-container">
+            <h2 className="sprint-title">Sprint Board for {activities}</h2>
+            <p className="sprint-description">
+              Break down your activities between columns to manage your
+              progress.
+            </p>
 
-                <DragDropContext onDragEnd={onDragEnd}>
-                  <div className="columns-container">
-                    <Droppable droppableId="days" isDropDisabled={true}>
+            {loading ? (
+              <p>Loading tasks...</p>
+            ) : (
+              <DragDropContext onDragEnd={onDragEnd}>
+                <div className="columns-container">
+                  {["todo", "inProgress", "completed"].map((status) => (
+                    <Droppable key={status} droppableId={status}>
                       {(provided) => (
                         <div
                           className="column"
                           ref={provided.innerRef}
                           {...provided.droppableProps}
                         >
-                          <h3>Days</h3>
-                          {/* Render input for new day */}
-                          <input
-                            type="text"
-                            placeholder="Enter new day"
-                            onBlur={handleAddDay} // Trigger adding a day on blur (when the user finishes typing)
-                            className="day-input"
-                          />
-                          {daysArray.map((day, index) => (
-                            <div key={index} className="day">
-                              {day}
+                          <h3>{status === "todo" ? "To-Do" : status}</h3>
+
+                          {Array.isArray(tasks[status]) &&
+                          tasks[status].length > 0 ? (
+                            tasks[status].map((task, index) => {
+                              // Ensure the task has a valid _id
+                              if (!task || !task._id) {
+                                console.error("Task is missing '_id':", task);
+                                return null; // Skip invalid task
+                              }
+
+                              return (
+                                <Draggable
+                                  key={task._id}
+                                  draggableId={task._id.toString()}
+                                  index={index}
+                                >
+                                  {(provided) => (
+                                    <div
+                                      className="task"
+                                      ref={provided.innerRef}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                    >
+                                      <div className="task-content">
+                                        <h4>{task.title}</h4>
+                                        <p>
+                                          {new Date(
+                                            task.day
+                                          ).toLocaleDateString()}
+                                        </p>
+                                      </div>
+                                      <FaEdit style={{ color: "#28a745" }} />
+                                    </div>
+                                  )}
+                                </Draggable>
+                              );
+                            })
+                          ) : (
+                            <p></p>
+                          )}
+
+                          {status === "todo" && (
+                            <div className="task-input-card">
+                              <input
+                                type="text"
+                                placeholder="Enter task title..."
+                                value={newTaskTitle}
+                                onChange={(e) =>
+                                  setNewTaskTitle(e.target.value)
+                                }
+                                className="task-input"
+                              />
+                              <button
+                                onClick={handleAddTask}
+                                className="add-task-btn"
+                              >
+                                Add Task
+                              </button>
                             </div>
-                          ))}
+                          )}
                           {provided.placeholder}
                         </div>
                       )}
                     </Droppable>
-
-                    <Droppable droppableId="todo">
-                      {(provided) => (
-                        <div
-                          className="column"
-                          ref={provided.innerRef}
-                          {...provided.droppableProps}
-                        >
-                          <h3>To-Do</h3>
-                          {tasks.todo.map((task, index) => (
-                            <Draggable
-                              key={task.id}
-                              draggableId={task.id}
-                              index={index}
-                            >
-                              {(provided) => (
-                                <div
-                                  className="task"
-                                  ref={provided.innerRef}
-                                  {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
-                                >
-                                  {task.title}
-                                </div>
-                              )}
-                            </Draggable>
-                          ))}
-                          <div className="task-input-card">
-                            <input
-                              type="text"
-                              placeholder="Enter task title..."
-                              value={newTaskTitle}
-                              onChange={(e) => setNewTaskTitle(e.target.value)}
-                              className="task-input"
-                            />
-                            <button
-                              onClick={(e) => handleAddTask(e, daysArray[0])} // Pass the first date from the daysArray
-                              className="add-task-btn"
-                            >
-                              Add Task
-                            </button>
-                          </div>
-                          {provided.placeholder}
-                        </div>
-                      )}
-                    </Droppable>
-
-                    <Droppable droppableId="inProgress">
-                      {(provided) => (
-                        <div
-                          className="column"
-                          ref={provided.innerRef}
-                          {...provided.droppableProps}
-                        >
-                          <h3>In Progress</h3>
-                          {tasks.inProgress.map((task, index) => (
-                            <Draggable
-                              key={task.id}
-                              draggableId={task.id}
-                              index={index}
-                            >
-                              {(provided) => (
-                                <div
-                                  className="task"
-                                  ref={provided.innerRef}
-                                  {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
-                                >
-                                  {task.title}
-                                </div>
-                              )}
-                            </Draggable>
-                          ))}
-                          {provided.placeholder}
-                        </div>
-                      )}
-                    </Droppable>
-
-                    <Droppable droppableId="completed">
-                      {(provided) => (
-                        <div
-                          className="column"
-                          ref={provided.innerRef}
-                          {...provided.droppableProps}
-                        >
-                          <h3>Completed</h3>
-                          {tasks.completed.map((task, index) => (
-                            <Draggable
-                              key={task.id}
-                              draggableId={task.id}
-                              index={index}
-                            >
-                              {(provided) => (
-                                <div
-                                  className="task"
-                                  ref={provided.innerRef}
-                                  {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
-                                >
-                                  {task.title}
-                                </div>
-                              )}
-                            </Draggable>
-                          ))}
-                          {provided.placeholder}
-                        </div>
-                      )}
-                    </Droppable>
-                  </div>
-                </DragDropContext>
-              </div>
-            </div>
+                  ))}
+                </div>
+              </DragDropContext>
+            )}
           </div>
         </div>
-      </body>
-    </>
+      </div>
+    </div>
   );
 };
 

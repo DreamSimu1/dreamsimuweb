@@ -47,7 +47,10 @@
   border: 1px solid #ddd;
   border-radius: 5px;
   padding: 10px;
-  max-height: 500px;
+  /* Removed max-height to allow dynamic height */
+  min-height: 100px; /* Ensures columns have a default height */
+  height: auto; /* Automatically adjusts height */
+  overflow-y: auto; /* Adds scroll if tasks overflow the viewport height */
 }
 
 .column h3 {
@@ -301,4 +304,31 @@ h3 {
 .columns-container {
   display: flex;
   gap: 20px;
+}
+
+.task-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.edit-task-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #007bff;
+  font-size: 1.2rem;
+  visibility: hidden; /* Initially hidden */
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+}
+
+.task:hover .edit-task-btn {
+  visibility: visible; /* Visible on hover */
+  opacity: 1;
+}
+
+.edit-task-btn:hover {
+  color: #0056b3;
 }
