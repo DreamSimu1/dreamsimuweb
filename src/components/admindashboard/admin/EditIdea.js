@@ -8,8 +8,7 @@ const EditIdea = ({
   ideaId,
 }) => {
   const [title, setTitle] = useState("");
-  const [affirmation, setAffirmation] = useState("");
-  const [statement, setStatement] = useState("");
+  const [description, setDescription] = useState("");
   const [visibility, setVisibility] = useState("Public");
   const [imageUrl, setImageUrl] = useState("");
 
@@ -22,14 +21,12 @@ const EditIdea = ({
     if (ideaId && showEditModal) {
       console.log("Fetching idea with ID:", ideaId);
       axios
-        .get(`${apiUrl}/api/get-single/${ideaId}`)
+        .get(`${apiUrl}/api/get-single-idea/${ideaId}`)
         .then((response) => {
-          const { title, affirmation, statement, visibility, imageUrl } =
-            response.data;
+          const { title, description, status, imageUrl } = response.data.idea;
           setTitle(title);
-          setAffirmation(affirmation);
-          setStatement(statement);
-          setVisibility(visibility);
+          setDescription(description);
+          setVisibility(status || "Public"); // Use "status" for visibility if provided
           setImageUrl(imageUrl);
         })
         .catch((error) => {
@@ -46,11 +43,8 @@ const EditIdea = ({
       case "title":
         setTitle(value);
         break;
-      case "affirmation":
-        setAffirmation(value);
-        break;
-      case "statement":
-        setStatement(value);
+      case "description":
+        setDescription(value);
         break;
       case "visibility":
         setVisibility(value);
@@ -73,8 +67,7 @@ const EditIdea = ({
         `${apiUrl}/api/editidea/${ideaId}`,
         {
           title,
-          affirmation,
-          statement,
+          description,
           visibility,
           imageUrl,
         },
@@ -138,22 +131,11 @@ const EditIdea = ({
                 </div>
                 <br />
                 <div className="form-group">
-                  <label>Affirmation</label>
+                  <label>Description</label>
                   <textarea
                     className="form-control"
-                    name="affirmation"
-                    value={affirmation}
-                    onChange={handleChange}
-                    required
-                  ></textarea>
-                </div>
-                <br />
-                <div className="form-group">
-                  <label>Statement</label>
-                  <textarea
-                    className="form-control"
-                    name="statement"
-                    value={statement}
+                    name="description"
+                    value={description}
                     onChange={handleChange}
                     required
                   ></textarea>
