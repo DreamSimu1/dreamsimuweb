@@ -1600,7 +1600,7 @@ const Sprint = () => {
 
                             {status === "todo" && (
                               <div className="task-input-card">
-                                <input
+                                <textarea
                                   type="text"
                                   placeholder="Enter task title..."
                                   value={newTaskTitle}
