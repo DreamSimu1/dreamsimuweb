@@ -14,13 +14,13 @@
   font-size: 16px;
   color: #555;
 }
-
-/* Columns Container */
+/* Enable horizontal scrolling and ensure the layout remains consistent */
 .columns-container {
   display: flex;
   gap: 15px;
   overflow-x: auto; /* Enables horizontal scrolling */
   padding-bottom: 15px;
+  padding-left: 15px; /* Add padding to the left for mobile screens */
 }
 
 .columns-container::-webkit-scrollbar {
@@ -40,19 +40,38 @@
   background-color: #555;
 }
 
-/* Columns */
+/* Fix for columns width and scrolling behavior */
 .column {
-  flex: 0 0 300px; /* Adjusts the column width */
+  flex: 0 0 300px; /* Keeps the columns at a fixed width */
+  min-width: 350px; /* Ensures columns do not shrink too much */
   background-color: #0d3978;
   border: 1px solid #ddd;
   border-radius: 5px;
   padding: 10px;
-  /* Removed max-height to allow dynamic height */
-  min-height: 100px; /* Ensures columns have a default height */
-  height: auto; /* Automatically adjusts height */
-  overflow-y: auto; /* Adds scroll if tasks overflow the viewport height */
+  height: auto;
 }
 
+/* Prevent columns from shrinking */
+@media (max-width: 768px) {
+  .columns-container {
+    padding-left: 10px; /* Adjust padding for smaller screens */
+  }
+
+  .column {
+    flex: 0 0 200px; /* Reduce the column width on smaller screens */
+  }
+}
+
+/* For very small screens (e.g., mobile phones) */
+@media (max-width: 480px) {
+  .columns-container {
+    padding-left: 5px; /* Less padding for very small screens */
+  }
+
+  .column {
+    flex: 0 0 150px; /* Further reduce column width on very small screens */
+  }
+}
 .column h3 {
   text-align: center;
   font-size: 18px;
