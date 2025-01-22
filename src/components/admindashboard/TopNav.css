@@ -108,6 +108,33 @@ body {
   text-decoration: none;
   cursor: pointer;
 }
+.top-nav.mobile-only {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-icons {
+  display: flex;
+  align-items: center;
+  list-style: none;
+}
+
+.nav-item {
+  margin-left: 15px;
+  list-style: none;
+}
+
+.badge {
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 5px 8px;
+  font-size: 12px;
+  position: relative;
+  top: -5px;
+  left: -5px;
+}
 
 .dropdown-menu {
   position: absolute;

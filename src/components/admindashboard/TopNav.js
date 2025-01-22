@@ -380,83 +380,6 @@ const TopNav = () => {
                       </span>
                     </div>
                   </div>
-                  <div
-                    className="dropdown-menu search-dropdown"
-                    aria-labelledby="dropdownMenuClickable"
-                  >
-                    <div className="search-info">
-                      <h6>
-                        <span>
-                          <FaSearch className="search-icon" />
-                        </span>
-                        Recent Searches
-                      </h6>
-                      <ul className="search-tags">
-                        <li>
-                          <a href="javascript:void(0);">Products</a>
-                        </li>
-                        <li>
-                          <a href="javascript:void(0);">Sales</a>
-                        </li>
-                        <li>
-                          <a href="javascript:void(0);">Applications</a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="search-info">
-                      <h6>
-                        <span>
-                          <FiHelpCircle className="help-circle-icon" />
-                        </span>
-                        Help
-                      </h6>
-                      <p>
-                        How to Change Product Volume from 0 to 200 on Inventory
-                        management
-                      </p>
-                      <p>Change Product Name</p>
-                    </div>
-                    <div className="search-info">
-                      <h6>
-                        <span>
-                          <FiUser className="user-icon" />
-                        </span>
-                        Customers
-                      </h6>
-                      <ul className="customers">
-                        <li>
-                          <a href="javascript:void(0);">
-                            Aron Varu
-                            <img
-                              src="https://dreamspos.dreamstechnologies.com/html/template/assets/img/profiles/avator1.jpg"
-                              alt
-                              className="img-fluid"
-                            />
-                          </a>
-                        </li>
-                        <li>
-                          <a href="javascript:void(0);">
-                            Jonita
-                            <img
-                              src="https://dreamspos.dreamstechnologies.com/html/template/assets/img/profiles/avatar-01.jpg"
-                              alt
-                              className="img-fluid"
-                            />
-                          </a>
-                        </li>
-                        <li>
-                          <a href="javascript:void(0);">
-                            Aaron
-                            <img
-                              src="https://dreamspos.dreamstechnologies.com/html/template/assets/img/profiles/avatar-10.jpg"
-                              alt
-                              className="img-fluid"
-                            />
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
                 </form>
               </div>
             </li>
@@ -516,13 +439,27 @@ const TopNav = () => {
         <a className="logo" href="#">
           DreamSimu
         </a>
-        <a
-          href="javascript:void(0);"
-          className="dropdown-toggle"
-          onClick={toggleMobileMenu}
-        >
-          <FiUser />
-        </a>
+
+        <div className="nav-icons">
+          {/* Notification Icon */}
+          <li className="nav-item dropdown">
+            <a href="#" className="dropdown-toggle">
+              <FiBell />
+              <span className="badge">2</span>
+            </a>
+          </li>
+          <a
+            href="javascript:void(0);"
+            className="dropdown-toggle"
+            onClick={toggleMobileMenu}
+          >
+            <FiUser />
+          </a>
+
+          {/* Settings Icon */}
+        </div>
+
+        {/* Profile Dropdown Menu */}
         <div
           className={`dropdown-menu ${mobileMenuOpen ? "show" : ""}`}
           onClick={(e) => e.stopPropagation()}
