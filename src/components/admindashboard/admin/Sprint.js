@@ -1395,6 +1395,54 @@ const Sprint = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
 
   // Fetch tasks from the backend
+  // const fetchTasks = async () => {
+  //   try {
+  //     setLoading(true);
+  //     const token = localStorage.getItem("jwtToken");
+  //     const response = await axios.get(
+  //       `${apiUrl}/api/tasks?activity=${encodeURIComponent(decodedActivities)}`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
+
+  //     // Initialize tasksByStatus with expected statuses
+  //     const tasksByStatus = {
+  //       todo: [],
+  //       inProgress: [],
+  //       completed: [],
+  //     };
+
+  //     // Check if response.data.tasks exists and is an array
+  //     if (Array.isArray(response.data.tasks)) {
+  //       response.data.tasks.forEach((task) => {
+  //         const status = task.status || "todo"; // Default to 'todo' if no status
+
+  //         if (tasksByStatus.hasOwnProperty(status)) {
+  //           tasksByStatus[status].push({
+  //             ...task,
+  //             formattedDate: formatDate(task.day),
+  //           });
+  //         } else {
+  //           console.warn(`Unexpected task status: ${status}`, task);
+  //         }
+  //       });
+  //     } else {
+  //       console.error(
+  //         "Invalid response format: tasks is not an array",
+  //         response.data
+  //       );
+  //     }
+
+  //     setTasks(tasksByStatus);
+  //   } catch (error) {
+  //     console.error("Error fetching tasks:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
   const fetchTasks = async () => {
     try {
       setLoading(true);
@@ -1419,6 +1467,12 @@ const Sprint = () => {
       if (Array.isArray(response.data.tasks)) {
         response.data.tasks.forEach((task) => {
           const status = task.status || "todo"; // Default to 'todo' if no status
+          const isArchived = task.archived; // Assuming there's an archived flag
+
+          // Filter out archived or completed tasks
+          if (isArchived || status === "completed") {
+            return; // Skip archived or completed tasks
+          }
 
           if (tasksByStatus.hasOwnProperty(status)) {
             tasksByStatus[status].push({
