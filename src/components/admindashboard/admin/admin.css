@@ -398,3 +398,24 @@ body {
 .card-icons {
   display: none; /* Hide icons by default */
 }
+
+.adad {
+  margin-bottom: 100px;
+  width: 80%;
+  margin: auto;
+}
+
+@media (max-width: 768px) {
+  .adad {
+    margin-bottom: 100px;
+    width: 100% !important;
+    margin: auto;
+  }
+}
+@media (max-width: 360px) {
+  .adad {
+    margin-bottom: 100px;
+    width: 100% !important;
+    margin: auto;
+  }
+}

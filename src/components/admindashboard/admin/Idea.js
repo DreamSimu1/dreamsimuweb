@@ -163,10 +163,7 @@ const Idea = () => {
         <div className={`main-wrapper ${isSidebarOpen ? "sidebar-open" : ""}`}>
           <TopNav />
 
-          <div
-            className="page-wrapper"
-            style={{ marginBottom: "100px", width: "80%", margin: "auto" }}
-          >
+          <div className="page-wrapper  adad">
             <div className="content">
               <div
                 className="d-flex justify-content-between align-items-center px-4"

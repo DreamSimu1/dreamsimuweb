@@ -105,12 +105,11 @@ const Refinement = () => {
   return (
     <div className={`main-wrapper ${isSidebarOpen ? "sidebar-open" : ""}`}>
       <TopNav />
-      <div
-        className="page-wrapper"
-        style={{ marginBottom: "100px", width: "80%", margin: "auto" }}
-      >
+      <div className="page-wrapper adad">
         <div className="content">
-          <h3 className="card-title">{decodedTitle}</h3>
+          <span className="card-title" style={{ fontSize: "30px" }}>
+            {decodedTitle}
+          </span>
           <h5 className="card-title">{description}</h5>
           <br />
           <div className="card-header">
