@@ -215,21 +215,53 @@ const EditTask = ({
     }
   }, [editingTask]);
 
+  // const handleSave = async () => {
+  //   if (!editedTitle.trim() || !editedDate.trim()) {
+  //     alert("Title and date are required.");
+  //     return;
+  //   }
+
+  //   try {
+  //     const token = localStorage.getItem("jwtToken");
+  //     await axios.patch(
+  //       `${apiUrl}/api/tasks/${editingTask._id}`,
+  //       {
+  //         title: editedTitle,
+  //         day: editedDate,
+  //         archived: isArchiving,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+
+  //     setShowModal(false); // Close modal
+  //     updateTableData(); // Refresh tasks
+  //   } catch (error) {
+  //     console.error("Error updating task:", error);
+  //   }
+  // };
   const handleSave = async () => {
-    if (!editedTitle.trim() || !editedDate.trim()) {
-      alert("Title and date are required.");
+    // Ensure title or date is provided
+    if (!editedTitle.trim() && !editedDate.trim()) {
+      alert("Either title or date must be provided.");
       return;
     }
 
     try {
       const token = localStorage.getItem("jwtToken");
-      await axios.patch(
-        `${apiUrl}/api/tasks/${editingTask._id}`,
-        {
-          title: editedTitle,
-          day: editedDate,
-          archived: isArchiving,
-        },
+
+      // Prepare the updated task data, only including fields that are modified
+      const taskData = {};
+      if (editedTitle.trim()) taskData.title = editedTitle;
+      if (editedDate.trim()) taskData.day = editedDate;
+
+      await axios.put(
+        `${apiUrl}/api/edit-task/${editingTask._id}`,
+        taskData, // Send only the updated fields
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -242,6 +274,7 @@ const EditTask = ({
       updateTableData(); // Refresh tasks
     } catch (error) {
       console.error("Error updating task:", error);
+      alert("There was an error updating the task.");
     }
   };
 
