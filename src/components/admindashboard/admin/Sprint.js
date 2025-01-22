@@ -979,6 +979,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import "./Sprint.css";
 import TopNav from "../TopNav";
 import moment from "moment"; // Add this for easier date manipulation
+import EditTask from "./EditTask";
 
 // const Sprint = () => {
 //   const { activities } = useParams(); // Get title from URL params
@@ -1384,6 +1385,12 @@ const Sprint = () => {
   });
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingTask, setEditingTask] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [taskId, setTaskId] = useState(null);
+  console.log("Editing Task:", editingTask);
+  console.log("Show Modal:", showModal);
 
   const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -1526,6 +1533,8 @@ const Sprint = () => {
     }
   };
 
+  const updateTableData = async () => {};
+
   return (
     <body>
       <div className="main-wrapper">
@@ -1588,7 +1597,15 @@ const Sprint = () => {
                                             ).toLocaleDateString()}
                                           </p>
                                         </div>
-                                        <FaEdit style={{ color: "#28a745" }} />
+
+                                        <FaEdit
+                                          style={{ color: "#28a745" }}
+                                          onClick={(e) => {
+                                            e.stopPropagation(); // Prevent drag-and-drop interference
+                                            setEditingTask(task); // Set the task for editing
+                                            setShowModal(true); // Show the modal
+                                          }}
+                                        />
                                       </div>
                                     )}
                                   </Draggable>
@@ -1627,6 +1644,15 @@ const Sprint = () => {
               )}
             </div>
           </div>
+
+          {showModal && (
+            <EditTask
+              showModal={showModal}
+              setShowModal={setShowModal}
+              editingTask={editingTask}
+              updateTableData={fetchTasks}
+            />
+          )}
         </div>
       </div>
     </body>

@@ -332,3 +332,6 @@ h3 {
 .edit-task-btn:hover {
   color: #0056b3;
 }
+.note-modal {
+  z-index: 9999; /* Ensure it's above other elements */
+}
