@@ -321,7 +321,8 @@ const EditTask = ({
               Save
             </button>
             <button
-              className="btn btn-secondary"
+              className="btn "
+              style={{ backgroundColor: "red", color: "white" }}
               onClick={() => setShowModal(false)}
             >
               Cancel
