@@ -1504,7 +1504,35 @@ const Sprint = () => {
     }
   };
 
-  const onDragEnd = (result) => {
+  // const onDragEnd = (result) => {
+  //   const { source, destination } = result;
+
+  //   if (!destination) return; // Dropped outside a droppable area
+
+  //   // Reorder within the same column
+  //   if (source.droppableId === destination.droppableId) {
+  //     const items = Array.from(tasks[source.droppableId]);
+  //     const [movedItem] = items.splice(source.index, 1);
+  //     items.splice(destination.index, 0, movedItem);
+  //     setTasks((prevTasks) => ({ ...prevTasks, [source.droppableId]: items }));
+  //   } else {
+  //     // Move between columns
+  //     const sourceItems = Array.from(tasks[source.droppableId]);
+  //     const destinationItems = Array.from(tasks[destination.droppableId]);
+  //     const [movedItem] = sourceItems.splice(source.index, 1);
+  //     movedItem.status = destination.droppableId; // Update the status of the task
+  //     destinationItems.splice(destination.index, 0, movedItem);
+
+  //     setTasks((prevTasks) => ({
+  //       ...prevTasks,
+  //       [source.droppableId]: sourceItems,
+  //       [destination.droppableId]: destinationItems,
+  //     }));
+
+  //     // Optionally make an API call to update the task status in the backend.
+  //   }
+  // };
+  const onDragEnd = async (result) => {
     const { source, destination } = result;
 
     if (!destination) return; // Dropped outside a droppable area
@@ -1529,7 +1557,28 @@ const Sprint = () => {
         [destination.droppableId]: destinationItems,
       }));
 
-      // Optionally make an API call to update the task status in the backend.
+      // Make an API call to update the task status in the backend
+      try {
+        const token = localStorage.getItem("jwtToken");
+        const response = await axios.put(
+          `${apiUrl}/api/update-task-status/${movedItem._id}`,
+          { status: movedItem.status },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          console.log("Task status updated successfully");
+        } else {
+          console.error("Failed to update task status:", response);
+        }
+      } catch (error) {
+        console.error("Error updating task status:", error);
+      }
     }
   };
 
