@@ -1459,50 +1459,50 @@ const Sprint = () => {
     return new Date(isoDate).toLocaleString("en-US", options);
   };
 
-  const handleAddTask = async (e) => {
-    e.preventDefault();
+  // const handleAddTask = async (e) => {
+  //   e.preventDefault();
 
-    if (newTaskTitle.trim()) {
-      const newTask = {
-        title: newTaskTitle,
-        day: new Date().toISOString(),
-        activities: decodedActivities,
-      };
+  //   if (newTaskTitle.trim()) {
+  //     const newTask = {
+  //       title: newTaskTitle,
+  //       day: new Date().toISOString(),
+  //       activities: decodedActivities,
+  //     };
 
-      try {
-        const token = localStorage.getItem("jwtToken");
-        const response = await axios.post(`${apiUrl}/api/save-task`, newTask, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
+  //     try {
+  //       const token = localStorage.getItem("jwtToken");
+  //       const response = await axios.post(`${apiUrl}/api/save-task`, newTask, {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //           "Content-Type": "application/json",
+  //         },
+  //       });
 
-        if (response.status === 201 || response.status === 200) {
-          const savedTask = response.data.task; // Use the backend's task object
-          setTasks((prevTasks) => ({
-            ...prevTasks,
-            todo: [
-              ...prevTasks.todo,
-              {
-                ...savedTask,
-                formattedDate: formatDate(savedTask.day),
-              },
-            ],
-          }));
-          setNewTaskTitle("");
-        } else {
-          console.error("Failed to add task:", response);
-        }
-      } catch (error) {
-        if (error.response) {
-          console.error("Backend error response:", error.response.data);
-        } else {
-          console.error("Error adding task:", error);
-        }
-      }
-    }
-  };
+  //       if (response.status === 201 || response.status === 200) {
+  //         const savedTask = response.data.task; // Use the backend's task object
+  //         setTasks((prevTasks) => ({
+  //           ...prevTasks,
+  //           todo: [
+  //             ...prevTasks.todo,
+  //             {
+  //               ...savedTask,
+  //               formattedDate: formatDate(savedTask.day),
+  //             },
+  //           ],
+  //         }));
+  //         setNewTaskTitle("");
+  //       } else {
+  //         console.error("Failed to add task:", response);
+  //       }
+  //     } catch (error) {
+  //       if (error.response) {
+  //         console.error("Backend error response:", error.response.data);
+  //       } else {
+  //         console.error("Error adding task:", error);
+  //       }
+  //     }
+  //   }
+  // };
 
   // const onDragEnd = (result) => {
   //   const { source, destination } = result;
@@ -1532,6 +1532,102 @@ const Sprint = () => {
   //     // Optionally make an API call to update the task status in the backend.
   //   }
   // };
+  // const onDragEnd = async (result) => {
+  //   const { source, destination } = result;
+
+  //   if (!destination) return; // Dropped outside a droppable area
+
+  //   // Reorder within the same column
+  //   if (source.droppableId === destination.droppableId) {
+  //     const items = Array.from(tasks[source.droppableId]);
+  //     const [movedItem] = items.splice(source.index, 1);
+  //     items.splice(destination.index, 0, movedItem);
+  //     setTasks((prevTasks) => ({ ...prevTasks, [source.droppableId]: items }));
+  //   } else {
+  //     // Move between columns
+  //     const sourceItems = Array.from(tasks[source.droppableId]);
+  //     const destinationItems = Array.from(tasks[destination.droppableId]);
+  //     const [movedItem] = sourceItems.splice(source.index, 1);
+  //     movedItem.status = destination.droppableId; // Update the status of the task
+  //     destinationItems.splice(destination.index, 0, movedItem);
+
+  //     setTasks((prevTasks) => ({
+  //       ...prevTasks,
+  //       [source.droppableId]: sourceItems,
+  //       [destination.droppableId]: destinationItems,
+  //     }));
+
+  //     // Make an API call to update the task status in the backend
+  //     try {
+  //       const token = localStorage.getItem("jwtToken");
+  //       const response = await axios.put(
+  //         `${apiUrl}/api/update-task-status/${movedItem._id}`,
+  //         { status: movedItem.status },
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //             "Content-Type": "application/json",
+  //           },
+  //         }
+  //       );
+
+  //       if (response.status === 200) {
+  //         console.log("Task status updated successfully");
+  //       } else {
+  //         console.error("Failed to update task status:", response);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error updating task status:", error);
+  //     }
+  //   }
+  // };
+
+  const handleAddTask = async (e) => {
+    e.preventDefault();
+
+    if (newTaskTitle.trim()) {
+      const newTask = {
+        title: newTaskTitle,
+        day: new Date().toISOString(),
+        activities: decodedActivities,
+        status: "todo", // Set default status to 'todo'
+      };
+
+      try {
+        const token = localStorage.getItem("jwtToken");
+        const response = await axios.post(`${apiUrl}/api/save-task`, newTask, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (response.status === 201 || response.status === 200) {
+          const savedTask = response.data.task; // Use the backend's task object
+          setTasks((prevTasks) => ({
+            ...prevTasks,
+            todo: [
+              ...prevTasks.todo,
+              {
+                ...savedTask,
+                formattedDate: formatDate(savedTask.day),
+              },
+            ],
+          }));
+          setNewTaskTitle(""); // Clear task input after adding
+        } else {
+          console.error("Failed to add task:", response);
+        }
+      } catch (error) {
+        if (error.response) {
+          console.error("Backend error response:", error.response.data);
+        } else {
+          console.error("Error adding task:", error);
+        }
+      }
+    }
+  };
+
   const onDragEnd = async (result) => {
     const { source, destination } = result;
 
@@ -1542,7 +1638,10 @@ const Sprint = () => {
       const items = Array.from(tasks[source.droppableId]);
       const [movedItem] = items.splice(source.index, 1);
       items.splice(destination.index, 0, movedItem);
-      setTasks((prevTasks) => ({ ...prevTasks, [source.droppableId]: items }));
+      setTasks((prevTasks) => ({
+        ...prevTasks,
+        [source.droppableId]: items,
+      }));
     } else {
       // Move between columns
       const sourceItems = Array.from(tasks[source.droppableId]);
@@ -1573,6 +1672,9 @@ const Sprint = () => {
 
         if (response.status === 200) {
           console.log("Task status updated successfully");
+
+          // After updating the task status in the backend, refetch tasks to ensure UI is up-to-date
+          fetchTasks(); // Re-fetch the tasks from the server
         } else {
           console.error("Failed to update task status:", response);
         }
