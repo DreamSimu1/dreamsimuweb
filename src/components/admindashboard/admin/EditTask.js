@@ -246,22 +246,46 @@ const EditTask = ({
   };
 
   return (
-    <>
-      {showModal && (
-        <div className="note-modal">
-          <div className="note-modal-content">
-            <h3>Edit Task</h3>
-            <textarea defaultValue={editingTask.title}></textarea>
-            <div className="modal-actions">
-              <button className="save-button" onClick={handleSave}>
-                Save
-              </button>
-              <button className="cancel-button">Cancel</button>
-            </div>
+    showModal && (
+      <div className="note-modal">
+        <div className="note-modal-content">
+          <h3>Edit Task</h3>
+          <label>Title</label>
+          <input
+            type="text"
+            className="form-control"
+            value={editedTitle}
+            onChange={(e) => setEditedTitle(e.target.value)}
+          />
+          <label>Date</label>
+          <input
+            type="datetime-local"
+            className="form-control"
+            value={editedDate}
+            onChange={(e) => setEditedDate(e.target.value)}
+          />
+          <div>
+            <label>
+              <input
+                type="checkbox"
+                checked={isArchiving}
+                onChange={() => setIsArchiving((prev) => !prev)}
+              />
+              Archive Task
+            </label>
           </div>
+          <button className="btn btn-primary" onClick={handleSave}>
+            Save
+          </button>
+          <button
+            className="btn btn-secondary"
+            onClick={() => setShowModal(false)}
+          >
+            Cancel
+          </button>
         </div>
-      )}
-    </>
+      </div>
+    )
   );
 };
 
