@@ -17,7 +17,10 @@ const Retro = () => {
   };
 
   // Handle form submission
-  const handleSubmit = async (e) => {};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // Implement form submission logic here
+  };
 
   return (
     <>
@@ -25,64 +28,47 @@ const Retro = () => {
         <TopNav />
         <div className="page-wrapper adad">
           <div className="content">
-            <div
-              tabIndex="-1"
-              role="dialog"
-              aria-labelledby="exampleModalLabel"
-              aria-hidden="true"
-            >
-              <div className="modal-dialog" role="document">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <h5 className="modal-title" id="exampleModalLabel">
-                      Retrospect
-                    </h5>
-                  </div>
-                  <div className="modal-body">
-                    <form onSubmit={handleSubmit}>
-                      <br />
-                      <div className="form-group">
-                        <label>What went well</label>
-                        <textarea className="form-control" required></textarea>
-                      </div>
-                      <br />
-                      <div className="form-group">
-                        <label>What were the challenges</label>
-                        <textarea className="form-control" required></textarea>
-                      </div>
-                      <br />
-                      <div className="form-group">
-                        <label>What can be improved</label>
-                        <textarea className="form-control" required></textarea>
-                      </div>
-                      <br />
-                      <div className="form-group">
-                        <label>Attach Note/Media (Optional)</label>
-                        <input
-                          type="file"
-                          className="form-control"
-                          accept="image/*"
-                          onChange={handleImageUpload}
-                        />
-                      </div>
-
-                      <div className="modal-footer">
-                        <button type="submit" className="btn btn-primary">
-                          Submit
-                        </button>
-                        <button
-                          type="button"
-                          className="btn"
-                          style={{ backgroundColor: "red", color: "white" }}
-                        >
-                          Close
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
+            <h5 className="form-title">Retrospect</h5>
+            <form onSubmit={handleSubmit}>
+              <br />
+              <div className="form-group">
+                <label>What went well</label>
+                <textarea className="form-control" required></textarea>
               </div>
-            </div>
+              <br />
+              <div className="form-group">
+                <label>What were the challenges</label>
+                <textarea className="form-control" required></textarea>
+              </div>
+              <br />
+              <div className="form-group">
+                <label>What can be improved</label>
+                <textarea className="form-control" required></textarea>
+              </div>
+              <br />
+              <div className="form-group">
+                <label>Attach Note/Media (Optional)</label>
+                <input
+                  type="file"
+                  className="form-control"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                />
+              </div>
+              <br />
+              <div className="form-actions">
+                <button type="submit" className="btn btn-primary">
+                  Submit
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  style={{ marginLeft: "10px" }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
