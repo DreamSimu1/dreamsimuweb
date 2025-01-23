@@ -91,6 +91,8 @@ import AuthGuard from "../../auth/AuthGuard";
 import Idea from "./admin/Idea";
 import Refinement from "./admin/Refinement";
 import Sprint from "./admin/Sprint";
+import AllIdea from "./admin/AllIdea";
+import AllRefine from "./admin/AllRefine";
 
 const AdminRoute = [
   {
@@ -106,6 +108,22 @@ const AdminRoute = [
     element: (
       <AuthGuard>
         <Idea />
+      </AuthGuard>
+    ),
+  },
+  {
+    path: "/brain-dump",
+    element: (
+      <AuthGuard>
+        <AllIdea />
+      </AuthGuard>
+    ),
+  },
+  {
+    path: "/refinement",
+    element: (
+      <AuthGuard>
+        <AllRefine />
       </AuthGuard>
     ),
   },

@@ -385,16 +385,18 @@ const TopNav = () => {
             </li>
 
             <li className="nav-item">
-              <p>Brain Dump</p>
+              <p>
+                <a href="/brain-dump">Brain Dump</a>
+              </p>
             </li>
             <li className="nav-item">
-              <p>Refinement</p>
+              <a href="/refinement">Refinement</a>
             </li>
             <li className="nav-item">
-              <p>Sprint</p>
+              <a href="/sprint">Sprint</a>
             </li>
             <li className="nav-item">
-              <p>Retrospective</p>
+              <a href="/retrospect">Retrospect</a>
             </li>
             <li className="nav-item dropdown">
               <a href="#" className="dropdown-toggle">
@@ -480,32 +482,33 @@ const TopNav = () => {
       <div className="bottom-nav mobile-only">
         <ul className="nav">
           <li className="nav-item">
-            <a href="#">
+            <a href="/">
               <FiHome />
+
               <span>Home</span>
             </a>
           </li>
           <li className="nav-item">
-            <a href="#">
+            <a href="/brain-dump">
               <BsLightbulb />
               <span>Idea</span>
             </a>
           </li>
 
           <li className="nav-item">
-            <a href="#">
+            <a href="/refinement">
               <FiEdit />
               <span>Refinement</span>
             </a>
           </li>
           <li className="nav-item">
-            <a href="#">
+            <a href="/retrospect">
               <FiClock />
               <span>Retrospect</span>
             </a>
           </li>
           <li className="nav-item">
-            <a href="#">
+            <a href="/sprint">
               <FiFlag />
               <span>Sprint</span>
             </a>
