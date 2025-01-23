@@ -356,7 +356,11 @@ const TopNav = () => {
       <div className="top-nav desktop-only shadowss">
         <div className="header">
           <div className="header-left">
-            <a className="logo" href="#">
+            <a
+              className="logo"
+              href="/"
+              style={{ fontWeight: "800", color: "black", fontSize: "25px" }}
+            >
               DreamSimu
             </a>
           </div>
@@ -438,7 +442,7 @@ const TopNav = () => {
 
       {/* Mobile Top Navigation (Logo + Profile Icon Only) */}
       <div className="top-nav mobile-only" style={{ textDecoration: "none" }}>
-        <a className="logo" href="#" style={{ textDecoration: "none" }}>
+        <a className="logo" href="/" style={{ textDecoration: "none" }}>
           DreamSimu
         </a>
 
