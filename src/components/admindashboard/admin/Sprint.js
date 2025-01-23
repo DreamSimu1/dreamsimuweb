@@ -1470,7 +1470,7 @@ const Sprint = () => {
           const isArchived = task.archived; // Assuming there's an archived flag
 
           // Filter out archived or completed tasks
-          if (isArchived || status === "completed") {
+          if (isArchived) {
             return; // Skip archived or completed tasks
           }
 
@@ -1682,60 +1682,201 @@ const Sprint = () => {
     }
   };
 
+  // const onDragEnd = async (result) => {
+  //   const { source, destination } = result;
+
+  //   if (!destination) return; // Dropped outside a droppable area
+
+  //   // Reorder within the same column
+  //   if (source.droppableId === destination.droppableId) {
+  //     const items = Array.from(tasks[source.droppableId]);
+  //     const [movedItem] = items.splice(source.index, 1);
+  //     items.splice(destination.index, 0, movedItem);
+  //     setTasks((prevTasks) => ({
+  //       ...prevTasks,
+  //       [source.droppableId]: items,
+  //     }));
+  //   } else {
+  //     // Move between columns
+  //     const sourceItems = Array.from(tasks[source.droppableId]);
+  //     const destinationItems = Array.from(tasks[destination.droppableId]);
+  //     const [movedItem] = sourceItems.splice(source.index, 1);
+  //     movedItem.status = destination.droppableId; // Update the status of the task
+  //     destinationItems.splice(destination.index, 0, movedItem);
+
+  //     setTasks((prevTasks) => ({
+  //       ...prevTasks,
+  //       [source.droppableId]: sourceItems,
+  //       [destination.droppableId]: destinationItems,
+  //     }));
+  //     console.log("Updated Tasks:", {
+  //       ...tasks,
+  //       [source.droppableId]: sourceItems,
+  //       [destination.droppableId]: destinationItems,
+  //     });
+  //     console.log("Completed Tasks:", tasks.completed);
+
+  //     // Make an API call to update the task status in the backend
+  //     try {
+  //       const token = localStorage.getItem("jwtToken");
+  //       const response = await axios.put(
+  //         `${apiUrl}/api/update-task-status/${movedItem._id}`,
+  //         { status: movedItem.status },
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //             "Content-Type": "application/json",
+  //           },
+  //         }
+  //       );
+
+  //       if (response.status === 200) {
+  //         console.log("Task status updated successfully");
+
+  //         // After updating the task status in the backend, refetch tasks to ensure UI is up-to-date
+  //         fetchTasks(); // Re-fetch the tasks from the server
+  //       } else {
+  //         console.error("Failed to update task status:", response);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error updating task status:", error);
+  //     }
+  //   }
+  // };
+  // const onDragEnd = async (result) => {
+  //   const { source, destination } = result;
+
+  //   if (!destination) return; // Dropped outside a droppable area
+
+  //   if (source.droppableId === destination.droppableId) {
+  //     const items = Array.from(tasks[source.droppableId]);
+  //     const [movedItem] = items.splice(source.index, 1);
+  //     items.splice(destination.index, 0, movedItem);
+
+  //     setTasks((prevTasks) => {
+  //       const updatedTasks = {
+  //         ...prevTasks,
+  //         [source.droppableId]: items,
+  //       };
+  //       console.log("Updated Tasks:", updatedTasks);
+  //       console.log("Completed Tasks:", updatedTasks.completed); // Log completed tasks
+  //       return updatedTasks;
+  //     });
+  //   } else {
+  //     const sourceItems = Array.from(tasks[source.droppableId]);
+  //     const destinationItems = Array.from(tasks[destination.droppableId]);
+  //     const [movedItem] = sourceItems.splice(source.index, 1);
+  //     movedItem.status = destination.droppableId; // Update the status of the task
+  //     destinationItems.splice(destination.index, 0, movedItem);
+
+  //     setTasks((prevTasks) => {
+  //       const updatedTasks = {
+  //         ...prevTasks,
+  //         [source.droppableId]: sourceItems,
+  //         [destination.droppableId]: destinationItems,
+  //       };
+  //       console.log("Updated Tasks:", updatedTasks);
+  //       console.log("Completed Tasks:", updatedTasks.completed); // Log completed tasks
+  //       return updatedTasks;
+  //     });
+
+  //     // Make an API call to update the task status in the backend
+  //     try {
+  //       const token = localStorage.getItem("jwtToken");
+  //       const response = await axios.put(
+  //         `${apiUrl}/api/update-task-status/${movedItem._id}`,
+  //         { status: movedItem.status },
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //             "Content-Type": "application/json",
+  //           },
+  //         }
+  //       );
+
+  //       if (response.status === 200) {
+  //         console.log("Task status updated successfully");
+  //         fetchTasks(); // Re-fetch the tasks from the server
+  //       } else {
+  //         console.error("Failed to update task status:", response);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error updating task status:", error);
+  //     }
+  //   }
+  // };
   const onDragEnd = async (result) => {
     const { source, destination } = result;
 
-    if (!destination) return; // Dropped outside a droppable area
+    // Check if the task was dropped outside a column
+    if (!destination) return;
 
-    // Reorder within the same column
-    if (source.droppableId === destination.droppableId) {
-      const items = Array.from(tasks[source.droppableId]);
-      const [movedItem] = items.splice(source.index, 1);
-      items.splice(destination.index, 0, movedItem);
-      setTasks((prevTasks) => ({
-        ...prevTasks,
-        [source.droppableId]: items,
-      }));
-    } else {
-      // Move between columns
-      const sourceItems = Array.from(tasks[source.droppableId]);
-      const destinationItems = Array.from(tasks[destination.droppableId]);
-      const [movedItem] = sourceItems.splice(source.index, 1);
-      movedItem.status = destination.droppableId; // Update the status of the task
-      destinationItems.splice(destination.index, 0, movedItem);
-
-      setTasks((prevTasks) => ({
-        ...prevTasks,
-        [source.droppableId]: sourceItems,
-        [destination.droppableId]: destinationItems,
-      }));
-
-      // Make an API call to update the task status in the backend
-      try {
-        const token = localStorage.getItem("jwtToken");
-        const response = await axios.put(
-          `${apiUrl}/api/update-task-status/${movedItem._id}`,
-          { status: movedItem.status },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        if (response.status === 200) {
-          console.log("Task status updated successfully");
-
-          // After updating the task status in the backend, refetch tasks to ensure UI is up-to-date
-          fetchTasks(); // Re-fetch the tasks from the server
-        } else {
-          console.error("Failed to update task status:", response);
-        }
-      } catch (error) {
-        console.error("Error updating task status:", error);
-      }
+    // Check if the task was dropped in the same column and position
+    if (
+      source.droppableId === destination.droppableId &&
+      source.index === destination.index
+    ) {
+      return;
     }
+
+    // Clone the current state to avoid direct mutation
+    const updatedTasks = { ...tasks };
+
+    // Get the source and destination arrays
+    const sourceTasks = Array.from(updatedTasks[source.droppableId]);
+    const destinationTasks = Array.from(updatedTasks[destination.droppableId]);
+
+    // Remove the task from the source array
+    const [movedTask] = sourceTasks.splice(source.index, 1);
+
+    // Update the task's status locally
+    movedTask.status = destination.droppableId;
+
+    // Add the task to the destination array
+    destinationTasks.splice(destination.index, 0, movedTask);
+
+    // Update the tasks object locally
+    updatedTasks[source.droppableId] = sourceTasks;
+    updatedTasks[destination.droppableId] = destinationTasks;
+
+    // Set the updated state
+    setTasks(updatedTasks);
+
+    // API call to update task status in the backend
+    try {
+      const token = localStorage.getItem("jwtToken"); // Retrieve the token
+      const response = await axios.put(
+        `${apiUrl}/api/update-task-status/${movedTask._id}`, // Backend API endpoint
+        { status: movedTask.status }, // Send the updated status
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Add authorization header
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        console.log("Task status updated successfully on the backend");
+        // Re-fetch tasks to sync frontend and backend
+        fetchTasks(); // Use your existing fetchTasks function here
+      } else {
+        console.error("Failed to update task status:", response);
+      }
+    } catch (error) {
+      console.error("Error updating task status:", error);
+      // Optional: Revert the local state if the API call fails
+      const revertedTasks = { ...tasks };
+      revertedTasks[source.droppableId] = sourceTasks;
+      revertedTasks[destination.droppableId] = destinationTasks.filter(
+        (task) => task._id !== movedTask._id
+      );
+      revertedTasks[source.droppableId].splice(source.index, 0, movedTask);
+      setTasks(revertedTasks);
+    }
+
+    console.log("Updated Tasks:", updatedTasks);
+    console.log("Completed Tasks:", updatedTasks.completed);
   };
 
   const updateTableData = async () => {};

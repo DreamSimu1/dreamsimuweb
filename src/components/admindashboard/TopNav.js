@@ -435,8 +435,8 @@ const TopNav = () => {
       </div>
 
       {/* Mobile Top Navigation (Logo + Profile Icon Only) */}
-      <div className="top-nav mobile-only">
-        <a className="logo" href="#">
+      <div className="top-nav mobile-only" style={{ textDecoration: "none" }}>
+        <a className="logo" href="#" style={{ textDecoration: "none" }}>
           DreamSimu
         </a>
 
