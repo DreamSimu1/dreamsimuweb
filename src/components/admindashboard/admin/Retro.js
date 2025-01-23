@@ -27,8 +27,11 @@ const Retro = () => {
       <div className="main-wrapper">
         <TopNav />
         <div className="page-wrapper adad">
-          <div className="content">
-            <h5 className="form-title">Retrospect</h5>
+          <div
+            className="content"
+            style={{ marginBottom: "50px", marginTop: "50px" }}
+          >
+            <h3 className="form-title">Retrospect</h3>
             <form onSubmit={handleSubmit}>
               <br />
               <div className="form-group">
