@@ -31,7 +31,9 @@ const Retro = () => {
             className="content"
             style={{ marginBottom: "50px", marginTop: "50px" }}
           >
-            <h3 className="form-title">Retrospect</h3>
+            <p className="form-title" style={{ fontSize: "20px" }}>
+              Retrospect
+            </p>
             <form onSubmit={handleSubmit}>
               <br />
               <div className="form-group">
