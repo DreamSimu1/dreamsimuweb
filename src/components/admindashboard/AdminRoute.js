@@ -93,6 +93,7 @@ import Refinement from "./admin/Refinement";
 import Sprint from "./admin/Sprint";
 import AllIdea from "./admin/AllIdea";
 import AllRefine from "./admin/AllRefine";
+import AllSprint from "./admin/AllSprint";
 
 const AdminRoute = [
   {
@@ -124,6 +125,14 @@ const AdminRoute = [
     element: (
       <AuthGuard>
         <AllRefine />
+      </AuthGuard>
+    ),
+  },
+  {
+    path: "/sprint",
+    element: (
+      <AuthGuard>
+        <AllSprint />
       </AuthGuard>
     ),
   },
