@@ -94,6 +94,7 @@ import Sprint from "./admin/Sprint";
 import AllIdea from "./admin/AllIdea";
 import AllRefine from "./admin/AllRefine";
 import AllSprint from "./admin/AllSprint";
+import Retro from "./admin/Retro";
 
 const AdminRoute = [
   {
@@ -133,6 +134,14 @@ const AdminRoute = [
     element: (
       <AuthGuard>
         <AllSprint />
+      </AuthGuard>
+    ),
+  },
+  {
+    path: "/retrospect",
+    element: (
+      <AuthGuard>
+        <Retro />
       </AuthGuard>
     ),
   },
