@@ -382,6 +382,7 @@ import { AiFillGoogleCircle, AiFillApple, AiFillWindows } from "react-icons/ai";
 import "font-awesome/css/font-awesome.min.css";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import "./login.css";
+import fav from "./ourcolor.png";
 import googlelogo from "./googlelogo.svg";
 import micro from "./micro.svg";
 import apple from "./apple.svg";
@@ -403,8 +404,8 @@ const validationSchema = Yup.object().shape({
   password: Yup.string()
     .min(6, "Password must be at least 6 characters long")
     .required("Password is required!"),
-  phone: Yup.string(),
-  address: Yup.string(),
+  phone: Yup.string().required("Phone number is required!"),
+  address: Yup.string().required("Address is required!"),
 });
 
 const JwtRegister = () => {
@@ -462,11 +463,31 @@ const JwtRegister = () => {
                   <form onSubmit={handleSubmit}>
                     <div className="login-userset">
                       <div className="login-userheading">
-                        <h2 className="logo" style={{ textAlign: "center" }}>
-                          Let's register your account
-                        </h2>
-                        <h3 style={{ textAlign: "center" }}>
-                          Signup to continue
+                        <div
+                          className="logo"
+                          style={{ margin: "auto", textAlign: "center" }}
+                        >
+                          <a
+                            style={{
+                              fontSize: "30px",
+                              color: "black",
+                              fontWeight: "800",
+                              textAlign: "center",
+                            }}
+                          >
+                            <img
+                              src={fav}
+                              style={{
+                                width: "50px",
+                                height: "50px",
+                              }}
+                            />
+                            DreamSimu
+                          </a>
+                        </div>
+
+                        <h3 style={{ textAlign: "center", marginTop: "40px" }}>
+                          Welcome, lets create your account
                         </h3>
                       </div>
                       <div className="form-login mb-3">
@@ -530,7 +551,7 @@ const JwtRegister = () => {
                         )}
                       </div>
                       <div className="form-login mb-3">
-                        <label className="form-label">Phone (Optional)</label>
+                        <label className="form-label">Phone Number</label>
                         <input
                           type="text"
                           name="phone"
@@ -542,7 +563,7 @@ const JwtRegister = () => {
                         />
                       </div>
                       <div className="form-login mb-3">
-                        <label className="form-label">Address (Optional)</label>
+                        <label className="form-label">Address</label>
                         <input
                           type="text"
                           name="address"

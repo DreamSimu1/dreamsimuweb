@@ -13,7 +13,7 @@ import "./login.css";
 import googlelogo from "./googlelogo.svg";
 import micro from "./micro.svg";
 import apple from "./apple.svg";
-
+import fav from "./ourcolor.png";
 import * as Yup from "yup";
 // inital login credentials
 const initialValues = {
@@ -73,27 +73,38 @@ const JwtLogin = () => {
                     <form onSubmit={handleSubmit}>
                       <div class="login-userset">
                         <div class="login-userheading">
-                          <div className="logo">
-                            <p
+                          <div
+                            className="logo"
+                            style={{ margin: "auto", textAlign: "center" }}
+                          >
+                            <a
                               style={{
                                 fontSize: "30px",
+                                color: "black",
                                 fontWeight: "800",
                                 textAlign: "center",
-                                color: "black",
                               }}
                             >
-                              {" "}
-                              Let's sign you in
-                            </p>
+                              <img
+                                src={fav}
+                                style={{
+                                  width: "50px",
+                                  height: "50px",
+                                }}
+                              />
+                              DreamSimu
+                            </a>
                           </div>
+
                           <h3
                             style={{
                               fontSize: "20px",
                               fontWeight: "800",
                               textAlign: "center",
+                              marginTop: "40px",
                             }}
                           >
-                            Welcome back, you have been missed
+                            Welcome back, Let's sign you in
                           </h3>
                           {/*} <h4>
                             Keep your visions, dream in a safe place and see how
@@ -158,7 +169,7 @@ const JwtLogin = () => {
                             Log in
                           </button>
                         </div>
-                        <h5
+                        {/*}   <h5
                           style={{
                             textAlign: "center",
                             color: "black",
@@ -231,7 +242,7 @@ const JwtLogin = () => {
                             />
                             Continue with Apple
                           </button>
-                        </div>
+                        </div>*/}
                         <div
                           style={{
                             display: "flex",
