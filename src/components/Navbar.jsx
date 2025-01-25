@@ -1,10 +1,10 @@
 import React from "react";
 import "./nav.css";
-import oga from "./correctlogo.png";
-import oga1 from "./correctlogo.png";
-import oga3 from "./correctlogo.png";
-import oga2 from "./correctlogo.png";
-import oga4 from "./correctlogo.png";
+import oga from "./ourcolor.png";
+import oga1 from "./ourcolor.png";
+import oga3 from "./ourcolor.png";
+import oga2 from "./ourcolor.png";
+import oga4 from "./ourcolor.png";
 const Navbar = () => {
   const srcset = `${oga1} 1024w, ${oga2} 300w, ${oga3} 768w, ${oga4} 1536w, ${oga} 800w`;
   return (
@@ -53,15 +53,22 @@ const Navbar = () => {
                             <div class="elementor-widget-container">
                               <img
                                 fetchpriority="high"
-                                width="800"
-                                height="244"
                                 src={oga}
                                 class="attachment-large size-large wp-image-222"
                                 alt=""
                                 decoding="async"
                                 srcSet={srcset}
-                                sizes="(max-width: 800px) 100vw, 800px"
+                                style={{ width: "50px", height: "40px" }}
                               />{" "}
+                              <a
+                                style={{
+                                  fontWeight: "700",
+                                  fontSize: "25px",
+                                  color: "black",
+                                }}
+                              >
+                                DreamSimu
+                              </a>
                             </div>
                           </div>
                         </div>
@@ -111,7 +118,15 @@ const Navbar = () => {
                                         class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-546 current_page_item menu-item-1105"
                                       >
                                         <a href="/" aria-current="page">
-                                          Home
+                                          Feature
+                                        </a>
+                                      </li>
+                                      <li
+                                        id="menu-item-1105"
+                                        class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-546 current_page_item menu-item-1105"
+                                      >
+                                        <a href="/" aria-current="page">
+                                          Vision Board
                                         </a>
                                       </li>
                                       <li
@@ -122,7 +137,7 @@ const Navbar = () => {
                                           href="/about"
                                           style={{ color: "black" }}
                                         >
-                                          About
+                                          Sprint Planning
                                         </a>
                                       </li>
                                       <li
@@ -133,49 +148,30 @@ const Navbar = () => {
                                           href="services"
                                           style={{ color: "black" }}
                                         >
-                                          Services
+                                          Latest Insights
                                         </a>
                                       </li>
                                       <li
-                                        id="menu-item-1102"
+                                        id="menu-item-1103"
                                         class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1103"
                                       >
                                         <a
-                                          href="faq"
+                                          href="services"
                                           style={{ color: "black" }}
                                         >
-                                          Faq
-                                        </a>
-                                      </li>
-                                      <li
-                                        id="menu-item-1101"
-                                        class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1103"
-                                      >
-                                        <a
-                                          href="pos-agent"
-                                          style={{ color: "black" }}
-                                        >
-                                          Become a POS agent
+                                          Stay Updated
                                         </a>
                                       </li>
 
                                       <li
-                                        id="menu-item-1100"
-                                        class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1098"
-                                      >
-                                        <a
-                                          href="contact"
-                                          style={{ color: "black" }}
-                                        >
-                                          Contact
-                                        </a>
-                                      </li>
-                                      <li
                                         id="menu-item-login"
                                         class="menu-item menu-item-type-post_type menu-item-object-page menu-item-login"
                                       >
-                                        <a href="#" style={{ color: "black" }}>
-                                          Login
+                                        <a
+                                          href="https://dashboard.ogapos.com"
+                                          style={{ color: "black" }}
+                                        >
+                                          Get Started
                                         </a>
                                       </li>
                                     </ul>
@@ -194,8 +190,13 @@ const Navbar = () => {
                                           alt=""
                                           url="wp-content/uploads/sites/27/2022/06/logo-payze-2.png"
                                           source="library"
+                                          style={{
+                                            width: "50px",
+                                            height: "40px",
+                                          }}
                                           decoding="async"
-                                        />
+                                        />{" "}
+                                        DreamSimu
                                       </a>
                                     </div>
                                     <button
@@ -243,7 +244,14 @@ const Navbar = () => {
                                       ></i>{" "}
                                     </span>
                                     <span class="elementor-button-text">
-                                      Login
+                                      <a
+                                        href="https://dashboard.ogapos.com"
+                                        style={{
+                                          color: "white",
+                                        }}
+                                      >
+                                        Get Started
+                                      </a>
                                     </span>
                                   </span>
                                 </a>

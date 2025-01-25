@@ -41,14 +41,23 @@ import sessionRoutes from "./components/sessions/SessionRoutes";
 import SalesRoute from "./components/salesdashboard/SalesRoute";
 import ManagerRoute from "./components/managerdashboard/ManagerRoute";
 import AuthGuard from "./auth/AuthGuard";
+import Home from "./pages/Home";
 
 const routes = [
+  {
+    path: "/", // Landing page
+    element: <Home />,
+  },
   {
     children: [...AdminRoute, ...SalesRoute, ...ManagerRoute],
   },
   ...sessionRoutes,
 
-  { path: "/", element: <Navigate to="vision" /> },
+  // { path: "/", element: <Navigate to="vision" /> },
+  {
+    path: "*", // Catch-all route to handle unmatched paths
+    element: <Navigate to="/" replace />,
+  },
 ];
 
 export default routes;

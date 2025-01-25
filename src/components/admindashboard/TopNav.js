@@ -333,7 +333,7 @@ import "./TopNav.css";
 import { BsLightbulb } from "react-icons/bs";
 import { FaSearch } from "react-icons/fa";
 import { FiXCircle } from "react-icons/fi";
-import lg from "../admindashboard/lg.png";
+import lg from "../admindashboard/ourcolor.png";
 import { FaEllipsisV } from "react-icons/fa";
 import useAuth from "../hooks/useAuth";
 import "./TopNav.css";
@@ -354,8 +354,8 @@ const TopNav = () => {
     <div>
       {/* Desktop Top Navigation (Full Menu) */}
       <div className="top-nav desktop-only shadowss">
-        <div className="header">
-          <div className="header-left">
+        <div className="header ">
+          <div className="header-left ">
             <a
               className="logo"
               href="/"
@@ -365,7 +365,7 @@ const TopNav = () => {
               DreamSimu
             </a>
           </div>
-          <ul className="nav user-menu">
+          <ul className="nav user-menu ">
             <li className="nav-item nav-searchinputs">
               <div className="top-nav-search">
                 <a href="javascript:void(0);" className="responsive-search">

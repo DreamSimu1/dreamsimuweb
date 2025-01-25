@@ -37,28 +37,6 @@ const Home = () => {
                 >
                   <div class="elementor-widget-wrap elementor-element-populated">
                     <div
-                      class="elementor-element elementor-element-367469e6 elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list"
-                      data-id="367469e6"
-                      data-element_type="widget"
-                      data-widget_type="icon-list.default"
-                    >
-                      <div class="elementor-widget-container">
-                        <ul class="elementor-icon-list-items">
-                          <li class="elementor-icon-list-item">
-                            <span class="elementor-icon-list-icon">
-                              <i
-                                aria-hidden="true"
-                                class="far fa-dot-circle"
-                              ></i>
-                            </span>
-                            <span class="elementor-icon-list-text">
-                              The safest, fastest and reliable payment services
-                            </span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div
                       class="elementor-element elementor-element-d11c234 elementor-widget elementor-widget-heading"
                       data-id="d11c234"
                       data-element_type="widget"
@@ -66,7 +44,7 @@ const Home = () => {
                     >
                       <div class="elementor-widget-container">
                         <h1 class="elementor-heading-title elementor-size-default">
-                          Send, Receive, buy Airtime, Pay all Bills easily
+                          Move from Dream to Action
                         </h1>
                       </div>
                     </div>
@@ -78,55 +56,8 @@ const Home = () => {
                     >
                       <div class="elementor-widget-container">
                         <p style={{ color: "black", fontWeight: "600" }}>
-                          OGAPOS is your safest, fastest and most reliable way
-                          to get cash, send cash, paybills, buy Airtime and
-                          data, Get cash when you need it and where you need it,
-                          and with our Ajo(Thrift), you become financially free.
-                          Let's grow your business without stress and make your
-                          dream a reality
+                          No more procastination
                         </p>
-                      </div>
-                    </div>
-                    <div
-                      class="elementor-element elementor-element-613bc785 elementor-align-left elementor-widget__width-auto elementor-widget elementor-widget-button"
-                      data-id="613bc785"
-                      data-element_type="widget"
-                      data-widget_type="button.default"
-                    >
-                      <div class="elementor-widget-container">
-                        <div class="elementor-button-wrapper">
-                          <a
-                            class="elementor-button elementor-button-link elementor-size-sm elementor-animation-shrink"
-                            href="contact"
-                          >
-                            <span class="elementor-button-content-wrapper">
-                              <span class="elementor-button-text">
-                                Get Started
-                              </span>
-                            </span>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      class="elementor-element elementor-element-5b1c9398 elementor-align-left elementor-widget__width-auto elementor-widget elementor-widget-button"
-                      data-id="5b1c9398"
-                      data-element_type="widget"
-                      data-widget_type="button.default"
-                    >
-                      <div class="elementor-widget-container">
-                        <div class="elementor-button-wrapper">
-                          <a
-                            class="elementor-button elementor-button-link elementor-size-sm elementor-animation-shrink"
-                            href="services"
-                          >
-                            <span class="elementor-button-content-wrapper">
-                              <span class="elementor-button-text">
-                                Learn More
-                              </span>
-                            </span>
-                          </a>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -143,20 +74,7 @@ const Home = () => {
                       data-element_type="widget"
                       data-widget_type="image.default"
                     >
-                      <div class="elementor-widget-container">
-                        <img
-                          decoding="async"
-                          width="800"
-                          height="1128"
-                          src={white}
-                          class="attachment-full size-full wp-image-214 responsive-image"
-                          alt=""
-                          srcSet={whiteSrcSet}
-                          // style={{ height: "700px", width: "1500px" }}
-
-                          sizes="(max-width: 800px) 100vw, 800px"
-                        />
-                      </div>
+                      <div class="elementor-widget-container"></div>
                     </div>
                     <div
                       class="elementor-element elementor-element-758423bb elementor-widget__width-auto elementor-absolute elementor-widget elementor-widget-spacer"
@@ -175,291 +93,7 @@ const Home = () => {
                 </div>
               </div>
             </section>
-            <section
-              class="elementor-section elementor-top-section elementor-element elementor-element-60412ca8 elementor-reverse-tablet elementor-reverse-mobile elementor-section-boxed elementor-section-height-default elementor-section-height-default"
-              data-id="60412ca8"
-              data-element_type="section"
-            >
-              <div class="elementor-container elementor-column-gap-default">
-                <div
-                  class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-2c7e4b49"
-                  data-id="2c7e4b49"
-                  data-element_type="column"
-                  data-settings='{"background_background":"gradient"}'
-                >
-                  <div class="elementor-widget-wrap elementor-element-populated">
-                    <div class="elementor-background-overlay"></div>
-                    <div
-                      class="elementor-element elementor-element-7fd12ac0 elementor-widget elementor-widget-heading"
-                      data-id="7fd12ac0"
-                      data-element_type="widget"
-                      data-widget_type="heading.default"
-                    >
-                      <div class="elementor-widget-container">
-                        <h2 class="elementor-heading-title elementor-size-default">
-                          Getting cash made easier with OGAPOS
-                        </h2>{" "}
-                      </div>
-                    </div>
-                    <div
-                      class="elementor-element elementor-element-2a696376 elementor-widget elementor-widget-text-editor"
-                      data-id="2a696376"
-                      data-element_type="widget"
-                      data-widget_type="text-editor.default"
-                    >
-                      <div class="elementor-widget-container">
-                        <p>
-                          Do you want to get cash delivered to you at your
-                          doorstep or do you want to exchange money very quick,
-                          Enter your email to make a request or{" "}
-                          <a href="contact">Contact Us</a>
-                        </p>{" "}
-                      </div>
-                    </div>
-                    <div
-                      class="elementor-element elementor-element-3629f0ff elementor-widget elementor-widget-jkit_mailchimp"
-                      data-id="3629f0ff"
-                      data-element_type="widget"
-                      data-widget_type="jkit_mailchimp.default"
-                    >
-                      <div class="elementor-widget-container">
-                        <div class="jeg-elementor-kit jkit-mailchimp style-inline jeg_module_546_1_66a669ed3a02e">
-                          <form
-                            method="post"
-                            class="jkit-mailchimp-form"
-                            data-listed=""
-                            data-success-message="Successfully listed this email"
-                            data-error-message="Something went wrong"
-                          >
-                            <div class="jkit-mailchimp-message"></div>
-                            <div class="jkit-form-wrapper email-form">
-                              <div class="jkit-mailchimp-email jkit-input-wrapper input-container">
-                                <div class="jkit-form-group">
-                                  <div class="jkit-input-element-container jkit-input-group">
-                                    <input
-                                      type="email"
-                                      name="email"
-                                      class="jkit-email jkit-form-control "
-                                      placeholder="Your Email"
-                                      required=""
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="jkit-submit-input-holder jkit-input-wrapper">
-                                <button
-                                  type="submit"
-                                  class="jkit-mailchimp-submit position-before"
-                                  name="jkit-mailchimp"
-                                >
-                                  Request
-                                </button>
-                              </div>
-                            </div>
-                          </form>
-                        </div>{" "}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-5b55516a"
-                  data-id="5b55516a"
-                  data-element_type="column"
-                  data-settings='{"background_background":"classic"}'
-                >
-                  <div class="elementor-widget-wrap elementor-element-populated">
-                    <section
-                      class="elementor-section elementor-inner-section elementor-element elementor-element-79ab93b2 elementor-reverse-mobile elementor-section-boxed elementor-section-height-default elementor-section-height-default"
-                      data-id="79ab93b2"
-                      data-element_type="section"
-                    >
-                      <div class="elementor-container elementor-column-gap-no">
-                        <div
-                          class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-57723f42"
-                          data-id="57723f42"
-                          data-element_type="column"
-                        >
-                          <div class="elementor-widget-wrap elementor-element-populated">
-                            <div
-                              class="elementor-element elementor-element-107cb6fd elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list"
-                              data-id="107cb6fd"
-                              data-element_type="widget"
-                              data-widget_type="icon-list.default"
-                            >
-                              <div class="elementor-widget-container">
-                                <ul class="elementor-icon-list-items">
-                                  <li class="elementor-icon-list-item">
-                                    <span class="elementor-icon-list-icon">
-                                      <i
-                                        aria-hidden="true"
-                                        class="fas fa-check"
-                                      ></i>{" "}
-                                    </span>
-                                    <span class="elementor-icon-list-text">
-                                      POS
-                                    </span>
-                                  </li>
-                                  <li class="elementor-icon-list-item">
-                                    <span class="elementor-icon-list-icon">
-                                      <i
-                                        aria-hidden="true"
-                                        class="fas fa-check"
-                                      ></i>{" "}
-                                    </span>
-                                    <span class="elementor-icon-list-text">
-                                      Cash exchange and<br></br> delivery
-                                    </span>
-                                  </li>
-                                  <li class="elementor-icon-list-item">
-                                    <span class="elementor-icon-list-icon">
-                                      <i
-                                        aria-hidden="true"
-                                        class="fas fa-check"
-                                      ></i>{" "}
-                                    </span>
-                                    <span class="elementor-icon-list-text">
-                                      Airtime & Data
-                                    </span>
-                                  </li>
-                                  <li class="elementor-icon-list-item">
-                                    <span class="elementor-icon-list-icon">
-                                      <i
-                                        aria-hidden="true"
-                                        class="fas fa-check"
-                                      ></i>{" "}
-                                    </span>
-                                    <span class="elementor-icon-list-text">
-                                      Utility Bills
-                                    </span>
-                                  </li>
-                                  <li class="elementor-icon-list-item">
-                                    <span class="elementor-icon-list-icon">
-                                      <i
-                                        aria-hidden="true"
-                                        class="fas fa-check"
-                                      ></i>{" "}
-                                    </span>
-                                    <span class="elementor-icon-list-text">
-                                      Electricity & Cable TV
-                                    </span>
-                                  </li>
-                                  <li class="elementor-icon-list-item">
-                                    <span class="elementor-icon-list-icon">
-                                      <i
-                                        aria-hidden="true"
-                                        class="fas fa-check"
-                                      ></i>{" "}
-                                    </span>
-                                    <span class="elementor-icon-list-text">
-                                      Waste Bills
-                                    </span>
-                                  </li>
-                                  <li class="elementor-icon-list-item">
-                                    <span class="elementor-icon-list-icon">
-                                      <i
-                                        aria-hidden="true"
-                                        class="fas fa-check"
-                                      ></i>{" "}
-                                    </span>
-                                    <span class="elementor-icon-list-text">
-                                      Ajo(Thrift)
-                                    </span>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-45f27f2f"
-                          data-id="45f27f2f"
-                          data-element_type="column"
-                        >
-                          <div class="elementor-widget-wrap elementor-element-populated">
-                            <div
-                              class="elementor-element elementor-element-1ab91606 elementor-widget elementor-widget-heading"
-                              data-id="1ab91606"
-                              data-element_type="widget"
-                              data-widget_type="heading.default"
-                            >
-                              <div class="elementor-widget-container">
-                                <h3 class="elementor-heading-title elementor-size-default">
-                                  How Can We Help You?
-                                </h3>{" "}
-                              </div>
-                            </div>
-                            <div
-                              class="elementor-element elementor-element-ba3c4b4 elementor-widget elementor-widget-text-editor"
-                              data-id="ba3c4b4"
-                              data-element_type="widget"
-                              data-widget_type="text-editor.default"
-                            >
-                              <div class="elementor-widget-container">
-                                <ul>
-                                  <li>
-                                    <strong>Get Cash:</strong> Access cash
-                                    quickly and conveniently, whenever and
-                                    wherever you need it.
-                                  </li>
-                                  <li>
-                                    <strong>Send Cash:</strong> Safely and
-                                    securely send money to family and friends.
-                                  </li>
-                                  <li>
-                                    <strong>Pay Bills:</strong> Pay your utility
-                                    bills, school fees, and other expenses with
-                                    ease.
-                                  </li>
-                                  <li>
-                                    <strong>Buy Airtime and Data:</strong>{" "}
-                                    Purchase airtime and data bundles instantly
-                                    for all major networks.
-                                  </li>
-                                  <li>
-                                    <strong>Ajo (Thrift):</strong> Join our
-                                    thrift program to save money, manage your
-                                    finances better, and achieve financial
-                                    freedom.
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                            <div
-                              class="elementor-element elementor-element-70517ccf elementor-align-left elementor-widget elementor-widget-button"
-                              data-id="70517ccf"
-                              data-element_type="widget"
-                              data-widget_type="button.default"
-                            >
-                              <div class="elementor-widget-container">
-                                <div class="elementor-button-wrapper">
-                                  <a
-                                    class="elementor-button elementor-button-link elementor-size-sm"
-                                    href="services"
-                                  >
-                                    <span class="elementor-button-content-wrapper">
-                                      <span class="elementor-button-icon elementor-align-icon-right">
-                                        <i
-                                          aria-hidden="true"
-                                          class="fas fa-long-arrow-alt-right"
-                                        ></i>{" "}
-                                      </span>
-                                      <span class="elementor-button-text">
-                                        Read More
-                                      </span>
-                                    </span>
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </div>
-              </div>
-            </section>
+
             <section
               class="elementor-section elementor-top-section elementor-element elementor-element-412910ae elementor-reverse-tablet elementor-reverse-mobile elementor-section-boxed elementor-section-height-default elementor-section-height-default"
               data-id="412910ae"
@@ -558,7 +192,7 @@ const Home = () => {
                               ></i>{" "}
                             </span>
                             <span class="elementor-icon-list-text">
-                              About OGA POS
+                              Key Features
                             </span>
                           </li>
                         </ul>
@@ -572,7 +206,7 @@ const Home = () => {
                     >
                       <div class="elementor-widget-container">
                         <h2 class="elementor-heading-title elementor-size-default">
-                          We have the best payment services in Nigeria
+                          Explore the power of our key features
                         </h2>{" "}
                       </div>
                     </div>
@@ -610,12 +244,10 @@ const Home = () => {
                               </div>
                             </div>
                             <div class="icon-box icon-box-body">
-                              <h3 class="title">We are Safe</h3>
+                              <h3 class="title">Vision Board</h3>
                               <p class="icon-box-description">
-                                Your security is our top priority. With OGAPOS,
-                                you can be assured that all your transactions
-                                are protected, giving you peace of mind every
-                                step of the way.
+                                Craft your vision with our intuitive and
+                                customizable vision board
                               </p>
                             </div>
                           </div>
@@ -640,7 +272,7 @@ const Home = () => {
                               </div>
                             </div>
                             <div class="icon-box icon-box-body">
-                              <h3 class="title">We are Fast</h3>
+                              <h3 class="title">Goal Setting </h3>
                               <p class="icon-box-description">
                                 Time is money, and we value yours. OGAPOS
                                 ensures that all your transactions are processed
@@ -671,7 +303,37 @@ const Home = () => {
                               </div>
                             </div>
                             <div class="icon-box icon-box-body">
-                              <h3 class="title">We are reliable</h3>
+                              <h3 class="title">Sprint Planning</h3>
+                              <p class="icon-box-description">
+                                Trust is earned, and we are committed to earning
+                                yours. OGAPOS stands out for its consistent and
+                                dependable services, ensuring that you can rely
+                                on us for all your financial needs, every time.
+                              </p>
+                            </div>
+                          </div>
+                        </div>{" "}
+                      </div>
+                    </div>
+                    <div
+                      class="elementor-element elementor-element-2fb0dc12 jkit-equal-height-disable elementor-widget elementor-widget-jkit_icon_box"
+                      data-id="2fb0dc12"
+                      data-element_type="widget"
+                      data-widget_type="jkit_icon_box.default"
+                    >
+                      <div class="elementor-widget-container">
+                        <div class="jeg-elementor-kit jkit-icon-box icon-position-left elementor-animation- jeg_module_546_5_66a669ed4dd6e">
+                          <div class="jkit-icon-box-wrapper hover-from-left">
+                            <div class="icon-box icon-box-header elementor-animation-">
+                              <div class="icon style-color">
+                                <i
+                                  aria-hidden="true"
+                                  class="jki jki-line-light"
+                                ></i>
+                              </div>
+                            </div>
+                            <div class="icon-box icon-box-body">
+                              <h3 class="title">Retrospect</h3>
                               <p class="icon-box-description">
                                 Trust is earned, and we are committed to earning
                                 yours. OGAPOS stands out for its consistent and
@@ -871,7 +533,7 @@ const Home = () => {
                               ></i>{" "}
                             </span>
                             <span class="elementor-icon-list-text">
-                              Our Services
+                              The power of planning vision
                             </span>
                           </li>
                         </ul>
@@ -885,7 +547,7 @@ const Home = () => {
                     >
                       <div class="elementor-widget-container">
                         <h2 class="elementor-heading-title elementor-size-default">
-                          We Prioritize Customer Satisfaction
+                          Why it is important to have a vision for your life
                         </h2>{" "}
                       </div>
                     </div>
@@ -897,9 +559,8 @@ const Home = () => {
                     >
                       <div class="elementor-widget-container">
                         <p>
-                          Our services are designed to be user-friendly,
-                          reliable, and tailored to meet your needs. Whether you
-                          are accessing cash, sending money, paying bills etc
+                          Having a vision for your life is important and hereare
+                          some ofthe importance you must know
                         </p>
                       </div>
                     </div>
@@ -944,7 +605,8 @@ const Home = () => {
                                   <div class="jkit-icon-box-wrapper hover-from-left">
                                     <div class="icon-box icon-box-body">
                                       <h3 class="title">
-                                        POS (Get cash, send cash etc)
+                                        A vision provides direction, purpose and
+                                        motivation
                                       </h3>
                                       <p class="icon-box-description">
                                         Access cash quickly and conveniently,
@@ -1008,7 +670,10 @@ const Home = () => {
                                 <div class="jeg-elementor-kit jkit-icon-box icon-position- elementor-animation- jeg_module_546_11_66a669ed5c090">
                                   <div class="jkit-icon-box-wrapper hover-from-left">
                                     <div class="icon-box icon-box-body">
-                                      <h3 class="title">Utility Bills</h3>
+                                      <h3 class="title">
+                                        A vision acts as a road map helping you
+                                        make decision
+                                      </h3>
                                       <p class="icon-box-description">
                                         Pay your utility bills, school fees, and
                                         other expenses with ease.
@@ -1069,7 +734,10 @@ const Home = () => {
                                 <div class="jeg-elementor-kit jkit-icon-box icon-position- elementor-animation- jeg_module_546_12_66a669ed5dd4d">
                                   <div class="jkit-icon-box-wrapper hover-from-left">
                                     <div class="icon-box icon-box-body">
-                                      <h3 class="title">Airtime and Data</h3>
+                                      <h3 class="title">
+                                        A vision makes you stay focused and
+                                        committed
+                                      </h3>
                                       <p class="icon-box-description">
                                         Purchase airtime and data bundles
                                         instantly for all major networks.
@@ -1200,7 +868,10 @@ const Home = () => {
                                 <div class="jeg-elementor-kit jkit-icon-box icon-position- elementor-animation- jeg_module_546_14_66a669ed6200d">
                                   <div class="jkit-icon-box-wrapper hover-from-left">
                                     <div class="icon-box icon-box-body">
-                                      <h3 class="title">Ajo(Thrift)</h3>
+                                      <h3 class="title">
+                                        A vision helps you priotorize what truly
+                                        matters
+                                      </h3>
                                       <p class="icon-box-description">
                                         Join our thrift program to save money,
                                         manage your finances better, and achieve
@@ -1254,12 +925,13 @@ const Home = () => {
                                 <div class="jeg-elementor-kit jkit-heading  align-left align-tablet- align-mobile- jeg_module_546_15_66a669ed668b0">
                                   <div class="heading-section-title  display-inline-block">
                                     <h2 class="heading-title">
-                                      Explore More Services
+                                      Do you want more about vision
                                     </h2>
                                   </div>
                                   <div class="heading-section-description">
                                     <p>
-                                      Do you want to see more of our services?
+                                      See more reasons why having a vision is
+                                      very important for your life
                                     </p>
                                   </div>
                                 </div>{" "}
@@ -1278,8 +950,11 @@ const Home = () => {
                                     href="services"
                                   >
                                     <span class="elementor-button-content-wrapper">
-                                      <span class="elementor-button-text">
-                                        More Services
+                                      <span
+                                        class="elementor-button-text"
+                                        style={{ color: "white" }}
+                                      >
+                                        Learn More...
                                       </span>
                                     </span>
                                   </a>
@@ -1322,7 +997,10 @@ const Home = () => {
                                 <div class="jeg-elementor-kit jkit-icon-box icon-position- elementor-animation- jeg_module_546_16_66a669ed6ab31">
                                   <div class="jkit-icon-box-wrapper hover-from-left">
                                     <div class="icon-box icon-box-body">
-                                      <h3 class="title">Ajo(Thrift)</h3>
+                                      <h3 class="title">
+                                        A vision helps you priotorize what truly
+                                        matters)
+                                      </h3>
                                       <p class="icon-box-description">
                                         Join our thrift program to save money,
                                         manage your finances better, and achieve
@@ -1385,7 +1063,9 @@ const Home = () => {
                                   <div class="jkit-icon-box-wrapper hover-from-left">
                                     <div class="icon-box icon-box-body">
                                       <h3 class="title">
-                                        Waste Bill and Electricity bill
+                                        A vision helps you ensure that your
+                                        energy are invested in things that helps
+                                        you grow
                                       </h3>
                                       <p class="icon-box-description">
                                         Pay your waste bill bills, electricity
@@ -1476,7 +1156,7 @@ const Home = () => {
                               ></i>{" "}
                             </span>
                             <span class="elementor-icon-list-text">
-                              How We Works
+                              How DreamSimu works
                             </span>
                           </li>
                         </ul>
@@ -1490,7 +1170,7 @@ const Home = () => {
                     >
                       <div class="elementor-widget-container">
                         <h2 class="elementor-heading-title elementor-size-default">
-                          4 Quick Steps To Use Our Services
+                          4 Quick Steps To Plan your vision
                         </h2>{" "}
                       </div>
                     </div>
@@ -1502,8 +1182,9 @@ const Home = () => {
                     >
                       <div class="elementor-widget-container">
                         <p>
-                          Using OGAPOS is simple and convenient. Follow these
-                          four quick steps to start enjoying our services:
+                          Using DreamSimu to plan achieve your goals is very
+                          essentials. Follow these four quick steps to actualize
+                          your dream
                         </p>
                       </div>
                     </div>
@@ -1525,7 +1206,8 @@ const Home = () => {
                               </div>
                               <div class="feature-list-content-box">
                                 <h3 class="feature-list-title">
-                                  Register/Visit any of our physical point
+                                  Create an account with DreamSimu by clicking
+                                  the get started button
                                 </h3>
                                 <p class="feature-list-content">
                                   Sign up for an account on our platform with
@@ -1542,7 +1224,10 @@ const Home = () => {
                                 </div>
                               </div>
                               <div class="feature-list-content-box">
-                                <h3 class="feature-list-title"> Transact</h3>
+                                <h3 class="feature-list-title">
+                                  {" "}
+                                  Create your Vision board
+                                </h3>
                                 <p class="feature-list-content">
                                   Choose the service you need—get cash, send
                                   money, pay bills, or purchase airtime and data
@@ -1557,7 +1242,9 @@ const Home = () => {
                                 </div>
                               </div>
                               <div class="feature-list-content-box">
-                                <h3 class="feature-list-title">Make Payment</h3>
+                                <h3 class="feature-list-title">
+                                  Add your idea to your vision
+                                </h3>
                                 <p class="feature-list-content">
                                   Pay for the service you need
                                 </p>
@@ -1571,7 +1258,9 @@ const Home = () => {
                                 </div>
                               </div>
                               <div class="feature-list-content-box">
-                                <h3 class="feature-list-title">Enjoy</h3>
+                                <h3 class="feature-list-title">
+                                  Break down your idea into refinement
+                                </h3>
                                 <p class="feature-list-content">
                                   Experience the convenience and reliability of
                                   OGAPOS as we help you manage your finances
@@ -1643,7 +1332,8 @@ const Home = () => {
                             >
                               <div class="elementor-widget-container">
                                 <h2 class="elementor-heading-title elementor-size-default">
-                                  We Have Completed Many Transactions
+                                  We Have Helped many people actualize their
+                                  visions
                                 </h2>{" "}
                               </div>
                             </div>
@@ -1654,14 +1344,12 @@ const Home = () => {
                               data-widget_type="text-editor.default"
                             >
                               <div class="elementor-widget-container">
-                                At OGAPOS, we pride ourselves on the volume of
-                                transactions successfully completed by our
-                                platform. Our robust system has facilitated
-                                countless transactions, helping customers access
-                                cash, send money, pay bills, and purchase
-                                airtime and data efficiently. Join our growing
-                                community of satisfied users and experience the
-                                reliability and convenience of our services.
+                                At DreamSimu, we pride ourselves on the volume
+                                of dreams and goals being achieved Our robust
+                                vision planner has helped countless people,
+                                helping people actualize and see your dream come
+                                to pss Get started today and see how your dreams
+                                come to reality.
                               </div>
                             </div>
                           </div>
@@ -2371,117 +2059,7 @@ const Home = () => {
                 </div>
               </div>*/}
             </section>
-            <section
-              class="elementor-section elementor-top-section elementor-element elementor-element-c0ca17f elementor-section-content-middle elementor-section-boxed elementor-section-height-default elementor-section-height-default"
-              data-id="c0ca17f"
-              data-element_type="section"
-            >
-              <div class="elementor-container elementor-column-gap-default">
-                <div
-                  class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-e04f1f9"
-                  data-id="e04f1f9"
-                  data-element_type="column"
-                >
-                  <div class="elementor-widget-wrap elementor-element-populated">
-                    <section
-                      class="elementor-section elementor-inner-section elementor-element elementor-element-fd4769b elementor-section-boxed elementor-section-height-default elementor-section-height-default"
-                      data-id="fd4769b"
-                      data-element_type="section"
-                    >
-                      <div class="elementor-container elementor-column-gap-no">
-                        <div
-                          class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-ed3c63e"
-                          data-id="ed3c63e"
-                          data-element_type="column"
-                        >
-                          <div class="elementor-widget-wrap elementor-element-populated">
-                            <div
-                              class="elementor-element elementor-element-cd9db3b elementor-widget elementor-widget-heading"
-                              data-id="cd9db3b"
-                              data-element_type="widget"
-                              data-widget_type="heading.default"
-                            >
-                              <div class="elementor-widget-container">
-                                <h2 class="elementor-heading-title elementor-size-default">
-                                  We have other companies that have partnered
-                                  with us
-                                </h2>{" "}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-4b9892d"
-                          data-id="4b9892d"
-                          data-element_type="column"
-                        >
-                          <div class="elementor-widget-wrap elementor-element-populated">
-                            <div
-                              class="elementor-element elementor-element-acd20c5 elementor-widget elementor-widget-jkit_client_logo"
-                              data-id="acd20c5"
-                              data-element_type="widget"
-                              data-widget_type="jkit_client_logo.default"
-                            >
-                              <div class="elementor-widget-container">
-                                <div
-                                  class="jeg-elementor-kit jkit-client-logo arrow-bottom-middle jeg_module_546_29_66a669ed9817f"
-                                  data-id="jeg_module_546_29_66a669ed9817f"
-                                  data-settings='{"autoplay":true,"autoplay_speed":3500,"autoplay_hover_pause":false,"show_navigation":false,"navigation_left":"&lt;span&gt;&lt;i aria-hidden=\"true\" class=\"fas fa-angle-left\"&gt;&lt;\/i&gt;&lt;\/span&gt;","navigation_right":"&lt;span&gt;&lt;i aria-hidden=\"true\" class=\"fas fa-angle-right\"&gt;&lt;\/i&gt;&lt;\/span&gt;","show_dots":false,"arrow_position":"bottom","responsive":{"desktop":{"items":3,"margin":80,"breakpoint":1025},"tablet":{"items":3,"margin":80,"breakpoint":768},"mobile":{"items":2,"margin":50,"breakpoint":0}}}'
-                                >
-                                  <div class="client-list">
-                                    <div class="client-track">
-                                      <div class="client-slider item ">
-                                        <div class="image-list">
-                                          <div class="content-image">
-                                            <img
-                                              loading="lazy"
-                                              decoding="async"
-                                              width="333"
-                                              height="83"
-                                              src={oil}
-                                              class="main-image"
-                                              alt="Title"
-                                              url="wp-content/uploads/sites/27/2022/06/partner-1-1.png"
-                                              source="library"
-                                              srcset={oil}
-                                              sizes="(max-width: 333px) 100vw, 333px"
-                                            />
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div class="client-slider item ">
-                                        <div class="image-list">
-                                          <div class="content-image">
-                                            <img
-                                              loading="lazy"
-                                              decoding="async"
-                                              width="336"
-                                              height="81"
-                                              src={hiab}
-                                              class="main-image"
-                                              alt="Title"
-                                              url="wp-content/uploads/sites/27/2022/06/partner-2-1.png"
-                                              source="library"
-                                              // srcset="https://kit.baliniz.com/payze/wp-content/uploads/sites/27/2022/06/partner-2-1.png 336w, https://kit.baliniz.com/payze/wp-content/uploads/sites/27/2022/06/partner-2-1-300x72.png 300w"
-                                              srcset={hiab}
-                                              sizes="(max-width: 336px) 100vw, 336px"
-                                            />
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>{" "}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </div>
-              </div>
-            </section>
+
             <section
               class="elementor-section elementor-top-section elementor-element elementor-element-a5307ae elementor-section-boxed elementor-section-height-default elementor-section-height-default"
               data-id="a5307ae"

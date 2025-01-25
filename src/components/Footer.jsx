@@ -141,7 +141,7 @@ const Footer = () => {
                               >
                                 <div class="elementor-widget-container">
                                   <h2 class="elementor-heading-title elementor-size-default">
-                                    About Company
+                                    About DreamSimu
                                   </h2>{" "}
                                 </div>
                               </div>
@@ -153,9 +153,10 @@ const Footer = () => {
                               >
                                 <div class="elementor-widget-container">
                                   <p>
-                                    OGAPOS is your safest, fastest and most
-                                    reliable way to get cash, send cash,
-                                    paybills, buy Airtime and data.
+                                    DreamSimu is an internation based company
+                                    that help individuals to actialize their
+                                    dream and have a pictoral representation of
+                                    where they wantto be in future
                                   </p>{" "}
                                 </div>
                               </div>
@@ -171,7 +172,7 @@ const Footer = () => {
                                       <a
                                         class="elementor-icon elementor-social-icon elementor-social-icon-facebook-f elementor-animation-shrink elementor-repeater-item-c0163ab"
                                         target="_blank"
-                                        href="https://facebook.com/ogaposnigltd"
+                                        href="https://facebook.com/dreamsimu"
                                       >
                                         <span class="elementor-screen-only">
                                           Facebook-f
@@ -183,7 +184,7 @@ const Footer = () => {
                                       <a
                                         class="elementor-icon elementor-social-icon elementor-social-icon-twitter elementor-animation-shrink elementor-repeater-item-310ab07"
                                         target="_blank"
-                                        href="https://x.com/ogaposnigltd"
+                                        href="https://x.com/dreamsimu"
                                       >
                                         <span class="elementor-screen-only">
                                           Twitter
@@ -195,7 +196,7 @@ const Footer = () => {
                                       <a
                                         class="elementor-icon elementor-social-icon elementor-social-icon-instagram elementor-animation-shrink elementor-repeater-item-63f86db"
                                         target="_blank"
-                                        href="https://instagram.com/ogaposnigltd"
+                                        href="https://instagram.com/dreamsimu"
                                       >
                                         <span class="elementor-screen-only">
                                           Instagram
@@ -207,7 +208,7 @@ const Footer = () => {
                                       <a
                                         class="elementor-icon elementor-social-icon elementor-social-icon-youtube elementor-animation-shrink elementor-repeater-item-d54d883"
                                         target="_blank"
-                                        href="https://youtube.com/ogaposnigltd"
+                                        href="https://youtube.com/dreamsimu"
                                       >
                                         <span class="elementor-screen-only">
                                           Youtube
@@ -256,18 +257,11 @@ const Footer = () => {
                                     <li class="elementor-icon-list-item">
                                       <a href="services">
                                         <span class="elementor-icon-list-text">
-                                          Services
+                                          Sprint
                                         </span>
                                       </a>
                                     </li>
 
-                                    <li class="elementor-icon-list-item">
-                                      <a href="pos-agent">
-                                        <span class="elementor-icon-list-text">
-                                          Become a POS agent
-                                        </span>
-                                      </a>
-                                    </li>
                                     <li class="elementor-icon-list-item">
                                       <a href="contact">
                                         <span class="elementor-icon-list-text">
@@ -440,14 +434,14 @@ const Footer = () => {
                                     <li class="elementor-icon-list-item">
                                       <a>
                                         <span class="elementor-icon-list-text">
-                                          +234-707-877-1831, +234-803-876-3637
+                                          +447868518788
                                         </span>
                                       </a>
                                     </li>
                                     <li class="elementor-icon-list-item">
                                       <a>
                                         <span class="elementor-icon-list-text">
-                                          info@ogapos.com
+                                          info@dreamsimu.com
                                         </span>
                                       </a>
                                     </li>
@@ -455,7 +449,7 @@ const Footer = () => {
                                     <li class="elementor-icon-list-item">
                                       <a>
                                         <span class="elementor-icon-list-text">
-                                          support@ogapos.com
+                                          support@dreamsimu.com
                                         </span>
                                       </a>
                                     </li>
@@ -473,32 +467,6 @@ const Footer = () => {
                         data-settings='{"background_background":"classic"}'
                       >
                         <div class="elementor-container elementor-column-gap-no">
-                          <div
-                            class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-b6ba608"
-                            data-id="b6ba608"
-                            data-element_type="column"
-                          >
-                            <div class="elementor-widget-wrap elementor-element-populated">
-                              <div
-                                class="elementor-element elementor-element-801b630 elementor-widget elementor-widget-image"
-                                data-id="801b630"
-                                data-element_type="widget"
-                                data-widget_type="image.default"
-                              >
-                                <div class="elementor-widget-container">
-                                  <img
-                                    width="800"
-                                    height="244"
-                                    src={logo}
-                                    style={{ width: "200px", height: "200px" }}
-                                    class="attachment-full size-full wp-image-223"
-                                    alt=""
-                                    decoding="async"
-                                  />{" "}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
                           <div
                             class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-b652750"
                             data-id="b652750"
