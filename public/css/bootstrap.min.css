@@ -10,8 +10,8 @@
   --bs-purple: #6f42c1;
   --bs-pink: #d63384;
   --bs-red: #dc3545;
-  --bs-orange: #0d3978;
-  --bs-yellow: #0d3978;
+  --bs-orange: #dc3545;
+  --bs-yellow: #dc3545;
   --bs-green: #198754;
   --bs-teal: #20c997;
   --bs-cyan: #0dcaf0;
@@ -32,7 +32,7 @@
   --bs-secondary: #6c757d;
   --bs-success: #198754;
   --bs-info: #0dcaf0;
-  --bs-warning: #0d3978;
+  --bs-warning: #dc3545;
   --bs-danger: #dc3545;
   --bs-light: #f8f9fa;
   --bs-dark: #212529;
@@ -3037,8 +3037,8 @@ fieldset:disabled .btn {
 }
 .btn-warning {
   --bs-btn-color: #000;
-  --bs-btn-bg: #0d3978;
-  --bs-btn-border-color: #0d3978;
+  --bs-btn-bg: #dc3545;
+  --bs-btn-border-color: #dc3545;
   --bs-btn-hover-color: #000;
   --bs-btn-hover-bg: #ffca2c;
   --bs-btn-hover-border-color: #ffc720;
@@ -3048,8 +3048,8 @@ fieldset:disabled .btn {
   --bs-btn-active-border-color: #ffc720;
   --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
   --bs-btn-disabled-color: #000;
-  --bs-btn-disabled-bg: #0d3978;
-  --bs-btn-disabled-border-color: #0d3978;
+  --bs-btn-disabled-bg: #dc3545;
+  --bs-btn-disabled-border-color: #dc3545;
 }
 .btn-danger {
   --bs-btn-color: #fff;
@@ -3164,19 +3164,19 @@ fieldset:disabled .btn {
   --bs-gradient: none;
 }
 .btn-outline-warning {
-  --bs-btn-color: #0d3978;
-  --bs-btn-border-color: #0d3978;
+  --bs-btn-color: #dc3545;
+  --bs-btn-border-color: #dc3545;
   --bs-btn-hover-color: #000;
-  --bs-btn-hover-bg: #0d3978;
-  --bs-btn-hover-border-color: #0d3978;
+  --bs-btn-hover-bg: #dc3545;
+  --bs-btn-hover-border-color: #dc3545;
   --bs-btn-focus-shadow-rgb: 255, 193, 7;
   --bs-btn-active-color: #000;
-  --bs-btn-active-bg: #0d3978;
-  --bs-btn-active-border-color: #0d3978;
+  --bs-btn-active-bg: #dc3545;
+  --bs-btn-active-border-color: #dc3545;
   --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-  --bs-btn-disabled-color: #0d3978;
+  --bs-btn-disabled-color: #dc3545;
   --bs-btn-disabled-bg: transparent;
-  --bs-btn-disabled-border-color: #0d3978;
+  --bs-btn-disabled-border-color: #dc3545;
   --bs-gradient: none;
 }
 .btn-outline-danger {
