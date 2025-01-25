@@ -44,7 +44,7 @@ const JwtLogin = () => {
     setLoading(true);
     try {
       await login(values.email, values.password);
-      navigate("/");
+      navigate("/vision");
     } catch (e) {
       setLoading(false);
     }

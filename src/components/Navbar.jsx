@@ -168,7 +168,7 @@ const Navbar = () => {
                                         class="menu-item menu-item-type-post_type menu-item-object-page menu-item-login"
                                       >
                                         <a
-                                          href="https://dashboard.ogapos.com"
+                                          href="/login"
                                           style={{ color: "black" }}
                                         >
                                           Get Started
@@ -245,7 +245,7 @@ const Navbar = () => {
                                     </span>
                                     <span class="elementor-button-text">
                                       <a
-                                        href="https://dashboard.ogapos.com"
+                                        href="/login"
                                         style={{
                                           color: "white",
                                         }}
