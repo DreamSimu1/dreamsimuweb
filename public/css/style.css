@@ -317,7 +317,7 @@ ul .btn-primary:not(:disabled):not(.disabled).active:focus {
 }
 .bg-primary {
   background-color: #dc3545 !important;
-  border: 1px solid  !important;
+  border: 1px solid !important;
   color: #fff;
 }
 .bg-secondary {
@@ -431,7 +431,7 @@ ul .btn-primary:not(:disabled):not(.disabled).active:focus {
   color: #fff;
 }
 .bg-danger-gradient {
-  background: linear-gradient(to right, #f0d397800 0%, #fd4a68 100%) !important;
+  background: linear-gradient(to right, #dc3545 0%, #fd4a68 100%) !important;
   color: #fff;
 }
 .bg-orange-gradient {

@@ -243,6 +243,45 @@ export const AuthProvider = ({ children }) => {
   //   }
   // };
 
+  // const register = async (
+  //   fullname,
+  //   email,
+  //   password,
+  //   phone = "",
+  //   address = ""
+  // ) => {
+  //   try {
+  //     const response = await axios.post(`${apiUrl}/api/auth/signup`, {
+  //       fullname,
+  //       email,
+  //       password,
+  //       phone, // Optional
+  //       address, // Optional
+  //     });
+
+  //     if (response.status === 201) {
+  //       const { token, user } = response.data;
+
+  //       // Save token and user in local storage or context
+  //       setSession(token);
+  //       localStorage.setItem("user", JSON.stringify(user));
+  //       dispatch({
+  //         type: "REGISTER",
+  //         payload: { user },
+  //       });
+
+  //       return response;
+  //     } else {
+  //       return response;
+  //     }
+  //   } catch (error) {
+  //     console.error(
+  //       "Registration error:",
+  //       error.response?.data?.message || error.message
+  //     );
+  //     throw error;
+  //   }
+  // };
   const register = async (
     fullname,
     email,
@@ -251,25 +290,21 @@ export const AuthProvider = ({ children }) => {
     address = ""
   ) => {
     try {
-      const response = await axios.post(`${apiUrl}/api/auth/signup`, {
-        fullname,
-        email,
-        password,
-        phone, // Optional
-        address, // Optional
-      });
+      const payload = { fullname, email, password, address };
+      if (phone.trim() !== "") {
+        payload.phone = phone; // Only include phone if it's not empty
+      }
+
+      const response = await axios.post(`${apiUrl}/api/auth/signup`, payload);
 
       if (response.status === 201) {
         const { token, user } = response.data;
-
-        // Save token and user in local storage or context
         setSession(token);
         localStorage.setItem("user", JSON.stringify(user));
         dispatch({
           type: "REGISTER",
           payload: { user },
         });
-
         return response;
       } else {
         return response;
