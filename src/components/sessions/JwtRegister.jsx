@@ -392,8 +392,6 @@ const initialValues = {
   email: "",
   password: "",
   fullname: "",
-  phone: "",
-  address: "",
 };
 
 const validationSchema = Yup.object().shape({
@@ -404,8 +402,6 @@ const validationSchema = Yup.object().shape({
   password: Yup.string()
     .min(6, "Password must be at least 6 characters long")
     .required("Password is required!"),
-  phone: Yup.string().required("Phone number is required!"),
-  address: Yup.string().required("Address is required!"),
 });
 
 const JwtRegister = () => {
@@ -421,9 +417,7 @@ const JwtRegister = () => {
       const response = await register(
         values.fullname,
         values.email,
-        values.password,
-        values.phone,
-        values.address
+        values.password
       );
 
       if (response.status === 201) {
@@ -550,30 +544,7 @@ const JwtRegister = () => {
                           </small>
                         )}
                       </div>
-                      <div className="form-login mb-3">
-                        <label className="form-label">Phone Number</label>
-                        <input
-                          type="text"
-                          name="phone"
-                          value={values.phone}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          className="form-control"
-                          placeholder="Enter your phone number"
-                        />
-                      </div>
-                      <div className="form-login mb-3">
-                        <label className="form-label">Address</label>
-                        <input
-                          type="text"
-                          name="address"
-                          value={values.address}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          className="form-control"
-                          placeholder="Enter your address"
-                        />
-                      </div>
+
                       <div className="form-login" style={{ width: "100%" }}>
                         <button
                           type="submit"

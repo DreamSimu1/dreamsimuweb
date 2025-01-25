@@ -286,14 +286,11 @@ export const AuthProvider = ({ children }) => {
     fullname,
     email,
     password,
-    phone = "",
-    address = ""
+
   ) => {
     try {
-      const payload = { fullname, email, password, address };
-      if (phone.trim() !== "") {
-        payload.phone = phone; // Only include phone if it's not empty
-      }
+      const payload = { fullname, email, password,  };
+ 
 
       const response = await axios.post(`${apiUrl}/api/auth/signup`, payload);
 
