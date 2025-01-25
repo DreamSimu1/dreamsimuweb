@@ -333,7 +333,7 @@ import "./TopNav.css";
 import { BsLightbulb } from "react-icons/bs";
 import { FaSearch } from "react-icons/fa";
 import { FiXCircle } from "react-icons/fi";
-
+import lg from "../admindashboard/lg.png";
 import { FaEllipsisV } from "react-icons/fa";
 import useAuth from "../hooks/useAuth";
 import "./TopNav.css";
@@ -361,6 +361,7 @@ const TopNav = () => {
               href="/"
               style={{ fontWeight: "800", color: "black", fontSize: "25px" }}
             >
+              <img src={lg} style={{ width: "30px", height: "30px" }} />
               DreamSimu
             </a>
           </div>
@@ -403,7 +404,11 @@ const TopNav = () => {
               <a href="/retrospect">Retrospect</a>
             </li>
             <li className="nav-item dropdown">
-              <a href="#" className="dropdown-toggle">
+              <a
+                href="#"
+                className="dropdown-toggle"
+                style={{ size: "30px", fontSize: "30px" }}
+              >
                 <FiBell />
                 <span className="badge">2</span>
               </a>
@@ -443,7 +448,7 @@ const TopNav = () => {
       {/* Mobile Top Navigation (Logo + Profile Icon Only) */}
       <div className="top-nav mobile-only" style={{ textDecoration: "none" }}>
         <a className="logo" href="/" style={{ textDecoration: "none" }}>
-          DreamSimu
+          <img src={lg} style={{ width: "30px", height: "30px" }} /> DreamSimu
         </a>
 
         <div className="nav-icons">
