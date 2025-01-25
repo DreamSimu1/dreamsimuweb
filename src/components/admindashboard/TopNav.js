@@ -491,7 +491,7 @@ const TopNav = () => {
       <div className="bottom-nav mobile-only">
         <ul className="nav">
           <li className="nav-item">
-            <a href="/">
+            <a href="/vision">
               <FiHome />
 
               <span>Home</span>
