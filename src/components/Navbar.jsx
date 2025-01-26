@@ -58,12 +58,12 @@ const Navbar = () => {
                                 alt=""
                                 decoding="async"
                                 srcSet={srcset}
-                                style={{ width: "50px", height: "40px" }}
+                                style={{ width: "40px", height: "30px" }}
                               />{" "}
                               <a
                                 style={{
                                   fontWeight: "700",
-                                  fontSize: "25px",
+                                  fontSize: "22px",
                                   color: "black",
                                 }}
                               >
