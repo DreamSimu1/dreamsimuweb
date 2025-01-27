@@ -1,6 +1,6 @@
 import React from "react";
 import white from "./home.png";
-import young from "./woman.jpg";
+import young from "./a1.jpeg";
 import old from "./shop2.jpg";
 import Navbar from "../components/Navbar";
 import step from "./quicks.png";
@@ -59,6 +59,32 @@ const Home = () => {
                           No more procastination
                         </p>
                       </div>
+                    </div>
+
+                    <div class="elementor-button-wrapper">
+                      <a
+                        class="elementor-button elementor-button-link elementor-size-sm elementor-animation-shrink"
+                        href="#"
+                      >
+                        <span class="elementor-button-content-wrapper">
+                          <span class="elementor-button-icon elementor-align-icon-left">
+                            <i
+                              aria-hidden="true"
+                              class="fas fa-sign-in-alt"
+                            ></i>{" "}
+                          </span>
+                          <span class="elementor-button-text">
+                            <a
+                              href="/login"
+                              style={{
+                                color: "white",
+                              }}
+                            >
+                              Get Started
+                            </a>
+                          </span>
+                        </span>
+                      </a>
                     </div>
                   </div>
                 </div>
