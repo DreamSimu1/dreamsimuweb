@@ -1,7 +1,7 @@
 import React from "react";
 import white from "./home.png";
 import young from "./a1.jpeg";
-import old from "./shop2.jpg";
+import old from "./a3.jpg";
 import Navbar from "../components/Navbar";
 import step from "./quicks.png";
 import oil from "./safe.png";
@@ -56,7 +56,8 @@ const Home = () => {
                     >
                       <div class="elementor-widget-container">
                         <p style={{ color: "black", fontWeight: "600" }}>
-                          No more procastination
+                          No more procastination towards your dream; start
+                          acting now using a proven system
                         </p>
                       </div>
                     </div>
@@ -149,7 +150,7 @@ const Home = () => {
                       </div>
                     </div>
                     <div
-                      class="elementor-element elementor-element-36d45e50 elementor-hidden-mobile elementor-widget elementor-widget-image"
+                      class="elementor-element elementor-element-36d45e50  elementor-widget elementor-widget-image"
                       data-id="36d45e50"
                       data-element_type="widget"
                       data-widget_type="image.default"
@@ -163,35 +164,6 @@ const Home = () => {
                           alt="happy beautiful woman holding credit card in hand and sitting on sofa with laptop"
                           loading="lazy"
                         />{" "}
-                      </div>
-                    </div>
-                    <div
-                      class="elementor-element elementor-element-63c9c98 elementor-widget__width-auto elementor-absolute elementor-widget elementor-widget-jkit_fun_fact"
-                      data-id="63c9c98"
-                      data-element_type="widget"
-                      data-settings='{"_position":"absolute"}'
-                      data-widget_type="jkit_fun_fact.default"
-                    >
-                      <div class="elementor-widget-container">
-                        <div class="jeg-elementor-kit jkit-fun-fact align-center hover-from-left elementor-animation- jeg_module_546_2_66a669ed4629e">
-                          <div class="fun-fact-inner">
-                            <div class="content">
-                              <div class="number-wrapper">
-                                <span class="prefix"></span>
-                                <span
-                                  class="number"
-                                  data-value="1000"
-                                  data-animation-duration="3500"
-                                >
-                                  0
-                                </span>
-                                <span class="suffix"></span>
-                                <sup class="super">+</sup>
-                              </div>
-                              <h5 class="title">Trusted Clients</h5>
-                            </div>
-                          </div>
-                        </div>{" "}
                       </div>
                     </div>
                   </div>
