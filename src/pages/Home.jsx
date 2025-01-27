@@ -3,7 +3,7 @@ import white from "./home.png";
 import young from "./a1.jpeg";
 import old from "./a3.jpg";
 import Navbar from "../components/Navbar";
-import step from "./quicks.png";
+import step from "./newsprint.png";
 import oil from "./safe.png";
 import hiab from "./ran.png";
 import "./home.css";
@@ -242,10 +242,17 @@ const Home = () => {
                               </div>
                             </div>
                             <div class="icon-box icon-box-body">
-                              <h3 class="title">Vision Board</h3>
+                              <h3
+                                class="title"
+                                style={{ textAlign: "justify" }}
+                              >
+                                Vision Board
+                              </h3>
                               <p class="icon-box-description">
-                                Craft your vision with our intuitive and
-                                customizable vision board
+                                Bring your dreams to life with our interactive
+                                vision board. Visualize your goals, create a
+                                personalized canvas, and stay inspired every
+                                step of the way.
                               </p>
                             </div>
                           </div>
@@ -270,13 +277,17 @@ const Home = () => {
                               </div>
                             </div>
                             <div class="icon-box icon-box-body">
-                              <h3 class="title">Goal Setting </h3>
+                              <h3
+                                class="title"
+                                style={{ textAlign: "justify" }}
+                              >
+                                Goal Setting{" "}
+                              </h3>
                               <p class="icon-box-description">
-                                Time is money, and we value yours. OGAPOS
-                                ensures that all your transactions are processed
-                                swiftly and efficiently, so you can get cash,
-                                send money, pay bills, and purchase airtime and
-                                data in a matter of seconds.
+                                Define your path to success with smart,
+                                actionable goals. Track your progress, set
+                                milestones, and watch your dreams transform into
+                                reality.
                               </p>
                             </div>
                           </div>
@@ -301,12 +312,16 @@ const Home = () => {
                               </div>
                             </div>
                             <div class="icon-box icon-box-body">
-                              <h3 class="title">Sprint Planning</h3>
+                              <h3
+                                class="title"
+                                style={{ textAlign: "justify" }}
+                              >
+                                Sprint Planning
+                              </h3>
                               <p class="icon-box-description">
-                                Trust is earned, and we are committed to earning
-                                yours. OGAPOS stands out for its consistent and
-                                dependable services, ensuring that you can rely
-                                on us for all your financial needs, every time.
+                                Maximize your productivity with focused sprint
+                                planning. Break your goals into manageable steps
+                                and stay on track to achieve more, faster.
                               </p>
                             </div>
                           </div>
@@ -331,12 +346,17 @@ const Home = () => {
                               </div>
                             </div>
                             <div class="icon-box icon-box-body">
-                              <h3 class="title">Retrospect</h3>
+                              <h3
+                                class="title"
+                                style={{ textAlign: "justify" }}
+                              >
+                                Retrospect
+                              </h3>
                               <p class="icon-box-description">
-                                Trust is earned, and we are committed to earning
-                                yours. OGAPOS stands out for its consistent and
-                                dependable services, ensuring that you can rely
-                                on us for all your financial needs, every time.
+                                Reflect on your journey and refine your
+                                approach. Learn from your experiences, celebrate
+                                your wins, and continuously improve with every
+                                sprint.
                               </p>
                             </div>
                           </div>
@@ -602,15 +622,17 @@ const Home = () => {
                                 <div class="jeg-elementor-kit jkit-icon-box icon-position- elementor-animation- jeg_module_546_10_66a669ed5a1ed">
                                   <div class="jkit-icon-box-wrapper hover-from-left">
                                     <div class="icon-box icon-box-body">
-                                      <h3 class="title">
+                                      <h3
+                                        class="title"
+                                        style={{ textAlign: "justify" }}
+                                      >
                                         A vision provides direction, purpose and
                                         motivation
                                       </h3>
                                       <p class="icon-box-description">
-                                        Access cash quickly and conveniently,
-                                        whenever and wherever you need it,
-                                        Safely and securely send money to family
-                                        and friends.
+                                        A vision provides direction, purpose and
+                                        motivation A vision provides direction,
+                                        purpose and motivation
                                       </p>
                                       <div class="icon-box-button ">
                                         <div class="btn-wrapper icon-position-after">
@@ -668,13 +690,17 @@ const Home = () => {
                                 <div class="jeg-elementor-kit jkit-icon-box icon-position- elementor-animation- jeg_module_546_11_66a669ed5c090">
                                   <div class="jkit-icon-box-wrapper hover-from-left">
                                     <div class="icon-box icon-box-body">
-                                      <h3 class="title">
+                                      <h3
+                                        class="title"
+                                        style={{ textAlign: "justify" }}
+                                      >
                                         A vision acts as a road map helping you
                                         make decision
                                       </h3>
                                       <p class="icon-box-description">
-                                        Pay your utility bills, school fees, and
-                                        other expenses with ease.
+                                        A vision acts as a road map helping you
+                                        make decision A vision acts as a road
+                                        map helping you make decision
                                       </p>
                                       <div class="icon-box-button ">
                                         <div class="btn-wrapper icon-position-after">
@@ -732,13 +758,17 @@ const Home = () => {
                                 <div class="jeg-elementor-kit jkit-icon-box icon-position- elementor-animation- jeg_module_546_12_66a669ed5dd4d">
                                   <div class="jkit-icon-box-wrapper hover-from-left">
                                     <div class="icon-box icon-box-body">
-                                      <h3 class="title">
+                                      <h3
+                                        class="title"
+                                        style={{ textAlign: "justify" }}
+                                      >
                                         A vision makes you stay focused and
                                         committed
                                       </h3>
                                       <p class="icon-box-description">
-                                        Purchase airtime and data bundles
-                                        instantly for all major networks.
+                                        A vision makes you stay focused and
+                                        committed A vision makes you stay
+                                        focused and committed
                                       </p>
                                       <div class="icon-box-button ">
                                         <div class="btn-wrapper icon-position-after">
@@ -866,14 +896,17 @@ const Home = () => {
                                 <div class="jeg-elementor-kit jkit-icon-box icon-position- elementor-animation- jeg_module_546_14_66a669ed6200d">
                                   <div class="jkit-icon-box-wrapper hover-from-left">
                                     <div class="icon-box icon-box-body">
-                                      <h3 class="title">
+                                      <h3
+                                        class="title"
+                                        style={{ textAlign: "justify" }}
+                                      >
                                         A vision helps you priotorize what truly
                                         matters
                                       </h3>
                                       <p class="icon-box-description">
-                                        Join our thrift program to save money,
-                                        manage your finances better, and achieve
-                                        financial freedom.
+                                        A vision helps you priotorize what truly
+                                        matters A vision helps you priotorize
+                                        what truly matters
                                       </p>
                                       <div class="icon-box-button ">
                                         <div class="btn-wrapper icon-position-after">
@@ -995,14 +1028,17 @@ const Home = () => {
                                 <div class="jeg-elementor-kit jkit-icon-box icon-position- elementor-animation- jeg_module_546_16_66a669ed6ab31">
                                   <div class="jkit-icon-box-wrapper hover-from-left">
                                     <div class="icon-box icon-box-body">
-                                      <h3 class="title">
+                                      <h3
+                                        class="title"
+                                        style={{ textAlign: "justify" }}
+                                      >
                                         A vision helps you priotorize what truly
                                         matters)
                                       </h3>
                                       <p class="icon-box-description">
-                                        Join our thrift program to save money,
-                                        manage your finances better, and achieve
-                                        financial freedom.
+                                        A vision helps you priotorize what truly
+                                        matters) A vision helps you priotorize
+                                        what truly matters)
                                       </p>
                                       <div class="icon-box-button ">
                                         <div class="btn-wrapper icon-position-after">
@@ -1060,15 +1096,18 @@ const Home = () => {
                                 <div class="jeg-elementor-kit jkit-icon-box icon-position- elementor-animation- jeg_module_546_17_66a669ed6e3e8">
                                   <div class="jkit-icon-box-wrapper hover-from-left">
                                     <div class="icon-box icon-box-body">
-                                      <h3 class="title">
+                                      <h3
+                                        class="title"
+                                        style={{ textAlign: "justify" }}
+                                      >
                                         A vision helps you ensure that your
                                         energy are invested in things that helps
                                         you grow
                                       </h3>
                                       <p class="icon-box-description">
-                                        Pay your waste bill bills, electricity
-                                        bill, cable tv(dstc, gotv etc) with
-                                        OGAPOS
+                                        A vision helps you ensure that your
+                                        energy are invested in things that helps
+                                        you grow
                                       </p>
                                       <div class="icon-box-button ">
                                         <div class="btn-wrapper icon-position-after">
@@ -1120,13 +1159,13 @@ const Home = () => {
                         <img
                           loading="lazy"
                           decoding="async"
-                          width="1000"
-                          height="1165"
+                          width="1300"
+                          height="1865"
                           src={step}
                           class="attachment-full size-full wp-image-246"
                           alt=""
                           srcSet={blackSrcSet}
-                          sizes="(max-width: 1000px) 100vw, 1000px"
+                          sizes="(max-width: 1200px) 100vw, 1000px"
                         />{" "}
                       </div>
                     </div>
@@ -1179,7 +1218,7 @@ const Home = () => {
                       data-widget_type="text-editor.default"
                     >
                       <div class="elementor-widget-container">
-                        <p>
+                        <p style={{ textAlign: "justify" }}>
                           Using DreamSimu to plan achieve your goals is very
                           essentials. Follow these four quick steps to actualize
                           your dream
@@ -1203,11 +1242,17 @@ const Home = () => {
                                 </div>
                               </div>
                               <div class="feature-list-content-box">
-                                <h3 class="feature-list-title">
+                                <h3
+                                  class="feature-list-title"
+                                  style={{ textAlign: "justify" }}
+                                >
                                   Create an account with DreamSimu by clicking
                                   the get started button
                                 </h3>
-                                <p class="feature-list-content">
+                                <p
+                                  class="feature-list-content"
+                                  style={{ textAlign: "justify" }}
+                                >
                                   Sign up for an account on our platform with
                                   your basic details in the register/login place
                                   or visit any of our points
@@ -1222,11 +1267,17 @@ const Home = () => {
                                 </div>
                               </div>
                               <div class="feature-list-content-box">
-                                <h3 class="feature-list-title">
+                                <h3
+                                  class="feature-list-title"
+                                  style={{ textAlign: "justify" }}
+                                >
                                   {" "}
                                   Create your Vision board
                                 </h3>
-                                <p class="feature-list-content">
+                                <p
+                                  class="feature-list-content"
+                                  style={{ textAlign: "justify" }}
+                                >
                                   Choose the service you need—get cash, send
                                   money, pay bills, or purchase airtime and data
                                 </p>
@@ -1240,10 +1291,16 @@ const Home = () => {
                                 </div>
                               </div>
                               <div class="feature-list-content-box">
-                                <h3 class="feature-list-title">
+                                <h3
+                                  class="feature-list-title"
+                                  style={{ textAlign: "justify" }}
+                                >
                                   Add your idea to your vision
                                 </h3>
-                                <p class="feature-list-content">
+                                <p
+                                  class="feature-list-content"
+                                  style={{ textAlign: "justify" }}
+                                >
                                   Pay for the service you need
                                 </p>
                               </div>
@@ -1256,10 +1313,16 @@ const Home = () => {
                                 </div>
                               </div>
                               <div class="feature-list-content-box">
-                                <h3 class="feature-list-title">
+                                <h3
+                                  class="feature-list-title"
+                                  style={{ textAlign: "justify" }}
+                                >
                                   Break down your idea into refinement
                                 </h3>
-                                <p class="feature-list-content">
+                                <p
+                                  class="feature-list-content"
+                                  style={{ textAlign: "justify" }}
+                                >
                                   Experience the convenience and reliability of
                                   OGAPOS as we help you manage your finances
                                   effortlessly.
@@ -1389,10 +1452,12 @@ const Home = () => {
                               <div class="elementor-widget-container">
                                 <div class="jeg-elementor-kit jkit-heading  align-center align-tablet-center align-mobile-center jeg_module_546_19_66a669ed7a5cb">
                                   <div class="heading-section-title  display-inline-block">
-                                    <h3 class="heading-title">POS</h3>
+                                    <h3 class="heading-title">
+                                      Travelling Abroad
+                                    </h3>
                                   </div>
                                   <div class="heading-section-description">
-                                    <p>Seamless POS transactions</p>
+                                    <p>My Vision is to travel abroad</p>
                                   </div>
                                 </div>{" "}
                               </div>
@@ -1428,10 +1493,12 @@ const Home = () => {
                               <div class="elementor-widget-container">
                                 <div class="jeg-elementor-kit jkit-heading  align-center align-tablet-center align-mobile-center jeg_module_546_20_66a669ed7bf9e">
                                   <div class="heading-section-title  display-inline-block">
-                                    <h3 class="heading-title">Cash delivery</h3>
+                                    <h3 class="heading-title">
+                                      Staying Healthy
+                                    </h3>
                                   </div>
                                   <div class="heading-section-description">
-                                    <p>Get cash when and where you want it</p>
+                                    <p>My Vision is to stay healthy</p>
                                   </div>
                                 </div>{" "}
                               </div>
@@ -1467,12 +1534,13 @@ const Home = () => {
                               <div class="elementor-widget-container">
                                 <div class="jeg-elementor-kit jkit-heading  align-center align-tablet-center align-mobile-center jeg_module_546_21_66a669ed7dae4">
                                   <div class="heading-section-title  display-inline-block">
-                                    <h3 class="heading-title">Bills Payment</h3>
+                                    <h3 class="heading-title">
+                                      Multi Billionaire
+                                    </h3>
                                   </div>
                                   <div class="heading-section-description">
                                     <p>
-                                      Waste bills, Electricity bills, Cable TV
-                                      bill, Utility bill
+                                      My VIsion is to be a multi billionaire
                                     </p>
                                   </div>
                                 </div>{" "}
@@ -1509,13 +1577,10 @@ const Home = () => {
                               <div class="elementor-widget-container">
                                 <div class="jeg-elementor-kit jkit-heading  align-center align-tablet-center align-mobile-center jeg_module_546_22_66a669ed7f58c">
                                   <div class="heading-section-title  display-inline-block">
-                                    <h3 class="heading-title">Airtime/Data</h3>
+                                    <h3 class="heading-title">CEO</h3>
                                   </div>
                                   <div class="heading-section-description">
-                                    <p>
-                                      All service provider network and data
-                                      subscription
-                                    </p>
+                                    <p>My vision is to be a CEO</p>
                                   </div>
                                 </div>{" "}
                               </div>
@@ -2058,7 +2123,7 @@ const Home = () => {
               </div>*/}
             </section>
 
-            <section
+            {/*}  <section
               class="elementor-section elementor-top-section elementor-element elementor-element-a5307ae elementor-section-boxed elementor-section-height-default elementor-section-height-default"
               data-id="a5307ae"
               data-element_type="section"
@@ -2467,7 +2532,7 @@ const Home = () => {
                   </div>
                 </div>
               </div>
-            </section>
+            </section>*/}
             {/*} <section
               class="elementor-section elementor-top-section elementor-element elementor-element-5af00faf elementor-section-boxed elementor-section-height-default elementor-section-height-default"
               data-id="5af00faf"

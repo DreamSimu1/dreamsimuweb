@@ -480,7 +480,7 @@ const Footer = () => {
                                 data-widget_type="text-editor.default"
                               >
                                 <div class="elementor-widget-container">
-                                  © Copyright &#8211; OgaPos 2024. All rights
+                                  © Copyright &#8211; DreamSimu 2025. All rights
                                   reserved.{" "}
                                 </div>
                               </div>
