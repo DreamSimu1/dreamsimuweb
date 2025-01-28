@@ -23694,9 +23694,9 @@ body.mini-sidebar.expand-menu
   display: flex;
 }
 .login-wrapper.bg-img {
-  background-image: url(./fr.jpeg);
+  /* background-image: url(./fr.jpeg); */
   background-repeat: no-repeat;
-
+  background-color: #dc3545;
   background-size: cover;
   background-position: center;
 }
@@ -23705,16 +23705,16 @@ body.mini-sidebar.expand-menu
   backdrop-filter: blur(17px);
 }
 .login-wrapper.bg-img.register-wrap {
-  background-image: url(./fr.jpeg);
+  /* background-image: url(./fr.jpeg); */
 }
 .login-wrapper.bg-img.forgot-pass-wrap {
-  background-image: url(./fr.jpeg);
+  /* background-image: url(./fr.jpeg); */
 }
 .login-wrapper.bg-img.reset-pass-wrap {
-  background-image: url(./fr.jpeg);
+  /* background-image: url(./fr.jpeg); */
 }
 .login-wrapper.bg-img.email-veri-wrap {
-  background-image: url(./fr.jpeg);
+  /* background-image: url(./fr.jpeg); */
 }
 .login-wrapper .login-content {
   width: 50%;
