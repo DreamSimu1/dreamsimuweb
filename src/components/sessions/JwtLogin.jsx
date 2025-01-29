@@ -15,6 +15,7 @@ import micro from "./micro.svg";
 import apple from "./apple.svg";
 import fav from "./ourcolor.png";
 import * as Yup from "yup";
+import GoogleOauth from "./GoogleOauth";
 // inital login credentials
 const initialValues = {
   email: "",
@@ -169,7 +170,7 @@ const JwtLogin = () => {
                             Log in
                           </button>
                         </div>
-                        {/*}   <h5
+                        <h5
                           style={{
                             textAlign: "center",
                             color: "black",
@@ -179,27 +180,7 @@ const JwtLogin = () => {
                           Or continue with{" "}
                         </h5>
                         <div class="form-login social-login-buttons">
-                          <button
-                            type="button"
-                            class="btn btn-microsoft d-flex align-items-center justify-content-center mb-2"
-                            style={{
-                              width: "100%",
-                              backgroundColor: "#fff",
-                              color: "black",
-                              border: "1px solid black",
-                            }}
-                          >
-                            <img
-                              src={googlelogo}
-                              alt=""
-                              style={{
-                                width: "25px",
-                                height: "25px",
-                                marginRight: "10px",
-                              }}
-                            />
-                            Continue with Google
-                          </button>
+                          <GoogleOauth />
                           <button
                             type="button"
                             class="btn btn-microsoft d-flex align-items-center justify-content-center mb-2"
@@ -242,7 +223,7 @@ const JwtLogin = () => {
                             />
                             Continue with Apple
                           </button>
-                        </div>*/}
+                        </div>
                         <div
                           style={{
                             display: "flex",

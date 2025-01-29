@@ -282,15 +282,9 @@ export const AuthProvider = ({ children }) => {
   //     throw error;
   //   }
   // };
-  const register = async (
-    fullname,
-    email,
-    password,
-
-  ) => {
+  const register = async (fullname, email, password) => {
     try {
-      const payload = { fullname, email, password,  };
- 
+      const payload = { fullname, email, password };
 
       const response = await axios.post(`${apiUrl}/api/auth/signup`, payload);
 

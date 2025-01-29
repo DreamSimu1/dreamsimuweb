@@ -23,6 +23,7 @@ import { useRoutes } from "react-router-dom";
 import routes from "./routes";
 import { AuthProvider } from "./components/contexts/JWTAuthContext";
 import { SidebarProvider } from "./components/admindashboard/SidebarProvider";
+import { GoogleOAuthProvider } from "@react-oauth/google"; // Import the provider
 
 function App() {
   const content = useRoutes(routes);
@@ -30,7 +31,9 @@ function App() {
     <div>
       <SidebarProvider>
         <AuthProvider>
-          {content} {/* Wrap routes with a single AuthProvider */}
+          <GoogleOAuthProvider clientId="383086754449-8p3mg46a39tsepkgd47uof98qu32cmn5.apps.googleusercontent.com">
+            {content} {/* Wrap routes with a single AuthProvider */}
+          </GoogleOAuthProvider>
         </AuthProvider>
       </SidebarProvider>
     </div>
