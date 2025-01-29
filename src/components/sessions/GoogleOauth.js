@@ -57,7 +57,9 @@ import apple from "./apple.svg";
 import { useEffect } from "react";
 
 const GoogleOauth = () => {
-  const googleLoginUrl = "http://localhost:8000/api/google";
+  const apiUrl = process.env.REACT_APP_API_URL;
+
+  const googleLoginUrl = `${apiUrl}/api/google`;
 
   const redirectToGoogle = () => {
     window.location.href = googleLoginUrl; // Redirect to backend's Google OAuth
