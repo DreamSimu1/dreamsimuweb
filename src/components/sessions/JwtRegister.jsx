@@ -51,7 +51,6 @@ const JwtRegister = () => {
 
       if (response.status === 201) {
         toast.success("Registration successful!");
-        navigate("/login");
       } else {
         toast.error("Registration failed!");
       }

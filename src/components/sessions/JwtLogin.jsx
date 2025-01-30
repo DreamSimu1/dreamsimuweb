@@ -50,6 +50,35 @@ const JwtLogin = () => {
       setLoading(false);
     }
   };
+
+  const redirectToGoogle = () => {
+    console.log("Redirecting to Google OAuth...");
+    window.location.href = `${process.env.REACT_APP_API_URL}/api/google`;
+  };
+
+  useEffect(() => {
+    console.log("GoogleOauth useEffect triggered");
+    console.log("Full URL:", window.location.href);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const accessToken = urlParams.get("accessToken");
+    const refreshToken = urlParams.get("refreshToken");
+
+    console.log("Extracted Tokens from URL:", { accessToken, refreshToken });
+
+    if (accessToken && refreshToken) {
+      console.log("Tokens found! Storing them in localStorage.");
+      localStorage.setItem("jwtToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+      axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+
+      console.log("Tokens saved! Navigating to /vision...");
+      navigate("/vision", { replace: true });
+    } else {
+      console.log("No valid tokens found in URL. Staying on /login.");
+    }
+  }, [navigate]);
+
   return (
     <>
       <ToastContainer position="top-center" />
@@ -180,7 +209,27 @@ const JwtLogin = () => {
                           Or continue with{" "}
                         </h5>
                         <div class="form-login social-login-buttons">
-                          <GoogleOauth />
+                          <button
+                            onClick={redirectToGoogle}
+                            class="btn btn-microsoft d-flex align-items-center justify-content-center mb-2"
+                            style={{
+                              width: "100%",
+                              backgroundColor: "#fff",
+                              color: "black",
+                              border: "1px solid black",
+                            }}
+                          >
+                            <img
+                              src={googlelogo}
+                              alt=""
+                              style={{
+                                width: "25px",
+                                height: "25px",
+                                marginRight: "10px",
+                              }}
+                            />
+                            Continue with Microsoft
+                          </button>
                           <button
                             type="button"
                             class="btn btn-microsoft d-flex align-items-center justify-content-center mb-2"

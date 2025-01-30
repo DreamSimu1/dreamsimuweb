@@ -1,87 +1,89 @@
-import React from "react";
-import { GoogleLogin } from "@react-oauth/google";
-import { useNavigate } from "react-router-dom";
-import googlelogo from "./googlelogo.svg";
-import micro from "./micro.svg";
-import apple from "./apple.svg";
-// const GoogleOauth = () => {
-//   const navigate = useNavigate();
-//   const apiUrl = process.env.REACT_APP_API_URL;
-//   const onSuccess = async (response) => {
-//     const googleToken = response.credential;
-
-//     try {
-//       // Send the googleToken to your backend for verification and login
-//       const res = await fetch("http://localhost:8000/api/auth/login", {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({ googleToken }),
-//       });
-
-//       const data = await res.json();
-
-//       if (data.token) {
-//         // Store JWT token (you can use localStorage or cookies)
-//         localStorage.setItem("token", data.token);
-
-//         // Redirect user to the dashboard or desired route
-//         navigate("/vision");
-//       } else {
-//         console.error("Google login failed");
-//       }
-//     } catch (error) {
-//       console.error("Error during Google login:", error);
-//     }
-//   };
-
-//   const onFailure = (error) => {
-//     console.error("Google login failed:", error);
-//   };
-
-//   return <GoogleLogin onSuccess={onSuccess} onFailure={onFailure} useOneTap />;
-// };
-
-// const GoogleOauth = () => {
-//   const googleLoginUrl = "http://localhost:8000/api/google";
-
-//   const redirectToGoogle = () => {
-//     window.location.href = googleLoginUrl; // Redirect to backend's Google OAuth
-//   };
-
-//   return <button onClick={redirectToGoogle}>Continue with Google</button>;
-// };
-
-// export default GoogleOauth;
 import { useEffect } from "react";
-
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import googlelogo from "./googlelogo.svg";
 const GoogleOauth = () => {
-  const apiUrl = process.env.REACT_APP_API_URL;
-
-  const googleLoginUrl = `${apiUrl}/api/google`;
-
+  const navigate = useNavigate();
   const redirectToGoogle = () => {
-    window.location.href = googleLoginUrl; // Redirect to backend's Google OAuth
+    console.log("Redirecting to Google OAuth...");
+    window.location.href = `${process.env.REACT_APP_API_URL}/api/google`;
   };
+  // useEffect(() => {
+  //   // Log the URL for debugging
+  //   console.log("GoogleOauth useEffect triggered");
+  //   console.log("Full URL:", window.location.href); // Log full URL for debugging
 
+  //   // Get URL parameters using URLSearchParams
+  //   const urlParams = new URLSearchParams(window.location.search);
+  //   const accessToken = urlParams.get("accessToken");
+  //   const refreshToken = urlParams.get("refreshToken");
+
+  //   console.log("Extracted Tokens from URL:", { accessToken, refreshToken });
+
+  //   // Ensure the tokens are available
+  //   if (accessToken && refreshToken) {
+  //     console.log("Tokens found in URL. Storing them in localStorage.");
+
+  //     // Store tokens in localStorage
+  //     localStorage.setItem("jwtToken", accessToken);
+  //     localStorage.setItem("refreshToken", refreshToken);
+
+  //     // Set axios headers with the access token
+  //     axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+
+  //     // Log the saved tokens to confirm
+  //     console.log("Tokens saved in localStorage:", {
+  //       jwtToken: localStorage.getItem("jwtToken"),
+  //       refreshToken: localStorage.getItem("refreshToken"),
+  //     });
+
+  //     // Navigate to dashboard after saving tokens
+
+  //     navigate("/vision");
+  //   } else {
+  //     console.log("No tokens found in URL.");
+  //   }
+  // }, [navigate]);
   useEffect(() => {
+    console.log("GoogleOauth useEffect triggered");
+    console.log("Full URL:", window.location.href); // Log full URL for debugging
+
+    // Get URL parameters using URLSearchParams
     const urlParams = new URLSearchParams(window.location.search);
     const accessToken = urlParams.get("accessToken");
     const refreshToken = urlParams.get("refreshToken");
 
+    console.log("Extracted Tokens from URL:", { accessToken, refreshToken });
+
+    // Ensure the tokens are available
     if (accessToken && refreshToken) {
-      // Store the tokens in localStorage
+      console.log("Tokens found in URL. Storing them in localStorage.");
+
+      // Store tokens in localStorage
       localStorage.setItem("jwtToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
+
+      // Set axios headers with the access token
+      axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+
+      // Log the saved tokens to confirm
+      console.log("Tokens saved in localStorage:", {
+        jwtToken: localStorage.getItem("jwtToken"),
+        refreshToken: localStorage.getItem("refreshToken"),
+      });
+
+      // Navigate to /vision only once after saving tokens
+      console.log("Tokens saved! Navigating to /vision...");
+      navigate("/vision", { replace: true });
+    } else {
+      console.log("No tokens found in URL.");
     }
-  }, []);
+  }, [navigate]);
 
   return (
     <button
       onClick={redirectToGoogle}
-      type="button"
-      className="btn btn-microsoft d-flex align-items-center justify-content-center mb-2"
+      class="btn btn-microsoft d-flex align-items-center justify-content-center mb-2"
       style={{
         width: "100%",
         backgroundColor: "#fff",
@@ -91,14 +93,14 @@ const GoogleOauth = () => {
     >
       <img
         src={googlelogo}
-        alt="Google Logo"
+        alt=""
         style={{
           width: "25px",
           height: "25px",
           marginRight: "10px",
         }}
       />
-      Continue with Google
+      Continue with Microsoft
     </button>
   );
 };

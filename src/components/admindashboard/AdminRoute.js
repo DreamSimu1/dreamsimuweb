@@ -95,14 +95,18 @@ import AllIdea from "./admin/AllIdea";
 import AllRefine from "./admin/AllRefine";
 import AllSprint from "./admin/AllSprint";
 import Retro from "./admin/Retro";
+import TokenHandler from "../sessions/TokenHandler";
 
 const AdminRoute = [
   {
     path: "/vision",
     element: (
-      <AuthGuard>
-        <AdminDashboard />
-      </AuthGuard>
+      <>
+        {/* This will extract and store tokens */}
+        <AuthGuard>
+          <AdminDashboard />
+        </AuthGuard>
+      </>
     ),
   },
   {
