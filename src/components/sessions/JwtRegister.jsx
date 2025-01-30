@@ -22,6 +22,7 @@ const initialValues = {
   email: "",
   password: "",
   fullname: "",
+  isGoogleSignUp: false,
 };
 
 const validationSchema = Yup.object().shape({
@@ -109,6 +110,7 @@ const JwtRegister = () => {
                   handleChange,
                   handleBlur,
                   handleSubmit,
+                  setFieldValue,
                 }) => (
                   <form onSubmit={handleSubmit}>
                     <div className="login-userset">
@@ -244,7 +246,11 @@ const JwtRegister = () => {
                           Continue with Google
                         </button>*/}
                         <button
-                          onClick={redirectToGoogle}
+                          onClick={() => {
+                            setFieldValue("isGoogleSignUp", true); // Mark Google signup
+                            redirectToGoogle(); // Redirect to OAuth
+                          }}
+                          // onClick={redirectToGoogle}
                           class="btn btn-microsoft d-flex align-items-center justify-content-center mb-2"
                           style={{
                             width: "100%",
