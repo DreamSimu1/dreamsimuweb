@@ -435,7 +435,7 @@ export const AuthProvider = ({ children }) => {
         setSession(jwtToken, localStorage.getItem("refreshToken"));
 
         try {
-          const response = await axios.get(`${apiUrl}/api/auth/profile`);
+          const response = await axios.get(`${apiUrl}/api/profile`);
           const { user } = response.data;
           dispatch({
             type: "INIT",
