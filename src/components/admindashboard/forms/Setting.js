@@ -4,8 +4,11 @@ import { React, useEffect, useState } from "react";
 import axios from "axios";
 import TopNav from "../TopNav";
 import SideNav from "../SideNav";
+import useAuth from "../../hooks/useAuth";
 
 const Setting = () => {
+  const { user } = useAuth(); // Get authenticated user from context
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -18,15 +21,12 @@ const Setting = () => {
         <div class="main-wrapper">
           <TopNav />
 
-          <SideNav />
-
           <div class="page-wrapper">
             <div class="content settings-content">
               <div class="page-header settings-pg-header">
                 <div class="add-item d-flex">
                   <div class="page-title">
                     <h4>Settings</h4>
-                    <h6>Manage your settings on portal</h6>
                   </div>
                 </div>
                 <ul class="table-top-head">
@@ -278,7 +278,7 @@ const Setting = () => {
                                 class="feather-chevron-up"
                               ></i>
                             </span>
-                            Employee Information
+                            User Information
                           </h6>
                         </div>
                         <div class="profile-pic-upload">
@@ -309,32 +309,23 @@ const Setting = () => {
                         <div class="row">
                           <div class="col-md-4">
                             <div class="mb-3">
-                              <label class="form-label">First Name</label>
-                              <input type="text" class="form-control" />
+                              <label class="form-label">Full Name</label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                value={user.fullname}
+                              />
                             </div>
                           </div>
-                          <div class="col-md-4">
-                            <div class="mb-3">
-                              <label class="form-label">Last Name</label>
-                              <input type="text" class="form-control" />
-                            </div>
-                          </div>
-                          <div class="col-md-4">
-                            <div class="mb-3">
-                              <label class="form-label">User Name</label>
-                              <input type="text" class="form-control" />
-                            </div>
-                          </div>
-                          <div class="col-md-4">
-                            <div class="mb-3">
-                              <label class="form-label">Phone Number</label>
-                              <input type="text" class="form-control" />
-                            </div>
-                          </div>
+
                           <div class="col-md-4">
                             <div class="mb-3">
                               <label class="form-label">Email</label>
-                              <input type="email" class="form-control" />
+                              <input
+                                type="email"
+                                class="form-control"
+                                value={user.fullname}
+                              />
                             </div>
                           </div>
                         </div>
