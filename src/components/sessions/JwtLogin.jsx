@@ -10,6 +10,7 @@ import { AiFillGoogleCircle, AiFillApple, AiFillWindows } from "react-icons/ai";
 import "font-awesome/css/font-awesome.min.css";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import "./login.css";
+import axios from "axios";
 import googlelogo from "./googlelogo.svg";
 import micro from "./micro.svg";
 import apple from "./apple.svg";
@@ -228,7 +229,7 @@ const JwtLogin = () => {
                                 marginRight: "10px",
                               }}
                             />
-                            Continue with Microsoft
+                            Continue with Google
                           </button>
                           <button
                             type="button"
