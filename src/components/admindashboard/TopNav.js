@@ -414,7 +414,7 @@ const TopNav = () => {
               </a>
             </li>
             <li className="nav-item dropdown">
-              <a href="#" className="dropdown-toggle">
+              <a href="/settings" className="dropdown-toggle">
                 <FiSettings />
               </a>
             </li>
