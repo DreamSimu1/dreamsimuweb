@@ -1,6 +1,8 @@
 import React, { createContext, useEffect, useState, useReducer } from "react";
 import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Modal, Button } from "react-bootstrap";
 
 const initialState = {
   isAuthenticated: false,
@@ -17,6 +19,7 @@ const isValidToken = (jwtToken) => {
     return false;
   }
   const decodedToken = jwtDecode(jwtToken);
+
   const currentTime = Date.now() / 1000;
   return decodedToken.exp > currentTime;
 };
@@ -77,48 +80,108 @@ const AuthContext = createContext({
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [loading, setLoading] = useState(true); // Add loading state
+  const [showModal, setShowModal] = useState(false); // Modal state
+  const navigate = useNavigate();
+  // // Initialize authentication when the component mounts
+  // useEffect(() => {
+  //   const initAuth = async () => {
+  //     const jwtToken = localStorage.getItem("jwtToken");
 
-  // Initialize authentication when the component mounts
+  //     if (jwtToken && isValidToken(jwtToken)) {
+  //       setSession(jwtToken, localStorage.getItem("refreshToken"));
+
+  //       try {
+  //         // const response = await axios.get(`${apiUrl}/api/profile`);
+  //         const jwtToken = localStorage.getItem("jwtToken");
+
+  //         const response = await axios.get(`${apiUrl}/api/profile`, {
+  //           headers: {
+  //             Authorization: `Bearer ${jwtToken}`,
+  //           },
+  //         });
+
+  //         const { user } = response.data;
+  //         dispatch({
+  //           type: "INIT",
+  //           payload: {
+  //             isAuthenticated: true,
+  //             user,
+  //           },
+  //         });
+  //       } catch (err) {
+  //         dispatch({
+  //           type: "INIT",
+  //           payload: {
+  //             isAuthenticated: false,
+  //             user: null,
+  //           },
+  //         });
+  //       }
+  //     } else {
+  //       dispatch({
+  //         type: "INIT",
+  //         payload: {
+  //           isAuthenticated: false,
+  //           user: null,
+  //         },
+  //       });
+  //     }
+  //     setLoading(false);
+  //   };
+
+  //   initAuth();
+  // }, []); // Run only once when the component mounts
   useEffect(() => {
     const initAuth = async () => {
       const jwtToken = localStorage.getItem("jwtToken");
 
-      if (jwtToken && isValidToken(jwtToken)) {
-        setSession(jwtToken, localStorage.getItem("refreshToken"));
+      if (jwtToken) {
+        const decoded = jwtDecode(jwtToken);
 
-        try {
-          const response = await axios.get(`${apiUrl}/api/profile`);
-          const { user } = response.data;
+        // Check if token is expired
+        if (decoded.exp * 1000 < Date.now()) {
+          setShowModal(true); // Show modal
+          dispatch({ type: "LOGOUT" }); // Log out user
+          setLoading(false);
+          return;
+        }
+
+        if (isValidToken(jwtToken)) {
+          setSession(jwtToken, localStorage.getItem("refreshToken"));
+
+          try {
+            const response = await axios.get(`${apiUrl}/api/profile`, {
+              headers: { Authorization: `Bearer ${jwtToken}` },
+            });
+
+            dispatch({
+              type: "INIT",
+              payload: { isAuthenticated: true, user: response.data.user },
+            });
+          } catch (err) {
+            dispatch({
+              type: "INIT",
+              payload: { isAuthenticated: false, user: null },
+            });
+          }
+        } else {
           dispatch({
             type: "INIT",
-            payload: {
-              isAuthenticated: true,
-              user,
-            },
-          });
-        } catch (err) {
-          dispatch({
-            type: "INIT",
-            payload: {
-              isAuthenticated: false,
-              user: null,
-            },
+            payload: { isAuthenticated: false, user: null },
           });
         }
       } else {
         dispatch({
           type: "INIT",
-          payload: {
-            isAuthenticated: false,
-            user: null,
-          },
+          payload: { isAuthenticated: false, user: null },
         });
       }
+
       setLoading(false);
     };
 
     initAuth();
-  }, []); // Run only once when the component mounts
+  }, []);
   if (loading) return <p>Loading...</p>; // Prevent rendering before auth check
   // Login method to authenticate the user and set session
   const login = async (email, password) => {
@@ -186,9 +249,14 @@ export const AuthProvider = ({ children }) => {
 
   // Logout method to clear session
   const logout = () => {
+    setShowModal(false);
     setSession(null); // Clear session and tokens
+    localStorage.removeItem("jwtToken");
+    localStorage.removeItem("refreshToken");
+
     localStorage.removeItem("user");
     dispatch({ type: "LOGOUT" });
+    navigate("/login");
   };
 
   // Wait until initial state is loaded
@@ -204,6 +272,18 @@ export const AuthProvider = ({ children }) => {
       }}
     >
       {children}
+
+      <Modal show={showModal} onHide={logout} backdrop="static" centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Session Expired</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Your session has expired. Please log in again.</Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={logout}>
+            Login Again
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </AuthContext.Provider>
   );
 };
