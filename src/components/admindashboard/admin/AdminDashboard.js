@@ -42,28 +42,72 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [visionId, setVisionId] = useState(null);
 
+  // useEffect(() => {
+  //   const fetchVisions = async () => {
+  //     try {
+  //       // Get the token from localStorage or a global state
+  //       const token = localStorage.getItem("jwtToken"); // Change this based on your actual method of storing the token
+
+  //       if (!token) {
+  //         console.error("No authentication token found");
+  //         return;
+  //       }
+  //       console.log("API URL:", `${apiUrl}/api/get-all`);
+  //       console.log("Auth Token:", token);
+
+  //       // Add token to the headers
+  //       const response = await axios.get(`${apiUrl}/api/get-all`, {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`, // Adding the token to Authorization header
+  //         },
+  //       });
+  //       console.log("Full Response:", response);
+
+  //       setVisions(response.data); // Assuming the API response contains the visions
+  //     } catch (error) {
+  //       console.error("Error fetching visions:", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchVisions();
+  // }, []);
   useEffect(() => {
     const fetchVisions = async () => {
       try {
-        // Get the token from localStorage or a global state
-        const token = localStorage.getItem("jwtToken"); // Change this based on your actual method of storing the token
-
+        const token = localStorage.getItem("jwtToken");
         if (!token) {
           console.error("No authentication token found");
           return;
         }
-        console.log("API URL:", `${apiUrl}/api/get-all`);
-        console.log("Auth Token:", token);
 
-        // Add token to the headers
-        const response = await axios.get(`${apiUrl}/api/get-all`, {
+        const userId = user?._id; // Ensure user ID is available
+
+        // Fetch user-created visions
+        const userVisionsResponse = await axios.get(`${apiUrl}/api/get-all`, {
           headers: {
-            Authorization: `Bearer ${token}`, // Adding the token to Authorization header
+            Authorization: `Bearer ${token}`,
           },
         });
-        console.log("Full Response:", response);
 
-        setVisions(response.data); // Assuming the API response contains the visions
+        // Fetch template visions
+        const templateVisionsResponse = await axios.get(
+          `${apiUrl}/api/get-template-visions/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        // Merge both visions into one state
+        const mergedVisions = [
+          ...userVisionsResponse.data,
+          ...templateVisionsResponse.data,
+        ];
+
+        setVisions(mergedVisions);
       } catch (error) {
         console.error("Error fetching visions:", error);
       } finally {
@@ -72,7 +116,7 @@ const AdminDashboard = () => {
     };
 
     fetchVisions();
-  }, []);
+  }, [user]);
 
   const handlePrevious = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);

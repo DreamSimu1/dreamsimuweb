@@ -256,7 +256,9 @@ export const AuthProvider = ({ children }) => {
 
     localStorage.removeItem("user");
     dispatch({ type: "LOGOUT" });
-    navigate("/login");
+    setTimeout(() => {
+      navigate("/login");
+    }, 100);
   };
 
   // Wait until initial state is loaded

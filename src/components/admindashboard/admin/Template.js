@@ -2,13 +2,18 @@ import React, { useState } from "react";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 
-const Template = ({ showModals, setShowModals }) => {
+const Template = ({ showModals, setShowModals, updateTableData }) => {
   const [title, setTitle] = useState("");
   const [uploadedImage, setUploadedImage] = useState(null);
   const [message, setMessage] = useState("");
   const [generatedImages, setGeneratedImages] = useState([]); // Store generated images
   const apiUrl = process.env.REACT_APP_API_URL;
   const [loading, setLoading] = useState(false); // Loading state
+  const [selectedVision, setSelectedVision] = useState(null);
+
+  const handleSelectVision = (imageUrl) => {
+    setSelectedVision(imageUrl);
+  };
 
   const { user } = useAuth();
   console.log("User from useAuth:", user);
@@ -65,6 +70,97 @@ const Template = ({ showModals, setShowModals }) => {
       );
     } finally {
       setLoading(false); // Stop loading
+    }
+  };
+  // const handleSaveVision = async () => {
+  //   if (!selectedVision) {
+  //     setMessage("Please select a vision to save.");
+  //     return;
+  //   }
+
+  //   if (!title.trim()) {
+  //     setMessage("Title cannot be empty.");
+  //     return;
+  //   }
+
+  //   if (!user || !user._id) {
+  //     setMessage("User not authenticated.");
+  //     return;
+  //   }
+
+  //   try {
+  //     const response = await axios.post(
+  //       `${apiUrl}/api/create-template-vision`,
+  //       {
+  //         title: title.trim(), // Ensure title is not empty
+  //         imageUrl: selectedVision,
+  //         userId: user._id,
+  //       },
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+  //         },
+  //       }
+  //     );
+
+  //     setMessage("Vision saved successfully!");
+  //     setShowModals(false); // Close modal after saving
+
+  //     if (updateTableData) {
+  //       updateTableData(); // Refresh the visions list
+  //     }
+  //   } catch (error) {
+  //     console.error("Error saving vision:", error.response?.data || error.message);
+  //     setMessage(error.response?.data?.error || "Error saving vision.");
+  //   }
+  // };
+
+  const handleSaveVision = async () => {
+    console.log("save button is clicked");
+    if (!selectedVision) {
+      setMessage("Please select a vision to save.");
+      return;
+    }
+
+    if (!title.trim()) {
+      setMessage("Title cannot be empty.");
+      return;
+    }
+
+    if (!user || !user._id) {
+      setMessage("User not authenticated.");
+      return;
+    }
+
+    try {
+      await axios.post(
+        `${apiUrl}/api/create-template-vision`,
+        {
+          title: title.trim(), // Ensure title is not empty
+          imageUrl: selectedVision,
+          userId: user._id,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+          },
+        }
+      );
+
+      setMessage("Vision saved successfully!");
+      setShowModals(false); // Close modal after saving
+
+      if (updateTableData) {
+        updateTableData(); // Refresh the visions list
+      }
+    } catch (error) {
+      console.error(
+        "Error saving vision:",
+        error.response?.data || error.message
+      );
+      setMessage(error.response?.data?.error || "Error saving vision.");
     }
   };
 
@@ -144,7 +240,7 @@ const Template = ({ showModals, setShowModals }) => {
               {message && <p>{message}</p>}
 
               {/* Display Generated Images */}
-              {generatedImages.length > 0 && (
+              {/*}   {generatedImages.length > 0 && (
                 <div className="generated-images">
                   <h5>Generated Visions:</h5>
                   <div className="image-grid">
@@ -158,7 +254,38 @@ const Template = ({ showModals, setShowModals }) => {
                     ))}
                   </div>
                 </div>
+              )}*/}
+              {generatedImages.length > 0 && (
+                <div className="generated-images">
+                  <h5>Generated Visions:</h5>
+                  <div className="image-grid">
+                    {generatedImages.map((image, index) => (
+                      <img
+                        key={index}
+                        src={image}
+                        alt={`Generated Vision ${index + 1}`}
+                        style={{
+                          width: "100%",
+                          marginTop: "10px",
+                          border:
+                            selectedVision === image
+                              ? "3px solid blue"
+                              : "none",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => handleSelectVision(image)}
+                      />
+                    ))}
+                  </div>
+                </div>
               )}
+              <button
+                className="btn btn-danger"
+                onClick={handleSaveVision}
+                disabled={!selectedVision}
+              >
+                Save Selected Vision
+              </button>
             </div>
           </div>
         </div>
