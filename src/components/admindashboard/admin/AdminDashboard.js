@@ -132,14 +132,35 @@ const AdminDashboard = () => {
     currentPage * itemsPerPage
   );
 
+  // const updateTableData = async () => {
+  //   try {
+  //     const response = await axios.get(`${apiUrl}/api/get-all`);
+  //     setVisions(response.data); // Update the visions state with the new list
+  //   } catch (error) {
+  //     console.error("Error fetching updated visions:", error);
+  //   }
+  // };
+
   const updateTableData = async () => {
     try {
-      const response = await axios.get(`${apiUrl}/api/get-all`);
-      setVisions(response.data); // Update the visions state with the new list
+      const userId = user._id; // Make sure you have access to the logged-in user's ID
+      const [manualVisionsRes, templateVisionsRes] = await Promise.all([
+        axios.get(`${apiUrl}/api/get-all`),
+        axios.get(`${apiUrl}/api/get-template-visions/${userId}`),
+      ]);
+
+      // Merge both responses into one array
+      const combinedVisions = [
+        ...manualVisionsRes.data,
+        ...templateVisionsRes.data,
+      ];
+
+      setVisions(combinedVisions); // Update the state with merged visions
     } catch (error) {
       console.error("Error fetching updated visions:", error);
     }
   };
+
   return (
     <div>
       <body>

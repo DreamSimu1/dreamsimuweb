@@ -151,10 +151,10 @@ const Template = ({ showModals, setShowModals, updateTableData }) => {
 
       setMessage("Vision saved successfully!");
       setShowModals(false); // Close modal after saving
-
-      if (updateTableData) {
-        updateTableData(); // Refresh the visions list
-      }
+      await updateTableData(); // Wait for the table to update
+      // if (updateTableData) {
+      //   updateTableData(); // Refresh the visions list
+      // }
     } catch (error) {
       console.error(
         "Error saving vision:",
