@@ -18,6 +18,8 @@ const Idea = () => {
   const [showModals, setShowModals] = useState(false);
   const [showModalss, setShowModalss] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [milestonePlan, setMilestonePlan] = useState(null);
+  const [loadingMilestone, setLoadingMilestone] = useState(true);
 
   const { title } = useParams(); // Get title from URL params
   const decodedTitle = decodeURIComponent(title); // Decode the title to restore spaces
@@ -43,59 +45,7 @@ const Idea = () => {
   const [currentPage, setCurrentPage] = useState(1); // Start with the first page
   const [visions, setVisions] = useState([]);
 
-  // // Fetch vision by title and then fetch ideas for that vision
-  // const fetchVisionAndIdeas = async () => {
-  //   try {
-  //     // Fetch the vision by title
-  //     const visionResponse = await axios.get(
-  //       `${apiUrl}/api/get-single-by-title/${encodeURIComponent(title)}`
-  //     );
-  //     const visionId = visionResponse.data._id; // Get the visionId
-
-  //     // Fetch ideas for this vision
-  //     const ideasResponse = await axios.get(`${apiUrl}/api/ideas/${visionId}`, {
-  //       headers: {
-  //         Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
-  //       },
-  //     });
-
-  //     setIdeas(ideasResponse.data.ideas); // Set the ideas data
-  //     setLoading(false); // Stop loading
-  //   } catch (error) {
-  //     console.error("Error fetching vision or ideas:", error);
-  //     setLoading(false);
-  //   }
-  // };
   const [visionId, setVisionId] = useState(null);
-
-  // const fetchVisionAndIdeas = async () => {
-  //   try {
-  //     // Remove spaces from the title before encoding it
-  //     const titleWithoutSpaces = title.replace(/\s+/g, "");
-
-  //     // Fetch the vision by title
-  //     const visionResponse = await axios.get(
-  //       `${apiUrl}/api/get-single-by-title/${encodeURIComponent(
-  //         titleWithoutSpaces
-  //       )}`
-  //     );
-  //     const visionId = visionResponse.data._id; // Get the visionId
-  //     setVisionId(visionId); // Set the visionId
-
-  //     // Fetch ideas for this vision
-  //     const ideasResponse = await axios.get(`${apiUrl}/api/ideas/${visionId}`, {
-  //       headers: {
-  //         Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
-  //       },
-  //     });
-
-  //     setIdeas(ideasResponse.data.ideas); // Set the ideas data
-  //     setLoading(false); // Stop loading
-  //   } catch (error) {
-  //     console.error("Error fetching vision or ideas:", error);
-  //     setLoading(false);
-  //   }
-  // };
 
   const fetchVisionAndIdeas = async () => {
     try {
@@ -156,6 +106,27 @@ const Idea = () => {
       console.error("Error fetching updated ideas:", error);
     }
   };
+  useEffect(() => {
+    const fetchMilestonePlan = async () => {
+      try {
+        const response = await axios.get(
+          `${apiUrl}/api/generate-plan/${decodedTitle}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+            },
+          }
+        );
+        setMilestonePlan(response.data.milestones);
+      } catch (error) {
+        console.error("Error fetching milestone plan:", error);
+      } finally {
+        setLoadingMilestone(false);
+      }
+    };
+
+    fetchMilestonePlan();
+  }, [decodedTitle]);
 
   return (
     <div>
@@ -196,6 +167,21 @@ const Idea = () => {
                     Create a New Idea
                   </button>
                 </div>
+              </div>
+
+              <div className="content">
+                <h2>Milestone Plan for {decodedTitle}</h2>
+                {loadingMilestone ? (
+                  <p>Loading milestone plan...</p>
+                ) : milestonePlan ? (
+                  <ul>
+                    {milestonePlan.split("\n").map((step, index) => (
+                      <li key={index}>{step}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>No milestone plan available.</p>
+                )}
               </div>
 
               <div className="vision-board">
