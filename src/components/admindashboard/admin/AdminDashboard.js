@@ -206,12 +206,25 @@ const AdminDashboard = () => {
                         style={{ marginBottom: "20px" }}
                       >
                         <div className="card h-100 text-white border-0">
-                          <img
+                          {/*} <img
                             src={vision.imageUrl || "default-image.jpg"} // Fallback image
                             alt="Card Image"
                             className="card-img-top img-fluid"
                             style={{ objectFit: "cover" }}
+                          />*/}
+
+                          <img
+                            src={
+                              vision.imageUrl ||
+                              (vision.imageUrls && vision.imageUrls.length > 0
+                                ? vision.imageUrls[0]
+                                : "default-image.jpg")
+                            }
+                            alt="Card Image"
+                            className="card-img-top img-fluid"
+                            style={{ objectFit: "cover" }}
                           />
+
                           <div className="card-body">
                             {/*}   <h3 className="card-title">#{index + 1}</h3>*/}
                             <h3
