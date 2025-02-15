@@ -20,82 +20,10 @@ const Template = ({ showModals, setShowModals }) => {
     }
   };
 
-  // const handleGenerateVision = async (e) => {
-  //   e.preventDefault();
-
-  //   const token = localStorage.getItem("jwtToken");
-  //   if (!title) {
-  //     setMessage("Please enter a dream description.");
-  //     return;
-  //   }
-
-  //   const formData = new FormData();
-  //   formData.append("title", title);
-  //   formData.append("userId", "12345"); // Replace with actual logged-in user ID
-  //   if (uploadedImage) {
-  //     formData.append("image", uploadedImage);
-  //   }
-
-  //   try {
-  //     const response = await axios.post(`${apiUrl}/api/generate-dream`, formData, {
-  //       headers: {
-  //         "Content-Type": "multipart/form-data",
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-
-  //     setMessage(response.data.message);
-  //     setGeneratedImages(response.data.dream.imageUrls || []); // Store generated image URLs
-  //   } catch (error) {
-  //     setMessage("Error generating dream.");
-  //     console.error("Error:", error.response ? error.response.data : error.message);
-  //   }
-  // };
-
-  // const handleGenerateVision = async (e) => {
-  //   e.preventDefault();
-
-  //   if (!user) {
-  //     setMessage("User not authenticated.");
-  //     return;
-  //   }
-
-  //   const userId = user.id; // Use user ID from context
-
-  //   const formData = new FormData();
-  //   formData.append("title", title);
-  //   formData.append("userId", userId);
-
-  //   console.log("Generating vision with title:", title);
-
-  //   if (uploadedImage) {
-  //     formData.append("image", uploadedImage);
-  //   }
-
-  //   try {
-  //     const response = await axios.post(
-  //       `${apiUrl}/api/generate-dream`,
-  //       formData,
-  //       {
-  //         headers: {
-  //           "Content-Type": "multipart/form-data",
-  //           Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
-  //         },
-  //       }
-  //     );
-  //     console.log("API Response:", response.data);
-  //     setMessage(response.data.message);
-  //   } catch (error) {
-  //     setMessage("Error generating dream.");
-  //     console.error(
-  //       "Error:",
-  //       error.response ? error.response.data : error.message
-  //     );
-  //   }
-  // };
   const handleGenerateVision = async (e) => {
     e.preventDefault();
     if (!user || !user._id) {
+      console.error("User not authenticated or missing _id:", user);
       setMessage("User not authenticated.");
       return;
     }

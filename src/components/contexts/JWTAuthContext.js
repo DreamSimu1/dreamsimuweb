@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useReducer } from "react";
+import React, { createContext, useEffect, useState, useReducer } from "react";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 
@@ -76,6 +76,7 @@ const AuthContext = createContext({
 
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [loading, setLoading] = useState(true); // Add loading state
 
   // Initialize authentication when the component mounts
   useEffect(() => {
@@ -113,11 +114,12 @@ export const AuthProvider = ({ children }) => {
           },
         });
       }
+      setLoading(false);
     };
 
     initAuth();
   }, []); // Run only once when the component mounts
-
+  if (loading) return <p>Loading...</p>; // Prevent rendering before auth check
   // Login method to authenticate the user and set session
   const login = async (email, password) => {
     try {
