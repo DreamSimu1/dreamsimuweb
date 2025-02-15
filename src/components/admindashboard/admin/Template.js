@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import "./AddAdminModal.css"; // Import the custom CSS file
-import { FiChevronDown } from "react-icons/fi";
+import useAuth from "../../hooks/useAuth";
 
-const Template = ({ showModals, setShowModals, updateTableData }) => {
-  const [managers, setManagers] = useState([]);
-  const [selectedManager, setSelectedManager] = useState("");
-  const [amount, setAmount] = useState("");
-  const [notes, setNotes] = useState("");
-  const [message, setMessage] = useState("");
-  const apiUrl = process.env.REACT_APP_API_URL;
+const Template = ({ showModals, setShowModals }) => {
+  const [title, setTitle] = useState("");
   const [uploadedImage, setUploadedImage] = useState(null);
+  const [message, setMessage] = useState("");
+  const [generatedImages, setGeneratedImages] = useState([]); // Store generated images
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const [loading, setLoading] = useState(false); // Loading state
+
+  const { user } = useAuth();
+  console.log("User from useAuth:", user);
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -19,79 +20,123 @@ const Template = ({ showModals, setShowModals, updateTableData }) => {
     }
   };
 
-  // const fetchAdmins = async () => {
-  //   try {
-  //     const response = await axios.get(`${apiUrl}/api/get-manager`);
-  //     setManagers(response.data);
-  //   } catch (error) {
-  //     console.error("Error fetching admins:", error);
-  //   }
-  // };
-
-  useEffect(() => {
-    if (showModals) {
-      const fetchManager = async () => {
-        try {
-          const response = await axios.get(`${apiUrl}/api/get-manager`);
-          console.log("Fetched points:", response.data);
-          setManagers(response.data);
-        } catch (error) {
-          console.error("Error fetching points:", error);
-        }
-      };
-      fetchManager();
-    }
-  }, [showModals, apiUrl]);
-
-  // const handleDisbursement = async (e) => {
+  // const handleGenerateVision = async (e) => {
   //   e.preventDefault();
+
+  //   const token = localStorage.getItem("jwtToken");
+  //   if (!title) {
+  //     setMessage("Please enter a dream description.");
+  //     return;
+  //   }
+
+  //   const formData = new FormData();
+  //   formData.append("title", title);
+  //   formData.append("userId", "12345"); // Replace with actual logged-in user ID
+  //   if (uploadedImage) {
+  //     formData.append("image", uploadedImage);
+  //   }
+
   //   try {
-  //     const response = await axios.post(`${apiUrl}/api/disbursements`, {
-  //       managerId: selectedManager,
-  //       amount,
-  //       notes,
+  //     const response = await axios.post(`${apiUrl}/api/generate-dream`, formData, {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //         Authorization: `Bearer ${token}`,
+  //       },
   //     });
+
   //     setMessage(response.data.message);
-  //     setSelectedManager("");
-  //     setAmount("");
-  //     setNotes("");
+  //     setGeneratedImages(response.data.dream.imageUrls || []); // Store generated image URLs
   //   } catch (error) {
-  //     setMessage("Error creating disbursement.");
-  //     console.error("Error:", error);
+  //     setMessage("Error generating dream.");
+  //     console.error("Error:", error.response ? error.response.data : error.message);
   //   }
   // };
 
-  const handleDisbursement = async (e) => {
-    e.preventDefault();
+  // const handleGenerateVision = async (e) => {
+  //   e.preventDefault();
 
-    // Retrieve the JWT token from localStorage
-    const token = localStorage.getItem("jwtToken");
-    console.log("Retrieved token:", token);
+  //   if (!user) {
+  //     setMessage("User not authenticated.");
+  //     return;
+  //   }
+
+  //   const userId = user.id; // Use user ID from context
+
+  //   const formData = new FormData();
+  //   formData.append("title", title);
+  //   formData.append("userId", userId);
+
+  //   console.log("Generating vision with title:", title);
+
+  //   if (uploadedImage) {
+  //     formData.append("image", uploadedImage);
+  //   }
+
+  //   try {
+  //     const response = await axios.post(
+  //       `${apiUrl}/api/generate-dream`,
+  //       formData,
+  //       {
+  //         headers: {
+  //           "Content-Type": "multipart/form-data",
+  //           Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+  //         },
+  //       }
+  //     );
+  //     console.log("API Response:", response.data);
+  //     setMessage(response.data.message);
+  //   } catch (error) {
+  //     setMessage("Error generating dream.");
+  //     console.error(
+  //       "Error:",
+  //       error.response ? error.response.data : error.message
+  //     );
+  //   }
+  // };
+  const handleGenerateVision = async (e) => {
+    e.preventDefault();
+    if (!user || !user._id) {
+      setMessage("User not authenticated.");
+      return;
+    }
+
+    const userId = user._id; // Use _id instead of id
+
+    console.log("User ID:", userId); // Debugging step
+
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("userId", userId);
+
+    if (uploadedImage) {
+      formData.append("image", uploadedImage);
+    }
+
+    setLoading(true); // Start loading
 
     try {
       const response = await axios.post(
-        `${apiUrl}/api/disbursements`,
-        {
-          managerId: selectedManager,
-          amount,
-          notes,
-        },
+        `${apiUrl}/api/generate-dream`,
+        formData,
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Include the JWT token in the Authorization header
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
           },
         }
       );
+
+      console.log("API Response:", response.data);
       setMessage(response.data.message);
-      setSelectedManager("");
-      setAmount("");
-      setNotes("");
+      setGeneratedImages(response.data.dream.imageUrls || []);
     } catch (error) {
-      setMessage("Error creating disbursement.");
+      setMessage("Error generating dream.");
       console.error(
         "Error:",
         error.response ? error.response.data : error.message
       );
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
@@ -103,14 +148,12 @@ const Template = ({ showModals, setShowModals, updateTableData }) => {
         style={{ display: showModals ? "block" : "none" }}
         tabIndex="-1"
         role="dialog"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
       >
         <div className="modal-dialog" role="document">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel">
-                Create from template
+              <h5 className="modal-title">
+                Create from Template (Dream Visualizer)
               </h5>
               <button
                 type="button"
@@ -122,102 +165,72 @@ const Template = ({ showModals, setShowModals, updateTableData }) => {
               </button>
             </div>
             <div className="modal-body">
-              <label>
-                Create a vision faster with any template of your choice This is
-                the first thing you will see when you log in
-              </label>
-              <br></br>
-              <br></br>
-              <form onSubmit={handleDisbursement}>
+              <form onSubmit={handleGenerateVision}>
                 <div className="form-group">
-                  <label>Upload Image</label>
+                  <label>Describe Your Dream</label>
+                  <textarea
+                    className="form-control"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                  ></textarea>
+                </div>
+                <div className="form-group">
+                  <label>Upload Image (optional)</label>
                   <input
                     type="file"
                     className="form-control"
-                    accept="image/*" // Restricts to image files
-                    onChange={(e) => handleImageUpload(e)} // Handle the file selection
+                    accept="image/*"
+                    onChange={handleImageUpload}
                   />
-                </div>
-                <br></br>
-                <div className="form-group">
-                  <label>Vision Title</label>
-                  <input
-                    className="form-control"
-                    value={notes}
-                    onChange={(e) => setNotes(e.target.value)}
-                  ></input>
-                </div>
-                <br></br>
-                {/*}    <div className="form-group">
-                  <label>Affirmation</label>
-                  <input
-                    className="form-control"
-                    value={notes}
-                    onChange={(e) => setNotes(e.target.value)}
-                  ></input>
-                </div>
-                <br></br>
-                <div className="form-group">
-                  <label>Vision Statement</label>
-                  <textarea
-                    className="form-control"
-                    value={notes}
-                    onChange={(e) => setNotes(e.target.value)}
-                  ></textarea>
-                </div>*/}
-
-                <div className="form-group">
-                  <select
-                    className="form-control"
-                    value={selectedManager}
-                    onChange={(e) => setSelectedManager(e.target.value)}
-                    required
-                  >
-                    {" "}
-                    <option value="" disabled>
-                      Top Template
-                    </option>
-                    <option>Personal Vision</option>
-                    <option>Books</option>
-                    <option>Health</option>
-                    <option>Marriage</option>
-                    <option>Career</option>
-                    <option>Jobs</option>
-                    <option>Financial dream</option>
-                  </select>
-                </div>
-                <br></br>
-                <div className="form-group">
-                  <select
-                    className="form-control"
-                    value={selectedManager}
-                    onChange={(e) => setSelectedManager(e.target.value)}
-                    required
-                  >
-                    {" "}
-                    <option value="" disabled>
-                      Visibility
-                    </option>
-                    <option>Public</option>
-                    <option>Private</option>
-                  </select>
                 </div>
 
                 <div className="modal-footer">
-                  <button type="submit" className="btn btn-primary">
-                    Create
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <>
+                        <span
+                          className="spinner-border spinner-border-sm"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>{" "}
+                        Generating...
+                      </>
+                    ) : (
+                      "Generate Vision"
+                    )}
                   </button>
                   <button
                     type="button"
-                    className="btn "
-                    style={{ backgroundColor: "red", color: "white" }}
+                    className="btn btn-danger"
                     onClick={() => setShowModals(false)}
+                    disabled={loading}
                   >
                     Close
                   </button>
                 </div>
               </form>
               {message && <p>{message}</p>}
+
+              {/* Display Generated Images */}
+              {generatedImages.length > 0 && (
+                <div className="generated-images">
+                  <h5>Generated Visions:</h5>
+                  <div className="image-grid">
+                    {generatedImages.map((image, index) => (
+                      <img
+                        key={index}
+                        src={image}
+                        alt={`Generated Vision ${index + 1}`}
+                        style={{ width: "100%", marginTop: "10px" }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
