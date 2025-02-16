@@ -353,18 +353,21 @@ export const AuthProvider = ({ children }) => {
       }}
     >
       {children}
-
-      <Modal show={showModal} onHide={logout} backdrop="static" centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Session Expired</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Your session has expired. Please log in again.</Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={logout}>
-            Login Again
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      {state.user && showModal && (
+        <Modal show={showModal} onHide={logout} backdrop="static" centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Session Expired</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            Your session has expired. Please log in again.
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={logout}>
+              Login Again
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      )}
     </AuthContext.Provider>
   );
 };
