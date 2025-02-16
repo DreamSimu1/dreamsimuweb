@@ -42,8 +42,10 @@ import SalesRoute from "./components/salesdashboard/SalesRoute";
 import ManagerRoute from "./components/managerdashboard/ManagerRoute";
 import AuthGuard from "./auth/AuthGuard";
 import Home from "./pages/Home";
+import GoogleAuthHandler from "./GoogleAuthHandler";
 
 const routes = [
+  { path: "/oauth-callback", element: <GoogleAuthHandler /> },
   {
     path: "/", // Landing page
     element: <Home />,

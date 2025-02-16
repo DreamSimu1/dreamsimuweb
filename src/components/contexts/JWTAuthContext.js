@@ -25,19 +25,30 @@ const isValidToken = (jwtToken) => {
 };
 
 // Function to set the session, store tokens in localStorage, and set axios headers
-const setSession = (accessToken, refreshToken) => {
-  if (accessToken) {
-    // Save tokens to localStorage
-    localStorage.setItem("jwtToken", accessToken);
-    localStorage.setItem("refreshToken", refreshToken);
+// const setSession = (accessToken, refreshToken) => {
+//   if (accessToken) {
+//     // Save tokens to localStorage
+//     localStorage.setItem("jwtToken", accessToken);
+//     localStorage.setItem("refreshToken", refreshToken);
 
-    // Set Authorization header for axios
-    axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+//     // Set Authorization header for axios
+//     axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+//   } else {
+//     // Remove tokens from localStorage and axios headers
+//     localStorage.removeItem("jwtToken");
+//     localStorage.removeItem("refreshToken");
+//     delete axios.defaults.headers.common.Authorization;
+//   }
+// };
+const setSession = (token, refreshToken) => {
+  if (token) {
+    localStorage.setItem("jwtToken", token);
+    localStorage.setItem("refreshToken", refreshToken);
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   } else {
-    // Remove tokens from localStorage and axios headers
     localStorage.removeItem("jwtToken");
     localStorage.removeItem("refreshToken");
-    delete axios.defaults.headers.common.Authorization;
+    delete axios.defaults.headers.common["Authorization"];
   }
 };
 
@@ -82,64 +93,110 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true); // Add loading state
   const [showModal, setShowModal] = useState(false); // Modal state
   const navigate = useNavigate();
-  // // Initialize authentication when the component mounts
-  // useEffect(() => {
-  //   const initAuth = async () => {
-  //     const jwtToken = localStorage.getItem("jwtToken");
-
-  //     if (jwtToken && isValidToken(jwtToken)) {
-  //       setSession(jwtToken, localStorage.getItem("refreshToken"));
-
-  //       try {
-  //         // const response = await axios.get(`${apiUrl}/api/profile`);
-  //         const jwtToken = localStorage.getItem("jwtToken");
-
-  //         const response = await axios.get(`${apiUrl}/api/profile`, {
-  //           headers: {
-  //             Authorization: `Bearer ${jwtToken}`,
-  //           },
-  //         });
-
-  //         const { user } = response.data;
-  //         dispatch({
-  //           type: "INIT",
-  //           payload: {
-  //             isAuthenticated: true,
-  //             user,
-  //           },
-  //         });
-  //       } catch (err) {
-  //         dispatch({
-  //           type: "INIT",
-  //           payload: {
-  //             isAuthenticated: false,
-  //             user: null,
-  //           },
-  //         });
-  //       }
-  //     } else {
-  //       dispatch({
-  //         type: "INIT",
-  //         payload: {
-  //           isAuthenticated: false,
-  //           user: null,
-  //         },
-  //       });
-  //     }
-  //     setLoading(false);
-  //   };
-
-  //   initAuth();
-  // }, []); // Run only once when the component mounts
   useEffect(() => {
+    console.log("GoogleOauth useEffect triggered");
+    console.log("Full URL:", window.location.href);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const accessToken = urlParams.get("accessToken");
+    const refreshToken = urlParams.get("refreshToken");
+
+    console.log("Extracted Tokens from URL:", { accessToken, refreshToken });
+
+    if (accessToken && refreshToken) {
+      console.log("Tokens found! Storing them in localStorage.");
+      localStorage.setItem("jwtToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+      axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+
+      console.log("Tokens saved! Navigating to /vision...");
+      navigate("/vision", { replace: true });
+    } else {
+      console.log("No valid tokens found in URL. Staying on /login.");
+    }
+  }, [navigate]);
+
+  useEffect(() => {
+    //   const initAuth = async () => {
+    //     const jwtToken = localStorage.getItem("jwtToken");
+    //     console.log("Retrieved JWT Token from localStorage:", jwtToken); // Debugging
+
+    //     if (jwtToken) {
+    //       const decoded = jwtDecode(jwtToken);
+    //       console.log("Decoded Token:", decoded);
+
+    //       // Check if token is expired
+    //       if (decoded.exp * 1000 < Date.now()) {
+    //         console.log("Token expired. Logging out user.");
+    //         setShowModal(true); // Show modal
+    //         dispatch({ type: "LOGOUT" }); // Log out user
+    //         setLoading(false);
+    //         return;
+    //       }
+
+    //       if (isValidToken(jwtToken)) {
+    //         console.log("Token is valid. Fetching user profile...");
+    //         setSession(jwtToken, localStorage.getItem("refreshToken"));
+
+    //         try {
+    //           console.log("Fetching user profile...");
+
+    //           const response = await axios.get(`${apiUrl}/api/profile`, {
+    //             headers: { Authorization: `Bearer ${jwtToken}` },
+    //           });
+    //           console.log("Fetched User Profile:", response.data.user); // Debugging
+    //           console.log("Full API Response:", response); // Log entire response
+    //           console.log("Fetched User Profile:", response.data.user); // Debugging
+
+    //           if (response.data.user) {
+    //             localStorage.setItem("user", JSON.stringify(response.data.user)); // Ensure user is stored
+    //             dispatch({
+    //               type: "INIT",
+    //               payload: { isAuthenticated: true, user: response.data.user },
+    //             });
+    //           } else {
+    //             console.log("No user found in API response");
+    //             dispatch({
+    //               type: "INIT",
+    //               payload: { isAuthenticated: false, user: null },
+    //             });
+    //           }
+    //         } catch (err) {
+    //           dispatch({
+    //             type: "INIT",
+    //             payload: { isAuthenticated: false, user: null },
+    //           });
+    //         }
+    //       } else {
+    //         dispatch({
+    //           type: "INIT",
+    //           payload: { isAuthenticated: false, user: null },
+    //         });
+    //       }
+    //     } else {
+    //       dispatch({
+    //         type: "INIT",
+    //         payload: { isAuthenticated: false, user: null },
+    //       });
+    //     }
+
+    //     setLoading(false);
+    //   };
+
+    //   initAuth();
+    // }, []);
+
     const initAuth = async () => {
       const jwtToken = localStorage.getItem("jwtToken");
+      console.log("Retrieved JWT Token from localStorage:", jwtToken); // Debugging
 
       if (jwtToken) {
         const decoded = jwtDecode(jwtToken);
+        console.log("Decoded Token:", decoded);
 
         // Check if token is expired
         if (decoded.exp * 1000 < Date.now()) {
+          console.log("Token expired. Logging out user.");
           setShowModal(true); // Show modal
           dispatch({ type: "LOGOUT" }); // Log out user
           setLoading(false);
@@ -147,30 +204,48 @@ export const AuthProvider = ({ children }) => {
         }
 
         if (isValidToken(jwtToken)) {
+          console.log("Token is valid. Fetching user profile...");
           setSession(jwtToken, localStorage.getItem("refreshToken"));
 
           try {
+            console.log("Fetching user profile...");
+
             const response = await axios.get(`${apiUrl}/api/profile`, {
               headers: { Authorization: `Bearer ${jwtToken}` },
+              withCredentials: true,
             });
+            console.log("Fetched User Profile:", response.data.user); // Debugging
+            console.log("Full API Response:", response); // Log entire response
 
-            dispatch({
-              type: "INIT",
-              payload: { isAuthenticated: true, user: response.data.user },
-            });
+            if (response.data.user) {
+              localStorage.setItem("user", JSON.stringify(response.data.user)); // Ensure user is stored
+              dispatch({
+                type: "INIT",
+                payload: { isAuthenticated: true, user: response.data.user },
+              });
+            } else {
+              console.log("No user found in API response");
+              dispatch({
+                type: "INIT",
+                payload: { isAuthenticated: false, user: null },
+              });
+            }
           } catch (err) {
+            console.error("Error fetching user profile:", err); // Added missing console.error
             dispatch({
               type: "INIT",
               payload: { isAuthenticated: false, user: null },
             });
           }
         } else {
+          console.log("Token is invalid");
           dispatch({
             type: "INIT",
             payload: { isAuthenticated: false, user: null },
           });
         }
       } else {
+        console.log("No JWT token found");
         dispatch({
           type: "INIT",
           payload: { isAuthenticated: false, user: null },
@@ -179,9 +254,13 @@ export const AuthProvider = ({ children }) => {
 
       setLoading(false);
     };
-
     initAuth();
   }, []);
+
+  // useEffect(() => {
+  //   initAuth();
+  // }, []);
+
   if (loading) return <p>Loading...</p>; // Prevent rendering before auth check
   // Login method to authenticate the user and set session
   const login = async (email, password) => {

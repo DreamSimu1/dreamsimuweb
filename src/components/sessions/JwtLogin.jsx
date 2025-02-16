@@ -52,10 +52,37 @@ const JwtLogin = () => {
     }
   };
 
+  // const redirectToGoogle = () => {
+  //   console.log("Redirecting to Google OAuth...");
+  //   window.location.href = `${process.env.REACT_APP_API_URL}/api/google`;
+  // };
   const redirectToGoogle = () => {
     console.log("Redirecting to Google OAuth...");
     window.location.href = `${process.env.REACT_APP_API_URL}/api/google`;
   };
+
+  useEffect(() => {
+    console.log("GoogleOauth useEffect triggered");
+    console.log("Full URL:", window.location.href);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const accessToken = urlParams.get("accessToken");
+    const refreshToken = urlParams.get("refreshToken");
+
+    console.log("Extracted Tokens from URL:", { accessToken, refreshToken });
+
+    if (accessToken && refreshToken) {
+      console.log("Tokens found! Storing them in localStorage.");
+      localStorage.setItem("jwtToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+      axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+
+      console.log("Tokens saved! Navigating to /vision...");
+      navigate("/vision", { replace: true });
+    } else {
+      console.log("No valid tokens found in URL. Staying on /login.");
+    }
+  }, [navigate]);
 
   useEffect(() => {
     console.log("GoogleOauth useEffect triggered");

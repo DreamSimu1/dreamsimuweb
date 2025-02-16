@@ -31,29 +31,6 @@ function App() {
   const content = useRoutes(routes);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log("GoogleOauth useEffect triggered");
-    console.log("Full URL:", window.location.href);
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const accessToken = urlParams.get("accessToken");
-    const refreshToken = urlParams.get("refreshToken");
-
-    console.log("Extracted Tokens from URL:", { accessToken, refreshToken });
-
-    if (accessToken && refreshToken) {
-      console.log("Tokens found! Storing them in localStorage.");
-      localStorage.setItem("jwtToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
-      axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-
-      console.log("Tokens saved! Navigating to /vision...");
-      navigate("/vision", { replace: true });
-    } else {
-      console.log("No valid tokens found in URL. Staying on /login.");
-    }
-  }, [navigate]);
-
   return (
     <div>
       <SidebarProvider>
