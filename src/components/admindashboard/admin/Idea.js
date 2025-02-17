@@ -174,11 +174,28 @@ const Idea = () => {
                 {loadingMilestone ? (
                   <p>Loading milestone plan...</p>
                 ) : milestonePlan ? (
-                  <ul>
-                    {milestonePlan.split("\n").map((step, index) => (
-                      <li key={index}>{step}</li>
-                    ))}
-                  </ul>
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th>Milestone</th>
+                        <th>Timeframe</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {milestonePlan.split("\n").map((step, index) => {
+                        const match = step.match(/^(.*?)\s*\(([^)]+)\)$/); // Extract milestone and timeframe
+                        if (match) {
+                          return (
+                            <tr key={index}>
+                              <td>{match[1]}</td>
+                              <td>{match[2]}</td>
+                            </tr>
+                          );
+                        }
+                        return null; // Skip if format is incorrect
+                      })}
+                    </tbody>
+                  </table>
                 ) : (
                   <p>No milestone plan available.</p>
                 )}
