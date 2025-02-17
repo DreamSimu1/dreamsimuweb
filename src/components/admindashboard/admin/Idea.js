@@ -136,7 +136,7 @@ const Idea = () => {
 
           <div className="page-wrapper  adad">
             <div className="content">
-              <div
+              {/*}    <div
                 className="d-flex justify-content-between align-items-center px-4"
                 style={{ marginBottom: "40px" }}
               >
@@ -167,7 +167,7 @@ const Idea = () => {
                     Create a New Idea
                   </button>
                 </div>
-              </div>
+              </div>*/}
 
               <div className="content">
                 <h2>Milestone Plan for {decodedTitle}</h2>
