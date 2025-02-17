@@ -44,7 +44,7 @@ const Idea = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const [currentPage, setCurrentPage] = useState(1); // Start with the first page
   const [visions, setVisions] = useState([]);
-  const [manualEntries, setManualEntries] = useState({});
+  const [manualEntries, setManualEntries] = useState(Array(7).fill(""));
 
   const [visionId, setVisionId] = useState(null);
 
@@ -109,7 +109,9 @@ const Idea = () => {
   };
 
   const handleInputChange = (index, value) => {
-    setManualEntries((prev) => ({ ...prev, [index]: value }));
+    const updatedEntries = [...manualEntries];
+    updatedEntries[index] = value;
+    setManualEntries(updatedEntries);
   };
 
   useEffect(() => {
@@ -346,14 +348,14 @@ const Idea = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {Array.from({ length: 7 }).map((_, index) => (
+                  {manualEntries.map((entry, index) => (
                     <tr key={index}>
                       <td>Day {index + 1}</td>
                       <td>
                         <input
                           type="text"
                           className="form-control"
-                          value={manualEntries[index] || ""}
+                          value={entry}
                           onChange={(e) =>
                             handleInputChange(index, e.target.value)
                           }
