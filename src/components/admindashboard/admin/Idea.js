@@ -44,6 +44,7 @@ const Idea = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const [currentPage, setCurrentPage] = useState(1); // Start with the first page
   const [visions, setVisions] = useState([]);
+  const [manualEntries, setManualEntries] = useState({});
 
   const [visionId, setVisionId] = useState(null);
 
@@ -106,6 +107,11 @@ const Idea = () => {
       console.error("Error fetching updated ideas:", error);
     }
   };
+
+  const handleInputChange = (index, value) => {
+    setManualEntries((prev) => ({ ...prev, [index]: value }));
+  };
+
   useEffect(() => {
     const fetchMilestonePlan = async () => {
       try {
@@ -136,7 +142,7 @@ const Idea = () => {
 
           <div className="page-wrapper  adad">
             <div className="content">
-              {/*}    <div
+              {/*} <div
                 className="d-flex justify-content-between align-items-center px-4"
                 style={{ marginBottom: "40px" }}
               >
@@ -201,7 +207,7 @@ const Idea = () => {
                 )}
               </div>
 
-              <div className="vision-board">
+              {/*} <div className="vision-board">
                 {loading ? (
                   <p>Loading...</p>
                 ) : ideas.length === 0 ? (
@@ -329,7 +335,35 @@ const Idea = () => {
                     ))}
                   </div>
                 )}
-              </div>
+              </div>*/}
+
+              <h3>Plan Your Days</h3>
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Day</th>
+                    <th>Idea</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Array.from({ length: 7 }).map((_, index) => (
+                    <tr key={index}>
+                      <td>Day {index + 1}</td>
+                      <td>
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={manualEntries[index] || ""}
+                          onChange={(e) =>
+                            handleInputChange(index, e.target.value)
+                          }
+                          placeholder="Type your idea here"
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
             <DeleteIdea
               showModalss={showModalss}
