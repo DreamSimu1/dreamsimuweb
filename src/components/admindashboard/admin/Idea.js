@@ -274,7 +274,7 @@ const Idea = () => {
                   </tbody>
                 </table>
               </div>
-              <div style={{ marginTop: "50px", marginBottom: "50px" }}>
+              <div style={{ marginTop: "50px", marginBottom: "100px" }}>
                 <button
                   onClick={addNewEntry}
                   className="btn btn-danger"
