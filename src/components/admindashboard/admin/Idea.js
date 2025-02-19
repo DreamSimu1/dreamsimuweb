@@ -25,7 +25,8 @@ const Idea = () => {
   const decodedTitle = decodeURIComponent(title); // Decode the title to restore spaces
   console.log(decodedTitle);
   const [showModalsss, setShowModalsss] = useState(false);
-
+  console.log("Raw title from URL params:", title);
+  console.log("Decoded title:", decodedTitle);
   const itemsPerPage = 6; // Number of cards per page
   const cards = Array(14).fill({
     title: "Last 30 Days Sales",
@@ -45,33 +46,64 @@ const Idea = () => {
   const [currentPage, setCurrentPage] = useState(1); // Start with the first page
   const [visions, setVisions] = useState([]);
   const [manualEntries, setManualEntries] = useState(Array(7).fill(""));
+  const handleInputChange = (index, value) => {
+    const updatedEntries = [...manualEntries];
+    updatedEntries[index] = value;
+    setManualEntries(updatedEntries);
+  };
 
+  const addNewEntry = () => {
+    setManualEntries([...manualEntries, ""]);
+  };
   const [visionId, setVisionId] = useState(null);
 
+  // const fetchVisionAndIdeas = async () => {
+  //   try {
+  //     // Use the title as is with spaces, encoding is done by `encodeURIComponent`
+  //     const encodedTitle = encodeURIComponent(title);
+
+  //     // Fetch the vision by title
+  //     const visionResponse = await axios.get(
+  //       `${apiUrl}/api/get-single-by-title/${encodedTitle}`
+  //     );
+  //     const visionId = visionResponse.data._id; // Get the visionId
+  //     setVisionId(visionId); // Set the visionId
+
+  //     // Fetch ideas for this vision
+  //     const ideasResponse = await axios.get(`${apiUrl}/api/ideas/${visionId}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+  //       },
+  //     });
+
+  //     setIdeas(ideasResponse.data.ideas); // Set the ideas data
+  //     setLoading(false); // Stop loading
+  //   } catch (error) {
+  //     console.error("Error fetching vision or ideas:", error);
+  //     setLoading(false);
+  //   }
+  // };
   const fetchVisionAndIdeas = async () => {
     try {
-      // Use the title as is with spaces, encoding is done by `encodeURIComponent`
       const encodedTitle = encodeURIComponent(title);
-
-      // Fetch the vision by title
       const visionResponse = await axios.get(
         `${apiUrl}/api/get-single-by-title/${encodedTitle}`
       );
-      const visionId = visionResponse.data._id; // Get the visionId
-      setVisionId(visionId); // Set the visionId
 
-      // Fetch ideas for this vision
-      const ideasResponse = await axios.get(`${apiUrl}/api/ideas/${visionId}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
-        },
-      });
+      if (!visionResponse.data?._id) {
+        console.error("Error: Vision ID not found in response");
+        alert("Could not find vision ID");
+        return;
+      }
 
-      setIdeas(ideasResponse.data.ideas); // Set the ideas data
-      setLoading(false); // Stop loading
+      setVisionId(visionResponse.data._id); // Ensure it's set before saving
+      console.log("Raw title from URL params:", title);
+      console.log("Decoded title:", decodedTitle);
     } catch (error) {
-      console.error("Error fetching vision or ideas:", error);
-      setLoading(false);
+      console.error(
+        "Error fetching vision or ideas:",
+        error.response?.data || error.message
+      );
     }
   };
 
@@ -93,6 +125,23 @@ const Idea = () => {
     currentPage * itemsPerPage
   );
 
+  const handleSavePlan = async () => {
+    try {
+      const entriesToSave = manualEntries.map((idea, index) => ({
+        day: index + 1,
+        idea,
+        visionId,
+      }));
+
+      await axios.post(`${apiUrl}/api/create-plan`, { entries: entriesToSave });
+
+      alert("Milestone Plan Saved Successfully!");
+    } catch (error) {
+      console.error("Error saving plan:", error);
+      alert("Failed to save milestone plan.");
+    }
+  };
+
   const updateTableData = async () => {
     try {
       const token = localStorage.getItem("jwtToken"); // Retrieve JWT token
@@ -106,12 +155,6 @@ const Idea = () => {
     } catch (error) {
       console.error("Error fetching updated ideas:", error);
     }
-  };
-
-  const handleInputChange = (index, value) => {
-    const updatedEntries = [...manualEntries];
-    updatedEntries[index] = value;
-    setManualEntries(updatedEntries);
   };
 
   useEffect(() => {
@@ -144,39 +187,6 @@ const Idea = () => {
 
           <div className="page-wrapper  adad">
             <div className="content">
-              {/*} <div
-                className="d-flex justify-content-between align-items-center px-4"
-                style={{ marginBottom: "40px" }}
-              >
-                <div>
-                  <h4
-                    className="card-title mb-0"
-                    style={{
-                      fontSize: "28px",
-                      marginBottom: "40px",
-                      color: "black",
-                    }}
-                  >
-                    What's your idea?
-                  </h4>
-                </div>
-                <div>
-                  <button
-                    className=""
-                    style={{
-                      backgroundColor: "#0d3978",
-                      padding: "13px",
-                      borderRadius: "6px",
-                      border: "none",
-                      color: "white",
-                    }}
-                    onClick={() => setShowModalsss(true)}
-                  >
-                    Create a New Idea
-                  </button>
-                </div>
-              </div>*/}
-
               <div className="content">
                 <h2>Milestone Plan for {decodedTitle}</h2>
                 {loadingMilestone ? (
@@ -209,136 +219,6 @@ const Idea = () => {
                 )}
               </div>
 
-              {/*} <div className="vision-board">
-                {loading ? (
-                  <p>Loading...</p>
-                ) : ideas.length === 0 ? (
-                  <div className="text-center">
-                    <p>No ideas found for this vision.</p>
-                  </div>
-                ) : (
-                  <div className="row">
-                    {ideas.map((idea) => (
-                      <div className="col-xl-6" key={idea._id}>
-                        <div
-                          className="donation-card style3"
-                          style={{
-                            display: "flex",
-                            alignItems: "flex-start",
-                            gap: "20px",
-                          }}
-                        >
-                          <div
-                            className="box-thumb"
-                            style={{ flex: "0 0 30%" }}
-                          >
-                            <img
-                              src={
-                                idea.imageUrl ||
-                                "https://via.placeholder.com/150"
-                              }
-                              alt={idea.title}
-                              style={{
-                                width: "100%",
-                                height: "auto",
-                                objectFit: "cover",
-                              }}
-                            />
-                          </div>
-                          <div
-                            className="box-content"
-                            style={{ flex: "0 0 70%" }}
-                          >
-                            <h2 className="box-title">
-                              <a href="#">{idea.title}</a>
-                            </h2>
-                            <p>{idea.description}</p>
-                            <div
-                              style={{
-                                display: "flex",
-                                gap: "10px",
-                                marginTop: "10px",
-                                flexWrap: "wrap",
-                              }}
-                            >
-                              <a
-                                href="#"
-                                className="th-btn style6"
-                                style={{
-                                  padding: "8px 12px",
-                                  fontSize: "12px",
-                                  textAlign: "center",
-                                  color: "#fff",
-                                  backgroundColor: "#0d3978",
-                                  textDecoration: "none",
-                                  borderRadius: "4px",
-                                }}
-                              >
-                                {idea.status}
-                              </a>
-                              <a
-                                href={`/refinement/${idea.title}`}
-                                className="th-btn style6"
-                                style={{
-                                  padding: "8px 12px",
-                                  fontSize: "12px",
-                                  textAlign: "center",
-                                  backgroundColor: "#dc3545",
-                                  color: "#fff",
-                                  textDecoration: "none",
-                                  borderRadius: "4px",
-                                }}
-                              >
-                                Refinement
-                              </a>
-
-                              <button
-                                style={{
-                                  padding: "8px",
-                                  fontSize: "16px",
-                                  backgroundColor: "#fff",
-                                  border: "1px solid #ddd",
-                                  borderRadius: "4px",
-                                  cursor: "pointer",
-                                }}
-                                title="Edit"
-                              >
-                                <FaEdit
-                                  style={{ color: "#28a745" }}
-                                  onClick={() => {
-                                    setIdeaId(idea._id);
-                                    setShowEditModal(true);
-                                  }}
-                                />
-                              </button>
-                              <button
-                                style={{
-                                  padding: "8px",
-                                  fontSize: "16px",
-                                  backgroundColor: "#fff",
-                                  border: "1px solid #ddd",
-                                  borderRadius: "4px",
-                                  cursor: "pointer",
-                                }}
-                                title="Delete"
-                              >
-                                <FaTrash
-                                  style={{ color: "#dc3545" }}
-                                  onClick={() => {
-                                    setIdeaId(idea._id);
-                                    setShowModalss(true);
-                                  }}
-                                />
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>*/}
-
               <h3>Plan Your Days</h3>
               <table className="table">
                 <thead>
@@ -367,6 +247,35 @@ const Idea = () => {
                 </tbody>
               </table>
             </div>
+            <button
+              onClick={addNewEntry}
+              style={{
+                backgroundColor: "#28a745",
+                padding: "10px",
+                borderRadius: "5px",
+                border: "none",
+                color: "white",
+                marginTop: "10px",
+                cursor: "pointer",
+              }}
+            >
+              Add Another Day
+            </button>
+            <button
+              onClick={handleSavePlan}
+              style={{
+                backgroundColor: "#0d3978",
+                padding: "10px",
+                borderRadius: "5px",
+                border: "none",
+                color: "white",
+                marginTop: "20px",
+                cursor: "pointer",
+              }}
+            >
+              Save Milestone Plan
+            </button>
+
             <DeleteIdea
               showModalss={showModalss}
               setShowModalss={setShowModalss}
