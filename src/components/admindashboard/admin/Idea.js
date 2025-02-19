@@ -9,7 +9,8 @@ import news from "./pic.jpeg";
 import CreateIdea from "./CreateIdea";
 import DeleteIdea from "./DeleteIdea";
 import EditIdea from "./EditIdea";
-
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const Idea = () => {
   const { user } = useAuth(); // Access the authenticated user
   const [ideas, setIdeas] = useState([]);
@@ -57,32 +58,6 @@ const Idea = () => {
   };
   const [visionId, setVisionId] = useState(null);
 
-  // const fetchVisionAndIdeas = async () => {
-  //   try {
-  //     // Use the title as is with spaces, encoding is done by `encodeURIComponent`
-  //     const encodedTitle = encodeURIComponent(title);
-
-  //     // Fetch the vision by title
-  //     const visionResponse = await axios.get(
-  //       `${apiUrl}/api/get-single-by-title/${encodedTitle}`
-  //     );
-  //     const visionId = visionResponse.data._id; // Get the visionId
-  //     setVisionId(visionId); // Set the visionId
-
-  //     // Fetch ideas for this vision
-  //     const ideasResponse = await axios.get(`${apiUrl}/api/ideas/${visionId}`, {
-  //       headers: {
-  //         Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
-  //       },
-  //     });
-
-  //     setIdeas(ideasResponse.data.ideas); // Set the ideas data
-  //     setLoading(false); // Stop loading
-  //   } catch (error) {
-  //     console.error("Error fetching vision or ideas:", error);
-  //     setLoading(false);
-  //   }
-  // };
   const fetchVisionAndIdeas = async () => {
     try {
       const encodedTitle = encodeURIComponent(title);
@@ -92,7 +67,7 @@ const Idea = () => {
 
       if (!visionResponse.data?._id) {
         console.error("Error: Vision ID not found in response");
-        alert("Could not find vision ID");
+        toast.error("Could not find vision!");
         return;
       }
 
@@ -111,49 +86,98 @@ const Idea = () => {
     fetchVisionAndIdeas(decodedTitle); // Pass decodedTitle to your function
   }, [decodedTitle]);
 
-  const handlePrevious = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
-  };
+  useEffect(() => {
+    const fetchIdeaForDay = async () => {
+      try {
+        const token = localStorage.getItem("jwtToken");
 
-  const handleNext = () => {
-    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
-  };
+        console.log("Fetching ideas for visionId:", visionId);
 
-  // Paginate the cards
-  const paginatedCards = cards.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+        const response = await axios.get(`${apiUrl}/api/get-idea/${visionId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        console.log("Response data:", response.data);
+
+        if (response.data && response.data.ideas) {
+          const updatedEntries = response.data.ideas.map((entry) => entry.idea);
+          console.log("Updated Entries:", updatedEntries);
+          setManualEntries(updatedEntries);
+        } else {
+          console.warn("No ideas found in response.");
+        }
+      } catch (error) {
+        console.error("Error fetching ideas:", error);
+      }
+    };
+
+    if (visionId) {
+      fetchIdeaForDay();
+    }
+  }, [visionId]);
 
   const handleSavePlan = async () => {
     try {
-      const entriesToSave = manualEntries.map((idea, index) => ({
-        day: index + 1,
-        idea,
-        visionId,
-      }));
+      const token = localStorage.getItem("jwtToken");
 
-      await axios.post(`${apiUrl}/api/create-plan`, { entries: entriesToSave });
+      if (!visionId) {
+        toast.error("Vision ID is missing!");
+        return;
+      }
 
-      alert("Milestone Plan Saved Successfully!");
+      // Fetch existing ideas for this visionId
+      let ideaDocument = null;
+      try {
+        const response = await axios.get(`${apiUrl}/api/get-idea/${visionId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        ideaDocument = response.data;
+      } catch (error) {
+        if (error.response && error.response.status === 404) {
+          console.warn("No existing ideas found. Creating new ones...");
+        } else {
+          throw error;
+        }
+      }
+
+      // Prepare entries (filter out empty ones)
+      const entries = manualEntries
+        .map((idea, index) =>
+          idea.trim() !== "" ? { day: String(index + 1), idea } : null
+        ) // ✅ Convert day to string
+        .filter(Boolean);
+
+      if (entries.length === 0) {
+        toast.error("No idea to save!");
+        return;
+      }
+
+      if (!ideaDocument) {
+        // CREATE new idea document
+        await axios.post(
+          `${apiUrl}/api/create-plan`,
+          { entries, visionId },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        toast.success("Milestone Plan Created Successfully!");
+      } else {
+        // UPDATE ideas (one by one)
+        await Promise.all(
+          entries.map(async (entry) => {
+            await axios.put(
+              `${apiUrl}/api/edit-idea/${visionId}`,
+              { day: String(entry.day), idea: entry.idea }, // ✅ Convert day to string
+              { headers: { Authorization: `Bearer ${token}` } }
+            );
+          })
+        );
+        toast.success("Milestone Plan Updated Successfully!");
+      }
     } catch (error) {
-      console.error("Error saving plan:", error);
-      alert("Failed to save milestone plan.");
-    }
-  };
-
-  const updateTableData = async () => {
-    try {
-      const token = localStorage.getItem("jwtToken"); // Retrieve JWT token
-      const response = await axios.get(`${apiUrl}/api/ideas/${visionId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`, // Include authorization header
-        },
-      });
-
-      setIdeas(response.data.ideas); // Update the ideas state with the new list
-    } catch (error) {
-      console.error("Error fetching updated ideas:", error);
+      console.error("Error updating plan:", error);
+      toast.error(
+        error.response?.data?.message || "Failed to update milestone plan."
+      );
     }
   };
 
@@ -180,124 +204,116 @@ const Idea = () => {
   }, [decodedTitle]);
 
   return (
-    <div>
-      <body>
-        <div className={`main-wrapper ${isSidebarOpen ? "sidebar-open" : ""}`}>
-          <TopNav />
+    <>
+      <div>
+        <body>
+          <div
+            className={`main-wrapper ${isSidebarOpen ? "sidebar-open" : ""}`}
+          >
+            <TopNav />
 
-          <div className="page-wrapper  adad">
-            <div className="content">
+            <div className="page-wrapper  adad">
               <div className="content">
-                <h2>Milestone Plan for {decodedTitle}</h2>
-                {loadingMilestone ? (
-                  <p>Loading milestone plan...</p>
-                ) : milestonePlan ? (
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th>Milestone</th>
-                        <th>Timeframe</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {milestonePlan.split("\n").map((step, index) => {
-                        const match = step.match(/^(.*?)\s*\(([^)]+)\)$/); // Extract milestone and timeframe
-                        if (match) {
-                          return (
-                            <tr key={index}>
-                              <td>{match[1]}</td>
-                              <td>{match[2]}</td>
-                            </tr>
-                          );
-                        }
-                        return null; // Skip if format is incorrect
-                      })}
-                    </tbody>
-                  </table>
-                ) : (
-                  <p>No milestone plan available.</p>
-                )}
-              </div>
-
-              <h3>Plan Your Days</h3>
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th>Day</th>
-                    <th>Idea</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {manualEntries.map((entry, index) => (
-                    <tr key={index}>
-                      <td>Day {index + 1}</td>
-                      <td>
-                        <input
-                          type="text"
-                          className="form-control"
-                          value={entry}
-                          onChange={(e) =>
-                            handleInputChange(index, e.target.value)
+                <div className="content">
+                  <h2>Milestone Plan for {decodedTitle}</h2>
+                  {loadingMilestone ? (
+                    <p>Loading milestone plan...</p>
+                  ) : milestonePlan ? (
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <th>Milestone</th>
+                          <th>Timeframe</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {milestonePlan.split("\n").map((step, index) => {
+                          const match = step.match(/^(.*?)\s*\(([^)]+)\)$/); // Extract milestone and timeframe
+                          if (match) {
+                            return (
+                              <tr key={index}>
+                                <td>{match[1]}</td>
+                                <td>{match[2]}</td>
+                              </tr>
+                            );
                           }
-                          placeholder="Type your idea here"
-                        />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <button
-              onClick={addNewEntry}
-              style={{
-                backgroundColor: "#28a745",
-                padding: "10px",
-                borderRadius: "5px",
-                border: "none",
-                color: "white",
-                marginTop: "10px",
-                cursor: "pointer",
-              }}
-            >
-              Add Another Day
-            </button>
-            <button
-              onClick={handleSavePlan}
-              style={{
-                backgroundColor: "#0d3978",
-                padding: "10px",
-                borderRadius: "5px",
-                border: "none",
-                color: "white",
-                marginTop: "20px",
-                cursor: "pointer",
-              }}
-            >
-              Save Milestone Plan
-            </button>
+                          return null; // Skip if format is incorrect
+                        })}
+                      </tbody>
+                    </table>
+                  ) : (
+                    <p>No milestone plan available.</p>
+                  )}
+                </div>
 
-            <DeleteIdea
-              showModalss={showModalss}
-              setShowModalss={setShowModalss}
-              updateTableData={updateTableData}
-              ideaId={ideaId}
-            />
-            <EditIdea
-              showEditModal={showEditModal}
-              setShowEditModal={setShowEditModal}
-              updateTableData={updateTableData}
-              ideaId={ideaId}
-            />
-            <CreateIdea
-              showModalsss={showModalsss}
-              setShowModalsss={setShowModalsss}
-              updateTableData={updateTableData}
-              visionId={visionId} // Assuming all ideas belong to the same vision
-            />
+                <h3>Plan Your Days</h3>
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th>Day</th>
+                      <th>Idea</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {manualEntries.map((entry, index) => (
+                      <tr key={index}>
+                        <td>Day {index + 1}</td>
+                        <td>
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={entry}
+                            onChange={(e) =>
+                              handleInputChange(index, e.target.value)
+                            }
+                            placeholder="Type your idea here"
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <button
+                onClick={addNewEntry}
+                style={{
+                  backgroundColor: "#28a745",
+                  padding: "10px",
+                  borderRadius: "5px",
+                  border: "none",
+                  color: "white",
+                  marginTop: "10px",
+                  cursor: "pointer",
+                }}
+              >
+                Add Another Day
+              </button>
+              <button
+                onClick={handleSavePlan}
+                style={{
+                  backgroundColor: "#0d3978",
+                  padding: "10px",
+                  borderRadius: "5px",
+                  border: "none",
+                  color: "white",
+                  marginTop: "20px",
+                  cursor: "pointer",
+                }}
+              >
+                Save Milestone Plan
+              </button>
+
+              <DeleteIdea
+                showModalss={showModalss}
+                setShowModalss={setShowModalss}
+                ideaId={ideaId}
+              />
+            </div>
           </div>
-        </div>
-      </body>
-    </div>
+        </body>
+      </div>
+      <ToastContainer position="top-right" autoClose={3000} />
+    </>
   );
 };
 
