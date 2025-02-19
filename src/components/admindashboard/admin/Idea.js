@@ -274,35 +274,37 @@ const Idea = () => {
                   </tbody>
                 </table>
               </div>
-              <button
-                onClick={addNewEntry}
-                style={{
-                  backgroundColor: "#28a745",
-                  padding: "10px",
-                  borderRadius: "5px",
-                  border: "none",
-                  color: "white",
-                  marginTop: "10px",
-                  cursor: "pointer",
-                }}
-              >
-                Add Another Day
-              </button>
-              <button
-                onClick={handleSavePlan}
-                style={{
-                  backgroundColor: "#0d3978",
-                  padding: "10px",
-                  borderRadius: "5px",
-                  border: "none",
-                  color: "white",
-                  marginTop: "20px",
-                  cursor: "pointer",
-                }}
-              >
-                Save Milestone Plan
-              </button>
+              <div style={{ marginTop: "50px", marginBottom: "50px" }}>
+                <button
+                  onClick={addNewEntry}
+                  className="btn btn-danger"
+                  style={{
+                    backgroundColor: "#28a745",
+                    padding: "10px",
+                    borderRadius: "5px",
+                    border: "none",
+                    color: "white",
 
+                    cursor: "pointer",
+                  }}
+                >
+                  Add Another Day
+                </button>
+                <button
+                  onClick={handleSavePlan}
+                  style={{
+                    backgroundColor: "#0d3978",
+                    padding: "10px",
+                    borderRadius: "5px",
+                    border: "none",
+                    color: "white",
+                    marginLeft: "20px",
+                    cursor: "pointer",
+                  }}
+                >
+                  Save Milestone Plan
+                </button>
+              </div>
               <DeleteIdea
                 showModalss={showModalss}
                 setShowModalss={setShowModalss}
