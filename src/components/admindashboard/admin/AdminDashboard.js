@@ -1,7 +1,6 @@
 import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-// import useFetch from "hooks/useFetch";
-import logo from "./oga4.png";
+
 import axios from "axios";
 import TopNav from "../TopNav";
 import SideNav from "../SideNav";
