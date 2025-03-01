@@ -25,27 +25,70 @@ const Template = ({ showModals, setShowModals, updateTableData }) => {
     }
   };
 
+  // const handleGenerateVision = async (e) => {
+  //   e.preventDefault();
+  //   if (!user || !user._id) {
+  //     console.error("User not authenticated or missing _id:", user);
+  //     setMessage("User not authenticated.");
+  //     return;
+  //   }
+
+  //   const userId = user._id; // Use _id instead of id
+
+  //   console.log("User ID:", userId); // Debugging step
+
+  //   const formData = new FormData();
+  //   formData.append("title", title);
+  //   formData.append("userId", userId);
+
+  //   if (uploadedImage) {
+  //     formData.append("image", uploadedImage);
+  //   }
+
+  //   setLoading(true); // Start loading
+
+  //   try {
+  //     const response = await axios.post(
+  //       `${apiUrl}/api/generate-dream`,
+  //       formData,
+  //       {
+  //         headers: {
+  //           "Content-Type": "multipart/form-data",
+  //           Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+  //         },
+  //       }
+  //     );
+
+  //     console.log("API Response:", response.data);
+  //     setMessage(response.data.message);
+  //     setGeneratedImages(response.data.dream.imageUrls || []);
+  //   } catch (error) {
+  //     setMessage("Error generating dream.");
+  //     console.error(
+  //       "Error:",
+  //       error.response ? error.response.data : error.message
+  //     );
+  //   } finally {
+  //     setLoading(false); // Stop loading
+  //   }
+  // };
   const handleGenerateVision = async (e) => {
     e.preventDefault();
     if (!user || !user._id) {
-      console.error("User not authenticated or missing _id:", user);
       setMessage("User not authenticated.");
       return;
     }
 
-    const userId = user._id; // Use _id instead of id
-
-    console.log("User ID:", userId); // Debugging step
-
+    const userId = user._id;
     const formData = new FormData();
     formData.append("title", title);
     formData.append("userId", userId);
 
     if (uploadedImage) {
-      formData.append("image", uploadedImage);
+      formData.append("image", uploadedImage); // Upload user image (swap image)
     }
 
-    setLoading(true); // Start loading
+    setLoading(true);
 
     try {
       const response = await axios.post(
@@ -59,62 +102,14 @@ const Template = ({ showModals, setShowModals, updateTableData }) => {
         }
       );
 
-      console.log("API Response:", response.data);
       setMessage(response.data.message);
-      setGeneratedImages(response.data.dream.imageUrls || []);
+      setGeneratedImages(response.data.dream.imageUrls || []); // Swapped images
     } catch (error) {
       setMessage("Error generating dream.");
-      console.error(
-        "Error:",
-        error.response ? error.response.data : error.message
-      );
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
-  // const handleSaveVision = async () => {
-  //   if (!selectedVision) {
-  //     setMessage("Please select a vision to save.");
-  //     return;
-  //   }
-
-  //   if (!title.trim()) {
-  //     setMessage("Title cannot be empty.");
-  //     return;
-  //   }
-
-  //   if (!user || !user._id) {
-  //     setMessage("User not authenticated.");
-  //     return;
-  //   }
-
-  //   try {
-  //     const response = await axios.post(
-  //       `${apiUrl}/api/create-template-vision`,
-  //       {
-  //         title: title.trim(), // Ensure title is not empty
-  //         imageUrl: selectedVision,
-  //         userId: user._id,
-  //       },
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
-  //         },
-  //       }
-  //     );
-
-  //     setMessage("Vision saved successfully!");
-  //     setShowModals(false); // Close modal after saving
-
-  //     if (updateTableData) {
-  //       updateTableData(); // Refresh the visions list
-  //     }
-  //   } catch (error) {
-  //     console.error("Error saving vision:", error.response?.data || error.message);
-  //     setMessage(error.response?.data?.error || "Error saving vision.");
-  //   }
-  // };
 
   const handleSaveVision = async () => {
     console.log("save button is clicked");
@@ -198,7 +193,7 @@ const Template = ({ showModals, setShowModals, updateTableData }) => {
                     onChange={(e) => setTitle(e.target.value)}
                   ></textarea>
                 </div>
-                <div className="form-group">
+                {/*} <div className="form-group">
                   <label>Upload Image (optional)</label>
                   <input
                     type="file"
@@ -206,8 +201,16 @@ const Template = ({ showModals, setShowModals, updateTableData }) => {
                     accept="image/*"
                     onChange={handleImageUpload}
                   />
+                </div>*/}
+                <div className="form-group">
+                  <label>Upload Your Image (Swap Image)</label>
+                  <input
+                    type="file"
+                    className="form-control"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                  />
                 </div>
-
                 <div className="modal-footer">
                   <button
                     type="submit"
