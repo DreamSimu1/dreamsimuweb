@@ -197,7 +197,7 @@ export const AuthProvider = ({ children }) => {
         // Check if token is expired
         if (decoded.exp * 1000 < Date.now()) {
           console.log("Token expired. Logging out user.");
-          setShowModal(true); // Show modal
+          // setShowModal(true); // Show modal
           dispatch({ type: "LOGOUT" }); // Log out user
           setLoading(false);
           return;
@@ -328,7 +328,7 @@ export const AuthProvider = ({ children }) => {
 
   // Logout method to clear session
   const logout = () => {
-    setShowModal(false);
+    // setShowModal(false);
     setSession(null); // Clear session and tokens
     localStorage.removeItem("jwtToken");
     localStorage.removeItem("refreshToken");
@@ -352,7 +352,7 @@ export const AuthProvider = ({ children }) => {
         register,
       }}
     >
-      {children}
+      {/*} {children}
       {state.user && showModal && (
         <Modal show={showModal} onHide={logout} backdrop="static" centered>
           <Modal.Header closeButton>
@@ -367,7 +367,7 @@ export const AuthProvider = ({ children }) => {
             </Button>
           </Modal.Footer>
         </Modal>
-      )}
+      )}*/}
     </AuthContext.Provider>
   );
 };
