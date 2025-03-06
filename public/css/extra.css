@@ -2074,7 +2074,7 @@ body.swal2-toast-column .swal2-toast .swal2-validation-message {
   height: 100%;
   width: 100%;
   background: #eee;
-  overflow: auto;
+  /* overflow: auto; */
 }
 
 .contract-trigger:before {

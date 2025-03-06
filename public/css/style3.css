@@ -497,7 +497,7 @@ ul .btn-primary:not(:disabled):not(.disabled).active:focus {
 }
 
 .bg-orange-gradient {
-  background: linear-gradient(to right, #FF0000 0%, #fbb034 100%) !important;
+  background: linear-gradient(to right, #ff0000 0%, #fbb034 100%) !important;
   color: #ffffff;
 }
 
@@ -701,7 +701,7 @@ ul .btn-primary:not(:disabled):not(.disabled).active:focus {
 }
 
 .svg-orange {
-  fill: #FF0000;
+  fill: #ff0000;
 }
 
 .svg-purple {
@@ -2351,7 +2351,7 @@ button:focus {
   border-color: #29344a !important;
 }
 .border.border-orange {
-  border: 1px solid #FF0000 !important;
+  border: 1px solid #ff0000 !important;
   opacity: 1;
 }
 .border.border-orange.border-opacity-10 {
@@ -2806,7 +2806,7 @@ button:focus {
 }
 
 .dropdown-auto {
-  overflow: auto;
+  /* overflow: auto; */
 }
 
 .dropdown-divider {
@@ -3902,7 +3902,7 @@ h6,
 }
 
 .text-orange {
-  color: #FF0000 !important;
+  color: #ff0000 !important;
 }
 
 .text-indigo {
@@ -16923,7 +16923,7 @@ div#global-loader .whirly-loader:not(:required) {
 }
 .sidebar .sidebar-menu > ul > li.active svg,
 .sidebars .sidebar-menu > ul > li.active svg {
-  color: #FF0000;
+  color: #ff0000;
 }
 .sidebar .sidebar-menu > ul > li svg,
 .sidebars .sidebar-menu > ul > li svg {
@@ -16956,7 +16956,7 @@ div#global-loader .whirly-loader:not(:required) {
 .sidebar .sidebar-menu > ul > li > a:hover,
 .sidebars .sidebar-menu > ul > li > a:hover {
   background: rgba(254, 159, 67, 0.08);
-  color: #FF0000;
+  color: #ff0000;
   border-radius: 5px;
 }
 .sidebar .sidebar-menu > ul > li > a:hover img,
@@ -16966,16 +16966,16 @@ div#global-loader .whirly-loader:not(:required) {
 }
 .sidebar .sidebar-menu > ul > li > a:hover span,
 .sidebars .sidebar-menu > ul > li > a:hover span {
-  color: #FF0000;
+  color: #ff0000;
 }
 .sidebar .sidebar-menu > ul > li > a:hover svg,
 .sidebars .sidebar-menu > ul > li > a:hover svg {
-  color: #FF0000;
+  color: #ff0000;
 }
 .sidebar .sidebar-menu > ul > li > a.active,
 .sidebars .sidebar-menu > ul > li > a.active {
   background: rgba(254, 159, 67, 0.08);
-  color: #FF0000;
+  color: #ff0000;
   border-radius: 5px;
 }
 .sidebar .sidebar-menu > ul > li > a.active svg,
@@ -16989,7 +16989,7 @@ div#global-loader .whirly-loader:not(:required) {
 }
 .sidebar .sidebar-menu > ul > li > a.active span,
 .sidebars .sidebar-menu > ul > li > a.active span {
-  color: #FF0000;
+  color: #ff0000;
 }
 .sidebar .sidebar-menu > ul > li > a.active .menu-arrow,
 .sidebars .sidebar-menu > ul > li > a.active .menu-arrow {
@@ -16997,7 +16997,7 @@ div#global-loader .whirly-loader:not(:required) {
 }
 .sidebar .sidebar-menu > ul > li > a.active .menu-arrow::before,
 .sidebars .sidebar-menu > ul > li > a.active .menu-arrow::before {
-  border-color: #FF0000;
+  border-color: #ff0000;
 }
 .sidebar .sidebar-menu > ul > li > a span,
 .sidebars .sidebar-menu > ul > li > a span {
@@ -17017,7 +17017,7 @@ div#global-loader .whirly-loader:not(:required) {
 }
 .sidebar .sidebar-menu > ul > li.active a span,
 .sidebars .sidebar-menu > ul > li.active a span {
-  color: #FF0000;
+  color: #ff0000;
 }
 .sidebar .sidebar-menu > ul > li.submenu ul,
 .sidebars .sidebar-menu > ul > li.submenu ul {
@@ -17040,7 +17040,7 @@ div#global-loader .whirly-loader:not(:required) {
 }
 .sidebar .sidebar-menu > ul > li.submenu ul li a.active:after,
 .sidebars .sidebar-menu > ul > li.submenu ul li a.active:after {
-  background: #FF0000;
+  background: #ff0000;
   border: 2px solid #fdb;
 }
 .sidebar .sidebar-menu > ul > li.submenu ul li a::after,
@@ -17061,7 +17061,7 @@ div#global-loader .whirly-loader:not(:required) {
 }
 .sidebar .sidebar-menu > ul > li.submenu ul li a:hover:after,
 .sidebars .sidebar-menu > ul > li.submenu ul li a:hover:after {
-  background: #FF0000;
+  background: #ff0000;
   border: 2px solid #fdb;
 }
 .sidebar .sidebar-menu > ul > li.submenu-open ul,
@@ -17101,7 +17101,7 @@ div#global-loader .whirly-loader:not(:required) {
 }
 .sidebar .sidebar-menu > ul > li.submenu-open ul li a.active:after,
 .sidebars .sidebar-menu > ul > li.submenu-open ul li a.active:after {
-  background: #FF0000;
+  background: #ff0000;
   border: 2px solid #fdb;
 }
 .sidebar .sidebar-menu > ul > li.submenu-open ul li a:hover,
@@ -17110,7 +17110,7 @@ div#global-loader .whirly-loader:not(:required) {
 }
 .sidebar .sidebar-menu > ul > li.submenu-open ul li a:hover:after,
 .sidebars .sidebar-menu > ul > li.submenu-open ul li a:hover:after {
-  background: #FF0000;
+  background: #ff0000;
   border: 2px solid #fdb;
 }
 .sidebar .sidebar-menu > ul > li.submenu-open ul li a:hover span,
@@ -17121,7 +17121,7 @@ div#global-loader .whirly-loader:not(:required) {
 .sidebars .sidebar-menu > ul > li.submenu-open ul > li.active a {
   background: rgba(254, 159, 67, 0.08);
   border-radius: 5px;
-  color: #FF0000;
+  color: #ff0000;
 }
 .sidebar .sidebar-menu > ul > li.submenu-open ul > li.active a span,
 .sidebars .sidebar-menu > ul > li.submenu-open ul > li.active a span {
@@ -17147,21 +17147,21 @@ div#global-loader .whirly-loader:not(:required) {
 }
 .sidebar .sidebar-menu > ul li.active a,
 .sidebars .sidebar-menu > ul li.active a {
-  color: #FF0000;
+  color: #ff0000;
 }
 .sidebar .sidebar-menu > ul li.active svg,
 .sidebars .sidebar-menu > ul li.active svg {
-  color: #FF0000;
+  color: #ff0000;
 }
 .sidebar .sidebar-menu > ul li .submenu > a.active,
 .sidebars .sidebar-menu > ul li .submenu > a.active {
   background: rgba(254, 159, 67, 0.08);
-  color: #FF0000;
+  color: #ff0000;
   border-radius: 5px;
 }
 .sidebar .sidebar-menu > ul li .submenu > a.active span,
 .sidebars .sidebar-menu > ul li .submenu > a.active span {
-  color: #FF0000;
+  color: #ff0000;
 }
 .sidebar .sidebar-menu > ul li .submenu > a.active .menu-arrow,
 .sidebars .sidebar-menu > ul li .submenu > a.active .menu-arrow {
@@ -17169,7 +17169,7 @@ div#global-loader .whirly-loader:not(:required) {
 }
 .sidebar .sidebar-menu > ul li .submenu > a.active .menu-arrow::before,
 .sidebars .sidebar-menu > ul li .submenu > a.active .menu-arrow::before {
-  border-color: #FF0000;
+  border-color: #ff0000;
 }
 .sidebar .sidebar-menu > ul li .submenu .submenu-two > a.active,
 .sidebars .sidebar-menu > ul li .submenu .submenu-two > a.active {
@@ -17223,7 +17223,7 @@ div#global-loader .whirly-loader:not(:required) {
 }
 .sidebar .sidebar-menu .submenu-open .submenu ul li a:hover:after,
 .sidebars .sidebar-menu .submenu-open .submenu ul li a:hover:after {
-  background: #FF0000;
+  background: #ff0000;
   border: 2px solid #fdb;
 }
 .sidebar .sidebar-menu .menu-arrow,
@@ -17876,7 +17876,7 @@ body.mini-sidebar.expand-menu
   transform: translateY(-50%);
   -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
-  background: #FF0000;
+  background: #ff0000;
   border-radius: 10px 0px 0px 10px;
   z-index: 3;
   width: 41px;
@@ -18071,7 +18071,7 @@ body.mini-sidebar.expand-menu
 }
 .switch-wrapper #dark-mode-toggle .light-mode.active,
 .switch-wrapper #dark-mode-toggle .dark-mode.active {
-  background: #FF0000;
+  background: #ff0000;
   color: #ffffff;
 }
 .switch-wrapper #dark-mode-toggle .light-mode.active img,
@@ -22700,7 +22700,7 @@ body.mini-sidebar.expand-menu
 }
 .main-chat-blk .sidebar-body {
   flex: 1;
-  overflow: auto;
+  /* overflow: auto; */
   padding: 24px 24px 10px;
   width: 100%;
 }
@@ -24541,7 +24541,7 @@ body.mini-sidebar.expand-menu
   width: 50%;
   height: 100vh;
   padding: 24px;
-  overflow: auto;
+  /* overflow: auto; */
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -24962,7 +24962,7 @@ body.mini-sidebar.expand-menu
 }
 
 .login-wrapper.login-new {
-  overflow: auto;
+  /* overflow: auto; */
   height: 100vh;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -25408,7 +25408,7 @@ body.mini-sidebar.expand-menu
     overflow: hidden;
   }
   .productdetails.product-respon ul {
-    overflow: auto;
+    /* overflow: auto; */
   }
   .productdetails.product-respon ul .input-checkset li {
     margin-bottom: 15px;
@@ -26181,7 +26181,7 @@ span.badge.badges-warning {
 
 .product-table {
   height: 34vh;
-  overflow: auto;
+  /* overflow: auto; */
 }
 @media (max-width: 991.98px) {
   .product-table {
@@ -32595,7 +32595,7 @@ th.fixed-width {
 
 .product-wrap {
   height: 34vh;
-  overflow: auto;
+  /* overflow: auto; */
 }
 .product-wrap .product-list {
   box-shadow: 0px 4px 60px 0px rgba(231, 231, 231, 0.47);
@@ -33000,7 +33000,7 @@ aside.product-order-list .btn-row .btn:hover {
 }
 .pos-modal#orders .order-body {
   height: 50vh;
-  overflow: auto;
+  /* overflow: auto; */
 }
 .pos-modal#orders .order-body .default-cover {
   border: 1px solid #f3f6f9;

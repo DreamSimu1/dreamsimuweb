@@ -2591,7 +2591,7 @@ button:focus {
   display: none;
 }
 .dropdown-auto {
-  overflow: auto;
+  /* overflow: auto; */
 }
 .dropdown-divider {
   margin: 0;
@@ -14954,7 +14954,7 @@ hr {
 }
 
 .main-wrapper {
-  overflow: auto; /* Allows the main wrapper to scroll */
+  /* overflow: auto;  */
 }
 
 .search-dropdown .search-info {
@@ -21911,7 +21911,7 @@ body.mini-sidebar.expand-menu
 }
 .main-chat-blk .sidebar-body {
   flex: 1;
-  overflow: auto;
+  /* overflow: auto; */
   padding: 24px 24px 10px;
   width: 100%;
 }
@@ -23720,7 +23720,7 @@ body.mini-sidebar.expand-menu
   width: 50%;
   height: 100vh;
   padding: 24px;
-  overflow: auto;
+  /* overflow: auto; */
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -24139,7 +24139,7 @@ body.mini-sidebar.expand-menu
   margin: auto;
 }
 .login-wrapper.login-new {
-  overflow: auto;
+  /* overflow: auto; */
   height: 100vh;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -24577,7 +24577,7 @@ body.mini-sidebar.expand-menu
     overflow: hidden;
   }
   .productdetails.product-respon ul {
-    overflow: auto;
+    /* overflow: auto; */
   }
   .productdetails.product-respon ul .input-checkset li {
     margin-bottom: 15px;
@@ -25316,7 +25316,7 @@ span.badge.badges-warning {
 }
 .product-table {
   height: 34vh;
-  overflow: auto;
+  /* overflow: auto; */
 }
 @media (max-width: 991.98px) {
   .product-table {
@@ -31424,7 +31424,7 @@ th.fixed-width {
 }
 .product-wrap {
   height: 34vh;
-  overflow: auto;
+  /* overflow: auto; */
 }
 .product-wrap .product-list {
   box-shadow: 0 4px 60px 0 rgba(231, 231, 231, 0.47);
@@ -31825,7 +31825,7 @@ aside.product-order-list .btn-row .btn:hover {
 }
 .pos-modal#orders .order-body {
   height: 50vh;
-  overflow: auto;
+  /* overflow: auto; */
 }
 .pos-modal#orders .order-body .default-cover {
   border: 1px solid #f3f6f9;

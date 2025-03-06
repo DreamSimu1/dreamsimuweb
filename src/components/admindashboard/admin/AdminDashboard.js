@@ -17,6 +17,9 @@ import Template from "./Template";
 import CreateVision from "./CreateVision";
 import DeleteVision from "./DeleteVision";
 import EditVision from "./EditVision";
+import VisionBoard from "./VisionBoard";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
 const AdminDashboard = () => {
   const { user } = useAuth(); // Access the authenticated user
   const [points, setPoints] = useState([]);
@@ -25,6 +28,66 @@ const AdminDashboard = () => {
   const [showModals, setShowModals] = useState(false);
   const [showModalss, setShowModalss] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [layout, setLayout] = useState([]);
+  const [boardSize, setBoardSize] = useState("2x2");
+
+  const boardOptions = {
+    "2x2": { cols: 2, rows: 2 },
+    "3x3": { cols: 3, rows: 3 },
+    "4x4": { cols: 4, rows: 4 },
+    custom: { cols: 5, rows: 5 },
+  };
+  const { rows, cols } = boardOptions[boardSize];
+  // const handleSizeChange = (size) => {
+  //   setBoardSize(size);
+  //   const { cols, rows } = boardOptions[size];
+
+  //   // Ensure visions is an array before mapping
+  //   setLayout(
+  //     (visions || []).map((vision, index) => ({
+  //       i: vision.id.toString(),
+  //       x: index % cols,
+  //       y: Math.floor(index / cols),
+  //       w: 1,
+  //       h: 1,
+  //     }))
+  //   );
+  // };
+  // const handleSizeChange = (size) => {
+  //   setBoardSize(size);
+
+  //   // Make sure layout matches the new board size
+  //   setLayout(
+  //     visions
+  //       .slice(0, boardOptions[size].rows * boardOptions[size].cols)
+  //       .map((vision, index) => ({
+  //         ...vision,
+  //         x: index % boardOptions[size].cols,
+  //         y: Math.floor(index / boardOptions[size].cols),
+  //         w: 1,
+  //         h: 1,
+  //       }))
+  //   );
+  // };
+
+  const handleSizeChange = (size) => {
+    setBoardSize(size);
+
+    setLayout((prevLayout) => {
+      const newLayout = visions.map((vision, index) => {
+        const colCount = boardOptions[size].cols;
+        return {
+          ...vision,
+          x: index % colCount,
+          y: Math.floor(index / colCount),
+          w: 1,
+          h: 1,
+        };
+      });
+      setLayout([]);
+      return newLayout;
+    });
+  };
 
   const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -131,15 +194,6 @@ const AdminDashboard = () => {
     currentPage * itemsPerPage
   );
 
-  // const updateTableData = async () => {
-  //   try {
-  //     const response = await axios.get(`${apiUrl}/api/get-all`);
-  //     setVisions(response.data); // Update the visions state with the new list
-  //   } catch (error) {
-  //     console.error("Error fetching updated visions:", error);
-  //   }
-  // };
-
   const updateTableData = async () => {
     try {
       const userId = user._id; // Make sure you have access to the logged-in user's ID
@@ -159,6 +213,149 @@ const AdminDashboard = () => {
       console.error("Error fetching updated visions:", error);
     }
   };
+
+  // const onDragEnd = (result) => {
+  //   const { source, destination } = result;
+
+  //   if (!destination) return; // If dropped outside, do nothing
+
+  //   let updatedVisions = JSON.parse(JSON.stringify(visions));
+  //   let updatedLayout = JSON.parse(JSON.stringify(layout));
+
+  //   // Moving from Visions to Board
+  //   if (
+  //     source.droppableId === "visions" &&
+  //     destination.droppableId === "board"
+  //   ) {
+  //     const [movedItem] = updatedVisions.splice(source.index, 1);
+  //     // updatedLayout.push(movedItem);
+  //     updatedLayout.splice(destination.index, 0, movedItem);
+  //   }
+  //   // Moving from Board back to Visions
+  //   else if (
+  //     source.droppableId === "board" &&
+  //     destination.droppableId === "visions"
+  //   ) {
+  //     const [movedItem] = updatedLayout.splice(source.index, 1);
+  //     updatedVisions.push(movedItem); // Add back to visions list
+  //   }
+  //   // Reordering within Visions
+  //   else if (
+  //     source.droppableId === "visions" &&
+  //     destination.droppableId === "visions"
+  //   ) {
+  //     const [movedItem] = updatedVisions.splice(source.index, 1);
+  //     updatedVisions.splice(destination.index, 0, movedItem);
+  //   }
+  //   // Reordering within Board
+  //   else if (
+  //     source.droppableId === "board" &&
+  //     destination.droppableId === "board"
+  //   ) {
+  //     const [movedItem] = updatedLayout.splice(source.index, 1);
+  //     updatedLayout.splice(destination.index, 0, movedItem);
+  //   }
+
+  //   // Update states
+  //   setVisions(updatedVisions);
+  //   setLayout(updatedLayout);
+  // };
+  // const onDragEnd = (result) => {
+  //   const { source, destination } = result;
+
+  //   if (!destination) return; // If dropped outside, do nothing
+
+  //   let updatedVisions = JSON.parse(JSON.stringify(visions));
+  //   let updatedLayout = JSON.parse(JSON.stringify(layout));
+
+  //   // Duplicating from Visions to Board
+  //   if (
+  //     source.droppableId === "visions" &&
+  //     destination.droppableId === "board"
+  //   ) {
+  //     const movedItem = JSON.parse(
+  //       JSON.stringify(updatedVisions[source.index])
+  //     ); // Duplicate item
+  //     updatedLayout.splice(destination.index, 0, movedItem);
+  //   }
+  //   // Moving from Board back to Visions
+  //   else if (
+  //     source.droppableId === "board" &&
+  //     destination.droppableId === "visions"
+  //   ) {
+  //     const [movedItem] = updatedLayout.splice(source.index, 1);
+  //     updatedVisions.push(movedItem); // Add back to visions list
+  //   }
+  //   // Reordering within Visions
+  //   else if (
+  //     source.droppableId === "visions" &&
+  //     destination.droppableId === "visions"
+  //   ) {
+  //     const [movedItem] = updatedVisions.splice(source.index, 1);
+  //     updatedVisions.splice(destination.index, 0, movedItem);
+  //   }
+  //   // Reordering within Board
+  //   else if (
+  //     source.droppableId === "board" &&
+  //     destination.droppableId === "board"
+  //   ) {
+  //     const [movedItem] = updatedLayout.splice(source.index, 1);
+  //     updatedLayout.splice(destination.index, 0, movedItem);
+  //   }
+
+  //   // Update states
+  //   setVisions(updatedVisions);
+  //   setLayout(updatedLayout);
+  // };
+  const onDragEnd = (result) => {
+    const { source, destination } = result;
+
+    if (!destination) return; // If dropped outside, do nothing
+
+    let updatedVisions = [...visions];
+    let updatedLayout = [...layout];
+
+    // Dragging from Visions to Board (should only copy, not remove from visions)
+    if (
+      source.droppableId === "visions" &&
+      destination.droppableId === "board"
+    ) {
+      const movedItem = visions[source.index]; // Get the item (no need to copy deeply)
+      updatedLayout.splice(destination.index, 0, movedItem); // Add to board
+    }
+    // Moving from Board back to Visions
+    else if (
+      source.droppableId === "board" &&
+      destination.droppableId === "visions"
+    ) {
+      const [movedItem] = updatedLayout.splice(source.index, 1); // Remove from board
+      updatedVisions.push(movedItem); // Add back to visions
+    }
+    // Reordering within Visions
+    else if (
+      source.droppableId === "visions" &&
+      destination.droppableId === "visions"
+    ) {
+      const [movedItem] = updatedVisions.splice(source.index, 1);
+      updatedVisions.splice(destination.index, 0, movedItem);
+    }
+    // Reordering within Board
+    else if (
+      source.droppableId === "board" &&
+      destination.droppableId === "board"
+    ) {
+      const [movedItem] = updatedLayout.splice(source.index, 1);
+      updatedLayout.splice(destination.index, 0, movedItem);
+    }
+
+    // Update states
+    setVisions(updatedVisions);
+    setLayout(updatedLayout);
+  };
+
+  useEffect(() => {
+    console.log("Updated Layout:", layout);
+  }, [layout]);
 
   return (
     <div>
@@ -218,104 +415,297 @@ const AdminDashboard = () => {
                     </button>
                   </div>
                 ) : (
-                  <div className="row">
-                    {visions.map((vision, index) => (
-                      <div
-                        key={vision.id}
-                        className="col-xl-3 col-sm-6 col-12"
-                        style={{ marginBottom: "20px" }}
-                      >
-                        <div className="card h-100 text-white border-0">
-                          {/*} <img
-                            src={vision.imageUrl || "default-image.jpg"} // Fallback image
-                            alt="Card Image"
-                            className="card-img-top img-fluid"
-                            style={{ objectFit: "cover" }}
-                          />*/}
-
-                          <img
-                            src={
-                              vision.imageUrl ||
-                              (vision.imageUrls && vision.imageUrls.length > 0
-                                ? vision.imageUrls[0]
-                                : "default-image.jpg")
-                            }
-                            alt="Card Image"
-                            className="card-img-top img-fluid"
-                            style={{ objectFit: "cover" }}
-                          />
-
-                          <div className="card-body">
-                            {/*}   <h3 className="card-title">#{index + 1}</h3>*/}
-                            <h3
-                              className="card-title"
-                              style={{ color: "black" }}
+                  <DragDropContext onDragEnd={onDragEnd}>
+                    <Droppable droppableId="visions" isCombineEnabled={false}>
+                      {(provided) => (
+                        <div
+                          className="row"
+                          {...provided.droppableProps}
+                          ref={provided.innerRef}
+                        >
+                          {visions.map((vision, index) => (
+                            <Draggable
+                              key={
+                                vision.id
+                                  ? vision.id.toString()
+                                  : `vision-${index}`
+                              }
+                              draggableId={
+                                vision.id
+                                  ? vision.id.toString()
+                                  : `vision-${index}`
+                              }
+                              index={index}
                             >
-                              <Link
-                                to={`/vision-idea/${encodeURIComponent(
-                                  vision.title
-                                )}`}
-                              >
-                                {vision.title}
-                              </Link>
-                            </h3>
-                          </div>
-                          {/* Edit and Delete Icons */}
-                          <div
-                            className="card-icons"
-                            style={{
-                              position: "absolute",
-                              top: "10px",
-                              right: "10px",
-                              display: "none",
+                              {(provided) => (
+                                <div
+                                  className="col-xl-3 col-sm-6 col-12"
+                                  style={{ marginBottom: "20px" }}
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                >
+                                  <div className="card h-100 text-white border-0">
+                                    <img
+                                      src={
+                                        vision.imageUrl ||
+                                        (vision.imageUrls &&
+                                        vision.imageUrls.length > 0
+                                          ? vision.imageUrls[0]
+                                          : "default-image.jpg")
+                                      }
+                                      alt="Vision"
+                                      className="card-img-top img-fluid"
+                                      style={{
+                                        objectFit: "cover",
+                                        width: "100%",
+                                        height: "auto",
+                                      }}
+                                    />
+                                    <div className="card-body">
+                                      {/*}   <h3 className="card-title">#{index + 1}</h3>*/}
+                                      <h3
+                                        className="card-title"
+                                        style={{ color: "black" }}
+                                      >
+                                        <Link
+                                          to={`/vision-idea/${encodeURIComponent(
+                                            vision.title
+                                          )}`}
+                                        >
+                                          {vision.title}
+                                        </Link>
+                                      </h3>
+                                    </div>
+                                    <div
+                                      className="card-icons"
+                                      style={{
+                                        position: "absolute",
+                                        top: "10px",
+                                        right: "10px",
+                                        display: "none",
 
-                              gap: "10px",
-                            }}
-                          >
-                            <button
-                              style={{
-                                padding: "8px",
-                                fontSize: "16px",
-                                backgroundColor: "#fff",
-                                border: "1px solid #ddd",
-                                borderRadius: "4px",
-                                cursor: "pointer",
-                              }}
-                              title="Edit"
-                            >
-                              <FaEdit
-                                style={{ color: "#28a745" }}
-                                onClick={() => {
-                                  setVisionId(vision._id);
-                                  setShowEditModal(true);
-                                }}
-                              />
-                            </button>
-                            <button
-                              style={{
-                                padding: "8px",
-                                fontSize: "16px",
-                                backgroundColor: "#fff",
-                                border: "1px solid #ddd",
-                                borderRadius: "4px",
-                                cursor: "pointer",
-                              }}
-                              title="Delete"
-                            >
-                              <FaTrash
-                                style={{ color: "#dc3545" }}
-                                onClick={() => {
-                                  setVisionId(vision._id);
-                                  setShowModalss(true);
-                                }}
-                              />
-                            </button>
-                          </div>
+                                        gap: "10px",
+                                      }}
+                                    >
+                                      <button
+                                        style={{
+                                          padding: "8px",
+                                          fontSize: "16px",
+                                          backgroundColor: "#fff",
+                                          border: "1px solid #ddd",
+                                          borderRadius: "4px",
+                                          cursor: "pointer",
+                                        }}
+                                        title="Edit"
+                                      >
+                                        <FaEdit
+                                          style={{ color: "#28a745" }}
+                                          onClick={() => {
+                                            setVisionId(vision._id);
+                                            setShowEditModal(true);
+                                          }}
+                                        />
+                                      </button>
+                                      <button
+                                        style={{
+                                          padding: "8px",
+                                          fontSize: "16px",
+                                          backgroundColor: "#fff",
+                                          border: "1px solid #ddd",
+                                          borderRadius: "4px",
+                                          cursor: "pointer",
+                                        }}
+                                        title="Delete"
+                                      >
+                                        <FaTrash
+                                          style={{ color: "#dc3545" }}
+                                          onClick={() => {
+                                            setVisionId(vision._id);
+                                            setShowModalss(true);
+                                          }}
+                                        />
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+                            </Draggable>
+                          ))}
+                          {provided.placeholder}
                         </div>
-                      </div>
-                    ))}
-                  </div>
+                      )}
+                    </Droppable>
+
+                    <label>Select Board Size:</label>
+                    <select
+                      onChange={(e) => handleSizeChange(e.target.value)}
+                      value={boardSize}
+                    >
+                      {Object.keys(boardOptions).map((option) => (
+                        <option key={option} value={option}>
+                          {option.toUpperCase()}
+                        </option>
+                      ))}
+                    </select>
+
+                    {/*}  <Droppable droppableId="board">
+                      {(provided) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.droppableProps}
+                          style={{
+                            display: "grid",
+                            gridTemplateRows: `repeat(${rows}, 200px)`,
+                            gridTemplateColumns: `repeat(${cols}, 200px)`,
+                            gap: "10px",
+                            backgroundColor: "#dc3545",
+                            border: "2px solid black",
+                            width: `${cols * 210}px`,
+                            height: `${rows * 210}px`,
+                          }}
+                        >
+                          {layout.map((vision, index) => (
+                            <Draggable
+                              // key={vision.id}
+                              // draggableId={vision.id}
+                              // index={index}
+                              key={
+                                vision.id
+                                  ? vision.id.toString()
+                                  : `vision-${index}`
+                              }
+                              draggableId={
+                                vision.id
+                                  ? vision.id.toString()
+                                  : `vision-${index}`
+                              }
+                              index={index}
+                            >
+                              {(provided) => (
+                                <div
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                  className="border border-gray-300 flex items-center justify-center"
+                                  style={{
+                                    width: "200px",
+                                    height: "200px",
+                                    backgroundColor: "#fff",
+                                    position: "relative",
+                                  }}
+                                >
+                                  <img
+                                    src={
+                                      vision.imageUrl ||
+                                      (vision.imageUrls &&
+                                      vision.imageUrls.length > 0
+                                        ? vision.imageUrls[0]
+                                        : "default-image.jpg")
+                                    }
+                                    alt="Vision"
+                                    style={{
+                                      width: "100%",
+                                      height: "100%",
+                                      objectFit: "cover",
+                                    }}
+                                  />
+                                </div>
+                              )}
+                            </Draggable>
+                          ))}
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Droppable>*/}
+                    <Droppable droppableId="board">
+                      {(provided) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.droppableProps}
+                          style={{
+                            display: "grid",
+                            gridTemplateRows: `repeat(${rows}, 200px)`,
+                            gridTemplateColumns: `repeat(${cols}, 200px)`,
+                            gap: "10px",
+                            backgroundColor: "#dc3545",
+                            border: "2px solid black",
+                            width: `${cols * 210}px`,
+                            height: `${rows * 210}px`,
+                            overflow: "hidden", // Prevent nested scrolling issue
+                          }}
+                        >
+                          {layout.map((vision, index) => (
+                            <Draggable
+                              key={vision.id || `vision-${index}`}
+                              draggableId={
+                                vision.id
+                                  ? vision.id.toString()
+                                  : `vision-${index}`
+                              }
+                              index={index}
+                            >
+                              {(provided) => (
+                                <div
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                  className="border border-gray-300 flex items-center justify-center"
+                                  style={{
+                                    width: "200px",
+                                    height: "200px",
+                                    backgroundColor: "#fff",
+                                    position: "relative",
+                                  }}
+                                >
+                                  <img
+                                    src={
+                                      vision.imageUrl ||
+                                      (vision.imageUrls &&
+                                      vision.imageUrls.length > 0
+                                        ? vision.imageUrls[0]
+                                        : "default-image.jpg")
+                                    }
+                                    alt="Vision"
+                                    style={{
+                                      width: "100%",
+                                      height: "100%",
+                                      objectFit: "cover",
+                                    }}
+                                  />
+                                </div>
+                              )}
+                            </Draggable>
+                          ))}
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Droppable>
+                  </DragDropContext>
                 )}
+
+                {/*}  <div
+                  className="grid gap-2 border p-2"
+                  style={{
+                    backgroundColor: "#dc3545",
+                    display: "grid",
+                    gridTemplateRows: `repeat(${rows}, 200px)`,
+                    gridTemplateColumns: `repeat(${cols}, 200px)`,
+                    border: "2px solid black",
+                    width: `${cols * 210}px`,
+                    height: `${rows * 210}px`,
+                  }}
+                >
+                  {[...Array(rows * cols)].map((_, index) => (
+                    <div
+                      key={index}
+                      className="border border-gray-300 flex items-center justify-center"
+                    >
+        
+                    </div>
+                  ))}
+                </div>*/}
+
                 <DeleteVision
                   showModalss={showModalss}
                   setShowModalss={setShowModalss}

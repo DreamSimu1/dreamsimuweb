@@ -5,6 +5,14 @@
   padding: 10px; 
 } */
 
+.page-wrapper {
+  overflow: hidden !important; /* Prevent nested scrolling */
+}
+
+.columns-container {
+  overflow: visible !important;
+}
+
 .add-admin-btn {
   background-color: #dc3545; /* Primary button color */
   color: #fff;

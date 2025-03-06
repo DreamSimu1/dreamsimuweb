@@ -372,7 +372,7 @@ pre {
   display: block;
   margin-top: 0;
   margin-bottom: 1rem;
-  overflow: auto;
+  /* overflow: auto; */
   font-size: 0.875em;
 }
 pre code {
@@ -7317,7 +7317,7 @@ fieldset:disabled .btn {
   opacity: 1 !important;
 }
 .overflow-auto {
-  overflow: auto !important;
+  /* overflow: auto !important; */
 }
 .overflow-hidden {
   overflow: hidden !important;
