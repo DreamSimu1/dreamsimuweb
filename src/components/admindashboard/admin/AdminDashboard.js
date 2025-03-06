@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { React, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 import axios from "axios";
@@ -30,6 +30,18 @@ const AdminDashboard = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [layout, setLayout] = useState([]);
   const [boardSize, setBoardSize] = useState("2x2");
+  const visionBoardRef = useRef(null);
+
+  const handlePrint = () => {
+    if (visionBoardRef.current) {
+      const printContents = visionBoardRef.current.innerHTML;
+      const originalContents = document.body.innerHTML;
+      document.body.innerHTML = printContents;
+      window.print();
+      document.body.innerHTML = originalContents;
+      window.location.reload(); // Reload to restore the original page
+    }
+  };
 
   const boardOptions = {
     "2x2": { cols: 2, rows: 2 },
@@ -618,69 +630,82 @@ const AdminDashboard = () => {
                         </div>
                       )}
                     </Droppable>*/}
-                    <Droppable droppableId="board">
-                      {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.droppableProps}
-                          style={{
-                            display: "grid",
-                            gridTemplateRows: `repeat(${rows}, 200px)`,
-                            gridTemplateColumns: `repeat(${cols}, 200px)`,
-                            gap: "10px",
-                            backgroundColor: "#dc3545",
-                            border: "2px solid black",
-                            width: `${cols * 210}px`,
-                            height: `${rows * 210}px`,
-                            overflow: "hidden", // Prevent nested scrolling issue
-                          }}
-                        >
-                          {layout.map((vision, index) => (
-                            <Draggable
-                              key={vision.id || `vision-${index}`}
-                              draggableId={
-                                vision.id
-                                  ? vision.id.toString()
-                                  : `vision-${index}`
-                              }
-                              index={index}
+
+                    <div className="flex flex-col items-center p-6 bg-gray-100 min-h-screen">
+                      {/* Header */}
+                      <button onClick={handlePrint}>Print Vision Board</button>
+                      <div ref={visionBoardRef} className="vision-board">
+                        <h1 className="text-4xl font-bold mb-4 text-center text-gray-800">
+                          My Vision Board
+                        </h1>
+
+                        {/* Print Button */}
+
+                        <Droppable droppableId="board">
+                          {(provided) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.droppableProps}
+                              style={{
+                                display: "grid",
+                                gridTemplateRows: `repeat(${rows}, 200px)`,
+                                gridTemplateColumns: `repeat(${cols}, 200px)`,
+                                gap: "10px",
+                                backgroundColor: "#dc3545",
+                                border: "2px solid black",
+                                width: `${cols * 210}px`,
+                                height: `${rows * 210}px`,
+                                overflow: "hidden", // Prevent nested scrolling issue
+                              }}
                             >
-                              {(provided) => (
-                                <div
-                                  ref={provided.innerRef}
-                                  {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
-                                  className="border border-gray-300 flex items-center justify-center"
-                                  style={{
-                                    width: "200px",
-                                    height: "200px",
-                                    backgroundColor: "#fff",
-                                    position: "relative",
-                                  }}
+                              {layout.map((vision, index) => (
+                                <Draggable
+                                  key={vision.id || `vision-${index}`}
+                                  draggableId={
+                                    vision.id
+                                      ? vision.id.toString()
+                                      : `vision-${index}`
+                                  }
+                                  index={index}
                                 >
-                                  <img
-                                    src={
-                                      vision.imageUrl ||
-                                      (vision.imageUrls &&
-                                      vision.imageUrls.length > 0
-                                        ? vision.imageUrls[0]
-                                        : "default-image.jpg")
-                                    }
-                                    alt="Vision"
-                                    style={{
-                                      width: "100%",
-                                      height: "100%",
-                                      objectFit: "cover",
-                                    }}
-                                  />
-                                </div>
-                              )}
-                            </Draggable>
-                          ))}
-                          {provided.placeholder}
-                        </div>
-                      )}
-                    </Droppable>
+                                  {(provided) => (
+                                    <div
+                                      ref={provided.innerRef}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                      className="border border-gray-300 flex items-center justify-center"
+                                      style={{
+                                        width: "200px",
+                                        height: "200px",
+                                        backgroundColor: "#fff",
+                                        position: "relative",
+                                      }}
+                                    >
+                                      <img
+                                        src={
+                                          vision.imageUrl ||
+                                          (vision.imageUrls &&
+                                          vision.imageUrls.length > 0
+                                            ? vision.imageUrls[0]
+                                            : "default-image.jpg")
+                                        }
+                                        alt="Vision"
+                                        style={{
+                                          width: "100%",
+                                          height: "100%",
+                                          objectFit: "cover",
+                                        }}
+                                      />
+                                    </div>
+                                  )}
+                                </Draggable>
+                              ))}
+                              {provided.placeholder}
+                            </div>
+                          )}
+                        </Droppable>
+                      </div>
+                    </div>
                   </DragDropContext>
                 )}
 
