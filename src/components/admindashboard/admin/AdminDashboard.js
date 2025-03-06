@@ -345,7 +345,8 @@ const AdminDashboard = () => {
       source.droppableId === "board" &&
       destination.droppableId === "visions"
     ) {
-      const [movedItem] = updatedBoardVisions.splice(source.index, 1); // Remove from board
+      const [movedItem] = updatedBoardVisions.splice(source.index, 1);
+      movedItem.board = false; // Remove from board
       updatedVisions.push(movedItem); // Add back to visions
     } else if (
       source.droppableId === "visions" &&
