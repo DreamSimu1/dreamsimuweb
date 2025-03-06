@@ -82,11 +82,29 @@ const AdminDashboard = () => {
   //   );
   // };
 
+  // const handleSizeChange = (size) => {
+  //   setBoardSize(size);
+
+  //   setLayout((prevLayout) => {
+  //     const newLayout = visions.map((vision, index) => {
+  //       const colCount = boardOptions[size].cols;
+  //       return {
+  //         ...vision,
+  //         x: index % colCount,
+  //         y: Math.floor(index / colCount),
+  //         w: 1,
+  //         h: 1,
+  //       };
+  //     });
+  //     setLayout([]);
+  //     return newLayout;
+  //   });
+  // };
   const handleSizeChange = (size) => {
     setBoardSize(size);
 
-    setLayout((prevLayout) => {
-      const newLayout = visions.map((vision, index) => {
+    setBoardVision((prevBoardVisions) => {
+      return prevBoardVisions.map((vision, index) => {
         const colCount = boardOptions[size].cols;
         return {
           ...vision,
@@ -96,8 +114,6 @@ const AdminDashboard = () => {
           h: 1,
         };
       });
-      setLayout([]);
-      return newLayout;
     });
   };
 
@@ -113,40 +129,10 @@ const AdminDashboard = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(cards.length / itemsPerPage);
   const [visions, setVisions] = useState([]);
+  const [boardvision, setBoardVision] = useState([]);
   const [loading, setLoading] = useState(true);
   const [visionId, setVisionId] = useState(null);
 
-  // useEffect(() => {
-  //   const fetchVisions = async () => {
-  //     try {
-  //       // Get the token from localStorage or a global state
-  //       const token = localStorage.getItem("jwtToken"); // Change this based on your actual method of storing the token
-
-  //       if (!token) {
-  //         console.error("No authentication token found");
-  //         return;
-  //       }
-  //       console.log("API URL:", `${apiUrl}/api/get-all`);
-  //       console.log("Auth Token:", token);
-
-  //       // Add token to the headers
-  //       const response = await axios.get(`${apiUrl}/api/get-all`, {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`, // Adding the token to Authorization header
-  //         },
-  //       });
-  //       console.log("Full Response:", response);
-
-  //       setVisions(response.data); // Assuming the API response contains the visions
-  //     } catch (error) {
-  //       console.error("Error fetching visions:", error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchVisions();
-  // }, []);
   useEffect(() => {
     const fetchVisions = async () => {
       try {
@@ -191,6 +177,53 @@ const AdminDashboard = () => {
 
     fetchVisions();
   }, [user]);
+  useEffect(() => {
+    const fetchBoardVisions = async () => {
+      try {
+        const token = localStorage.getItem("jwtToken");
+        if (!token) {
+          console.error("No authentication token found");
+          return;
+        }
+
+        const userId = user?._id; // Ensure user ID is available
+
+        // Fetch user-created visions
+        const userVisionsResponse = await axios.get(
+          `${apiUrl}/api/get-all-board`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        // Fetch template visions
+        const templateVisionsResponse = await axios.get(
+          `${apiUrl}/api/get-template-visions-board/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        // Merge both visions into one state
+        const mergedVisions = [
+          ...userVisionsResponse.data,
+          ...templateVisionsResponse.data,
+        ];
+
+        setBoardVision(mergedVisions);
+      } catch (error) {
+        console.error("Error fetching visions:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBoardVisions();
+  }, [user]);
 
   const handlePrevious = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
@@ -225,42 +258,54 @@ const AdminDashboard = () => {
       console.error("Error fetching updated visions:", error);
     }
   };
+  const updateBoardTableData = async () => {
+    try {
+      const userId = user._id; // Make sure you have access to the logged-in user's ID
+      const [manualVisionsRes, templateVisionsRes] = await Promise.all([
+        axios.get(`${apiUrl}/api/get-all?board=true`),
+        axios.get(`${apiUrl}/api/get-template-visions/${userId}?board=true`),
+      ]);
+
+      // Merge both responses into one array
+      const combinedVisions = [
+        ...manualVisionsRes.data,
+        ...templateVisionsRes.data,
+      ];
+
+      setBoardVision(combinedVisions); // Update the state with merged visions
+    } catch (error) {
+      console.error("Error fetching updated visions:", error);
+    }
+  };
 
   // const onDragEnd = (result) => {
   //   const { source, destination } = result;
 
   //   if (!destination) return; // If dropped outside, do nothing
 
-  //   let updatedVisions = JSON.parse(JSON.stringify(visions));
-  //   let updatedLayout = JSON.parse(JSON.stringify(layout));
+  //   let updatedVisions = [...visions]; // Create a new copy of visions
+  //   let updatedLayout = [...layout]; // Create a new copy of layout
 
-  //   // Moving from Visions to Board
   //   if (
   //     source.droppableId === "visions" &&
   //     destination.droppableId === "board"
   //   ) {
-  //     const [movedItem] = updatedVisions.splice(source.index, 1);
-  //     // updatedLayout.push(movedItem);
-  //     updatedLayout.splice(destination.index, 0, movedItem);
-  //   }
-  //   // Moving from Board back to Visions
-  //   else if (
+  //     const [movedItem] = updatedVisions.splice(source.index, 1); // Remove from visions
+  //     updatedLayout.splice(destination.index, 0, movedItem); // Add to board
+  //     moveToBoard(movedItem._id);
+  //   } else if (
   //     source.droppableId === "board" &&
   //     destination.droppableId === "visions"
   //   ) {
-  //     const [movedItem] = updatedLayout.splice(source.index, 1);
-  //     updatedVisions.push(movedItem); // Add back to visions list
-  //   }
-  //   // Reordering within Visions
-  //   else if (
+  //     const [movedItem] = updatedLayout.splice(source.index, 1); // Remove from board
+  //     updatedVisions.push(movedItem); // Add back to visions
+  //   } else if (
   //     source.droppableId === "visions" &&
   //     destination.droppableId === "visions"
   //   ) {
   //     const [movedItem] = updatedVisions.splice(source.index, 1);
   //     updatedVisions.splice(destination.index, 0, movedItem);
-  //   }
-  //   // Reordering within Board
-  //   else if (
+  //   } else if (
   //     source.droppableId === "board" &&
   //     destination.droppableId === "board"
   //   ) {
@@ -268,106 +313,100 @@ const AdminDashboard = () => {
   //     updatedLayout.splice(destination.index, 0, movedItem);
   //   }
 
-  //   // Update states
-  //   setVisions(updatedVisions);
-  //   setLayout(updatedLayout);
+  //   setVisions([...updatedVisions]); // Ensure state update triggers re-render
+  //   // setLayout([...updatedLayout]); // Ensure board updates properly
+  //   setBoardVision(updatedBoardVisions);
   // };
-  // const onDragEnd = (result) => {
-  //   const { source, destination } = result;
 
-  //   if (!destination) return; // If dropped outside, do nothing
+  // useEffect(() => {
+  //   console.log("Updated Visions:", visions);
+  // }, [visions]);
 
-  //   let updatedVisions = JSON.parse(JSON.stringify(visions));
-  //   let updatedLayout = JSON.parse(JSON.stringify(layout));
+  // useEffect(() => {
+  //   console.log("Updated Layout:", layout);
+  // }, [layout]);
 
-  //   // Duplicating from Visions to Board
-  //   if (
-  //     source.droppableId === "visions" &&
-  //     destination.droppableId === "board"
-  //   ) {
-  //     const movedItem = JSON.parse(
-  //       JSON.stringify(updatedVisions[source.index])
-  //     ); // Duplicate item
-  //     updatedLayout.splice(destination.index, 0, movedItem);
-  //   }
-  //   // Moving from Board back to Visions
-  //   else if (
-  //     source.droppableId === "board" &&
-  //     destination.droppableId === "visions"
-  //   ) {
-  //     const [movedItem] = updatedLayout.splice(source.index, 1);
-  //     updatedVisions.push(movedItem); // Add back to visions list
-  //   }
-  //   // Reordering within Visions
-  //   else if (
-  //     source.droppableId === "visions" &&
-  //     destination.droppableId === "visions"
-  //   ) {
-  //     const [movedItem] = updatedVisions.splice(source.index, 1);
-  //     updatedVisions.splice(destination.index, 0, movedItem);
-  //   }
-  //   // Reordering within Board
-  //   else if (
-  //     source.droppableId === "board" &&
-  //     destination.droppableId === "board"
-  //   ) {
-  //     const [movedItem] = updatedLayout.splice(source.index, 1);
-  //     updatedLayout.splice(destination.index, 0, movedItem);
-  //   }
-
-  //   // Update states
-  //   setVisions(updatedVisions);
-  //   setLayout(updatedLayout);
-  // };
   const onDragEnd = (result) => {
     const { source, destination } = result;
 
     if (!destination) return; // If dropped outside, do nothing
 
-    let updatedVisions = [...visions];
-    let updatedLayout = [...layout];
+    let updatedVisions = [...visions]; // Copy of visions
+    let updatedBoardVisions = [...boardvision]; // Copy of boardVision
 
-    // Dragging from Visions to Board (should only copy, not remove from visions)
     if (
       source.droppableId === "visions" &&
       destination.droppableId === "board"
     ) {
-      const movedItem = visions[source.index]; // Get the item (no need to copy deeply)
-      updatedLayout.splice(destination.index, 0, movedItem); // Add to board
-    }
-    // Moving from Board back to Visions
-    else if (
+      const [movedItem] = updatedVisions.splice(source.index, 1); // Remove from visions
+      updatedBoardVisions.splice(destination.index, 0, movedItem); // Add to board
+      moveToBoard(movedItem._id);
+    } else if (
       source.droppableId === "board" &&
       destination.droppableId === "visions"
     ) {
-      const [movedItem] = updatedLayout.splice(source.index, 1); // Remove from board
+      const [movedItem] = updatedBoardVisions.splice(source.index, 1); // Remove from board
       updatedVisions.push(movedItem); // Add back to visions
-    }
-    // Reordering within Visions
-    else if (
+    } else if (
       source.droppableId === "visions" &&
       destination.droppableId === "visions"
     ) {
       const [movedItem] = updatedVisions.splice(source.index, 1);
       updatedVisions.splice(destination.index, 0, movedItem);
-    }
-    // Reordering within Board
-    else if (
+    } else if (
       source.droppableId === "board" &&
       destination.droppableId === "board"
     ) {
-      const [movedItem] = updatedLayout.splice(source.index, 1);
-      updatedLayout.splice(destination.index, 0, movedItem);
+      const [movedItem] = updatedBoardVisions.splice(source.index, 1);
+      updatedBoardVisions.splice(destination.index, 0, movedItem);
     }
 
-    // Update states
-    setVisions(updatedVisions);
-    setLayout(updatedLayout);
+    setVisions([...updatedVisions]); // Ensure visions update
+    setBoardVision([...updatedBoardVisions]); // Update board visions correctly
   };
 
   useEffect(() => {
-    console.log("Updated Layout:", layout);
-  }, [layout]);
+    console.log("Updated Visions:", visions);
+  }, [visions]);
+
+  useEffect(() => {
+    console.log("Updated Board Visions:", boardvision);
+  }, [boardvision]);
+
+  const moveToBoard = async (id) => {
+    const token = localStorage.getItem("jwtToken");
+    if (!token) {
+      console.error("No authentication token found");
+      return;
+    }
+    try {
+      const response = await fetch(`${apiUrl}/api/move-to-board/${id}`, {
+        method: "PUT",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (response.ok) {
+        const updatedVision = visions.find((vision) => vision._id === id);
+
+        if (updatedVision) {
+          setVisions(visions.filter((vision) => vision._id !== id)); // Remove from list
+
+          setLayout((prevLayout) => [
+            ...prevLayout,
+            {
+              ...updatedVision,
+              x: prevLayout.length % boardOptions[boardSize].cols,
+              y: Math.floor(prevLayout.length / boardOptions[boardSize].cols),
+              w: 1,
+              h: 1,
+            },
+          ]); // Add to board layout
+        }
+      }
+    } catch (error) {
+      console.error("Error moving vision to board:", error);
+    }
+  };
 
   return (
     <div>
@@ -561,76 +600,6 @@ const AdminDashboard = () => {
                       ))}
                     </select>
 
-                    {/*}  <Droppable droppableId="board">
-                      {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.droppableProps}
-                          style={{
-                            display: "grid",
-                            gridTemplateRows: `repeat(${rows}, 200px)`,
-                            gridTemplateColumns: `repeat(${cols}, 200px)`,
-                            gap: "10px",
-                            backgroundColor: "#dc3545",
-                            border: "2px solid black",
-                            width: `${cols * 210}px`,
-                            height: `${rows * 210}px`,
-                          }}
-                        >
-                          {layout.map((vision, index) => (
-                            <Draggable
-                              // key={vision.id}
-                              // draggableId={vision.id}
-                              // index={index}
-                              key={
-                                vision.id
-                                  ? vision.id.toString()
-                                  : `vision-${index}`
-                              }
-                              draggableId={
-                                vision.id
-                                  ? vision.id.toString()
-                                  : `vision-${index}`
-                              }
-                              index={index}
-                            >
-                              {(provided) => (
-                                <div
-                                  ref={provided.innerRef}
-                                  {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
-                                  className="border border-gray-300 flex items-center justify-center"
-                                  style={{
-                                    width: "200px",
-                                    height: "200px",
-                                    backgroundColor: "#fff",
-                                    position: "relative",
-                                  }}
-                                >
-                                  <img
-                                    src={
-                                      vision.imageUrl ||
-                                      (vision.imageUrls &&
-                                      vision.imageUrls.length > 0
-                                        ? vision.imageUrls[0]
-                                        : "default-image.jpg")
-                                    }
-                                    alt="Vision"
-                                    style={{
-                                      width: "100%",
-                                      height: "100%",
-                                      objectFit: "cover",
-                                    }}
-                                  />
-                                </div>
-                              )}
-                            </Draggable>
-                          ))}
-                          {provided.placeholder}
-                        </div>
-                      )}
-                    </Droppable>*/}
-
                     <div className="flex flex-col items-center p-6 bg-gray-100 min-h-screen">
                       {/* Header */}
                       <button onClick={handlePrint}>Print Vision Board</button>
@@ -658,7 +627,7 @@ const AdminDashboard = () => {
                                 overflow: "hidden", // Prevent nested scrolling issue
                               }}
                             >
-                              {layout.map((vision, index) => (
+                              {boardvision.map((vision, index) => (
                                 <Draggable
                                   key={vision.id || `vision-${index}`}
                                   draggableId={
