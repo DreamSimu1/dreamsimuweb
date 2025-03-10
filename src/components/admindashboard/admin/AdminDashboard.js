@@ -775,7 +775,7 @@ const AdminDashboard = () => {
   const [layout, setLayout] = useState([]);
   const [visionId, setVisionId] = useState(null);
 
-  const [boardSize, setBoardSize] = useState("2x2");
+  const [boardSize, setBoardSize] = useState("3x3");
   const visionBoardRef = useRef(null);
 
   const handlePrint = () => {
