@@ -25,18 +25,16 @@ const Template = ({ showModals, setShowModals, updateTableData }) => {
     }
   };
 
+  const [imageUrl, setImageUrl] = useState(null);
+
   // const handleGenerateVision = async (e) => {
   //   e.preventDefault();
   //   if (!user || !user._id) {
-  //     console.error("User not authenticated or missing _id:", user);
   //     setMessage("User not authenticated.");
   //     return;
   //   }
 
-  //   const userId = user._id; // Use _id instead of id
-
-  //   console.log("User ID:", userId); // Debugging step
-
+  //   const userId = user._id;
   //   const formData = new FormData();
   //   formData.append("title", title);
   //   formData.append("userId", userId);
@@ -45,7 +43,7 @@ const Template = ({ showModals, setShowModals, updateTableData }) => {
   //     formData.append("image", uploadedImage);
   //   }
 
-  //   setLoading(true); // Start loading
+  //   setLoading(true);
 
   //   try {
   //     const response = await axios.post(
@@ -59,23 +57,68 @@ const Template = ({ showModals, setShowModals, updateTableData }) => {
   //       }
   //     );
 
-  //     console.log("API Response:", response.data);
   //     setMessage(response.data.message);
-  //     setGeneratedImages(response.data.dream.imageUrls || []);
+
+  //     // Set the single swapped image URL
+  //     if (response.data.image) {
+  //       setImageUrl(response.data.image);
+  //     }
+
+  //     // Set multiple generated images if available
+  //     setGeneratedImages(response.data.dream?.imageUrls || []);
   //   } catch (error) {
   //     setMessage("Error generating dream.");
-  //     console.error(
-  //       "Error:",
-  //       error.response ? error.response.data : error.message
-  //     );
   //   } finally {
-  //     setLoading(false); // Stop loading
+  //     setLoading(false);
+  //   }
+  // };
+  // const handleGenerateVision = async (e) => {
+  //   e.preventDefault();
+  //   setLoading(true);
+
+  //   if (!user || !user._id) {
+  //     setMessage("User not authenticated.");
+  //     setLoading(false);
+  //     return;
+  //   }
+
+  //   const userId = user._id;
+  //   const formData = new FormData();
+  //   formData.append("title", title);
+  //   formData.append("userId", userId);
+
+  //   if (uploadedImage) {
+  //     formData.append("image", uploadedImage);
+  //   }
+
+  //   try {
+  //     const response = await fetch(`${apiUrl}/api/generate-dream`, {
+  //       method: "POST",
+  //       body: formData,
+  //     });
+
+  //     const data = await response.json();
+  //     console.log("API Response:", data); // Log the response to check for errors
+
+  //     if (data.imagePath) {
+  //       setGeneratedImages([data.imagePath]); // Ensure it updates correctly
+  //     } else {
+  //       setMessage("Failed to generate vision.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error generating vision:", error);
+  //     setMessage("Error generating vision.");
+  //   } finally {
+  //     setLoading(false);
   //   }
   // };
   const handleGenerateVision = async (e) => {
     e.preventDefault();
+    setLoading(true);
+
     if (!user || !user._id) {
       setMessage("User not authenticated.");
+      setLoading(false);
       return;
     }
 
@@ -85,10 +128,8 @@ const Template = ({ showModals, setShowModals, updateTableData }) => {
     formData.append("userId", userId);
 
     if (uploadedImage) {
-      formData.append("image", uploadedImage); // Upload user image (swap image)
+      formData.append("image", uploadedImage);
     }
-
-    setLoading(true);
 
     try {
       const response = await axios.post(
@@ -102,10 +143,17 @@ const Template = ({ showModals, setShowModals, updateTableData }) => {
         }
       );
 
-      setMessage(response.data.message);
-      setGeneratedImages(response.data.dream.imageUrls || []); // Swapped images
+      const data = response.data;
+      console.log("API Response:", data); // Log the response to check for errors
+
+      if (data.imagePath) {
+        setGeneratedImages([data.imagePath]); // Ensure it updates correctly
+      } else {
+        setMessage("Failed to generate vision.");
+      }
     } catch (error) {
-      setMessage("Error generating dream.");
+      console.error("Error generating vision:", error);
+      setMessage("Error generating vision.");
     } finally {
       setLoading(false);
     }
@@ -243,21 +291,8 @@ const Template = ({ showModals, setShowModals, updateTableData }) => {
               {message && <p>{message}</p>}
 
               {/* Display Generated Images */}
-              {/*}   {generatedImages.length > 0 && (
-                <div className="generated-images">
-                  <h5>Generated Visions:</h5>
-                  <div className="image-grid">
-                    {generatedImages.map((image, index) => (
-                      <img
-                        key={index}
-                        src={image}
-                        alt={`Generated Vision ${index + 1}`}
-                        style={{ width: "100%", marginTop: "10px" }}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )}*/}
+
+              {/* Display Generated Images */}
               {generatedImages.length > 0 && (
                 <div className="generated-images">
                   <h5>Generated Visions:</h5>
@@ -277,11 +312,15 @@ const Template = ({ showModals, setShowModals, updateTableData }) => {
                           cursor: "pointer",
                         }}
                         onClick={() => handleSelectVision(image)}
+                        onError={(e) =>
+                          console.error("Image failed to load:", image)
+                        } // Debugging
                       />
                     ))}
                   </div>
                 </div>
               )}
+
               <button
                 className="btn btn-danger"
                 onClick={handleSaveVision}

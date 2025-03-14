@@ -1098,7 +1098,10 @@ const AdminDashboard = () => {
                                     }}
                                   >
                                     <img
-                                      src={vision.imageUrl}
+                                      // src={vision.imageUrl}
+                                      src={
+                                        vision.imageUrls?.[0] || vision.imageUrl
+                                      }
                                       alt={vision.text}
                                       className="card-img-top img-fluid"
                                       style={{
