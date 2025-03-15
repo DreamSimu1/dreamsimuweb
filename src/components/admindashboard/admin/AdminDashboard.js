@@ -1095,13 +1095,10 @@ const AdminDashboard = () => {
     <div>
       <body>
         <div className={`main-wrapper ${isSidebarOpen ? "sidebar-open" : ""}`}>
-          {/*}  <SideNav />*/}
+          <SideNav />
           <TopNav />
 
-          <div
-            class="page-wrapper"
-            style={{ marginBottom: "100px", width: "80%", margin: "auto" }}
-          >
+          <div class="page-wrapper" style={{ marginBottom: "100px" }}>
             <div class="content">
               <div className="box-container">
                 {/* First Box */}

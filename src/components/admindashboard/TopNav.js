@@ -366,43 +366,6 @@ const TopNav = () => {
             </a>
           </div>
           <ul className="nav user-menu ">
-            <li className="nav-item nav-searchinputs">
-              <div className="top-nav-search">
-                <a href="javascript:void(0);" className="responsive-search">
-                  <FaSearch className="search-icon" />
-                </a>
-                <form action="#" className="dropdown">
-                  <div
-                    className="searchinputs dropdown-toggle"
-                    id="dropdownMenuClickable"
-                    data-bs-toggle="dropdown"
-                    data-bs-auto-close="false"
-                  >
-                    <input type="text" placeholder="Search" />
-                    <div className="search-addon">
-                      <span>
-                        <FiXCircle className="x-circle-icon" />
-                      </span>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </li>
-
-            <li className="nav-item">
-              <p>
-                <a href="/brain-dump">Brain Dump</a>
-              </p>
-            </li>
-            <li className="nav-item">
-              <a href="/refinement">Refinement</a>
-            </li>
-            <li className="nav-item">
-              <a href="/sprint">Sprint</a>
-            </li>
-            <li className="nav-item">
-              <a href="/retrospect">Retrospect</a>
-            </li>
             <li className="nav-item dropdown">
               <a
                 href="#"
@@ -488,7 +451,7 @@ const TopNav = () => {
       </div>
 
       {/* Bottom Navigation (Visible on Mobile Only) */}
-      <div className="bottom-nav mobile-only">
+      {/*}  <div className="bottom-nav mobile-only">
         <ul className="nav">
           <li className="nav-item">
             <a href="/vision">
@@ -523,7 +486,7 @@ const TopNav = () => {
             </a>
           </li>
         </ul>
-      </div>
+      </div>*/}
       {/* Main Content */}
     </div>
   );
