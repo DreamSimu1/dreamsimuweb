@@ -93,6 +93,33 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true); // Add loading state
   const [showModal, setShowModal] = useState(false); // Modal state
   const navigate = useNavigate();
+  let logoutTimer;
+
+  // Function to reset inactivity timer
+  const resetTimer = () => {
+    clearTimeout(logoutTimer);
+    logoutTimer = setTimeout(() => {
+      console.log("User inactive for 1 hour. Logging out...");
+      logout();
+    }, 60 * 60 * 1000); // 1 hour
+  };
+
+  useEffect(() => {
+    // Listen for user activity and reset the timer
+    window.addEventListener("mousemove", resetTimer);
+    window.addEventListener("keydown", resetTimer);
+    window.addEventListener("click", resetTimer);
+
+    // Start the timer initially
+    resetTimer();
+
+    return () => {
+      window.removeEventListener("mousemove", resetTimer);
+      window.removeEventListener("keydown", resetTimer);
+      window.removeEventListener("click", resetTimer);
+      clearTimeout(logoutTimer);
+    };
+  }, []);
   useEffect(() => {
     console.log("GoogleOauth useEffect triggered");
     console.log("Full URL:", window.location.href);
@@ -197,7 +224,7 @@ export const AuthProvider = ({ children }) => {
         // Check if token is expired
         if (decoded.exp * 1000 < Date.now()) {
           console.log("Token expired. Logging out user.");
-          setShowModal(true); // Show modal
+          // setShowModal(true); // Show modal
           dispatch({ type: "LOGOUT" }); // Log out user
           setLoading(false);
           return;
@@ -353,7 +380,7 @@ export const AuthProvider = ({ children }) => {
       }}
     >
       {children}
-      {state.user && showModal && (
+      {/*} {state.user && showModal && (
         <Modal show={showModal} onHide={logout} backdrop="static" centered>
           <Modal.Header closeButton>
             <Modal.Title>Session Expired</Modal.Title>
@@ -367,7 +394,7 @@ export const AuthProvider = ({ children }) => {
             </Button>
           </Modal.Footer>
         </Modal>
-      )}
+      )}*/}
     </AuthContext.Provider>
   );
 };
