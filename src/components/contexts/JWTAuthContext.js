@@ -42,16 +42,56 @@ const isValidToken = (jwtToken) => {
 // };
 const setSession = (token, refreshToken) => {
   if (token) {
+    console.log("Saving tokens:", token, refreshToken);
     localStorage.setItem("jwtToken", token);
     localStorage.setItem("refreshToken", refreshToken);
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   } else {
+    console.log("Removing tokens");
     localStorage.removeItem("jwtToken");
     localStorage.removeItem("refreshToken");
     delete axios.defaults.headers.common["Authorization"];
   }
 };
+const refreshAccessToken = async () => {
+  const refreshToken = localStorage.getItem("refreshToken");
 
+  if (!refreshToken) {
+    return null;
+  }
+
+  try {
+    const response = await axios.post(`${apiUrl}/api/auth/refresh-token`, {
+      refreshToken,
+    });
+    const { accessToken, refreshToken: newRefreshToken } = response.data;
+
+    await setSession(accessToken, newRefreshToken);
+    return accessToken;
+  } catch (error) {
+    console.error("Refresh token failed:", error);
+    setSession(null, null);
+    return null;
+  }
+};
+
+axios.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      const newAccessToken = await refreshAccessToken();
+
+      if (newAccessToken) {
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        return axios(originalRequest);
+      }
+    }
+    return Promise.reject(error);
+  }
+);
 // Reducer function to manage state changes
 const reducer = (state, action) => {
   switch (action.type) {
@@ -120,6 +160,77 @@ export const AuthProvider = ({ children }) => {
       clearTimeout(logoutTimer);
     };
   }, []);
+  // useEffect(() => {
+  //   const initializeAuth = async () => {
+  //     const accessToken = localStorage.getItem("accessToken");
+
+  //     if (accessToken && isValidToken(accessToken)) {
+  //       axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+  //       setAuthState({
+  //         isAuthenticated: true,
+  //         isInitialised: true,
+  //         loading: false,
+  //       });
+  //     } else {
+  //       const newAccessToken = await refreshAccessToken();
+  //       if (newAccessToken) {
+  //         setAuthState({
+  //           isAuthenticated: true,
+  //           isInitialised: true,
+  //           loading: false,
+  //         });
+  //       } else {
+  //         setAuthState({
+  //           isAuthenticated: false,
+  //           isInitialised: true,
+  //           loading: false,
+  //         });
+  //       }
+  //     }
+  //   };
+
+  //   initializeAuth();
+  // }, []);
+
+  useEffect(() => {
+    const initializeAuth = async () => {
+      // const accessToken = localStorage.getItem("accessToken");
+      const accessToken = localStorage.getItem("jwtToken");
+
+      if (accessToken && isValidToken(accessToken)) {
+        axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+        dispatch({
+          type: "INIT",
+          payload: {
+            isAuthenticated: true,
+            user: null, // Fetch user profile if necessary
+          },
+        });
+      } else {
+        const newAccessToken = await refreshAccessToken();
+        if (newAccessToken) {
+          dispatch({
+            type: "INIT",
+            payload: {
+              isAuthenticated: true,
+              user: null, // Fetch user profile if necessary
+            },
+          });
+        } else {
+          dispatch({
+            type: "INIT",
+            payload: {
+              isAuthenticated: false,
+              user: null,
+            },
+          });
+        }
+      }
+    };
+
+    initializeAuth();
+  }, []);
+
   useEffect(() => {
     console.log("GoogleOauth useEffect triggered");
     console.log("Full URL:", window.location.href);

@@ -395,7 +395,6 @@ const AllIdea = () => {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     fetchAllIdeas(); // Fetch all ideas when the component mounts
   }, []);

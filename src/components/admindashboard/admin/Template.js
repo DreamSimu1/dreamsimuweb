@@ -27,9 +27,148 @@ const Template = ({ showModals, setShowModals, updateTableData }) => {
 
   const [imageUrl, setImageUrl] = useState(null);
 
+  const [taskId, setTaskId] = useState(null);
+
+  // const handleGenerateVision = async (e) => {
+  //   e.preventDefault();
+  //   setLoading(true);
+
+  //   if (!user || !user._id) {
+  //     setMessage("User not authenticated.");
+  //     setLoading(false);
+  //     return;
+  //   }
+
+  //   const userId = user._id;
+  //   const formData = new FormData();
+  //   formData.append("title", title);
+  //   formData.append("userId", userId);
+
+  //   if (uploadedImage) {
+  //     formData.append("image", uploadedImage);
+  //   }
+
+  //   try {
+  //     const response = await axios.post(
+  //       `${apiUrl}/api/generate-dream`,
+  //       formData,
+  //       {
+  //         headers: {
+  //           "Content-Type": "multipart/form-data",
+  //           Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+  //         },
+  //       }
+  //     );
+
+  //     const data = response.data;
+  //     console.log("API Response:", response);
+
+  //     if (data.data && data.data.task_id) {
+  //       setTaskId(data.data.task_id);
+  //       checkTaskStatus(data.data.task_id);
+  //     } else {
+  //       setMessage("No task ID returned from API.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error generating vision:", error);
+  //     setMessage("Error generating vision.");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  // const handleGenerateVision = async (e) => {
+  //   e.preventDefault();
+  //   setLoading(true);
+
+  //   if (!user || !user._id) {
+  //     setMessage("User not authenticated.");
+  //     setLoading(false);
+  //     return;
+  //   }
+
+  //   const userId = user._id;
+  //   const formData = new FormData();
+  //   formData.append("title", title);
+  //   formData.append("userId", userId);
+
+  //   if (uploadedImage) {
+  //     formData.append("image", uploadedImage);
+  //   }
+
+  //   try {
+  //     const response = await axios.post(
+  //       `${apiUrl}/api/generate-dream`,
+  //       formData,
+  //       {
+  //         headers: {
+  //           "Content-Type": "multipart/form-data",
+  //           Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+  //         },
+  //       }
+  //     );
+
+  //     const data = response.data;
+  //     console.log("API Response:", data);
+
+  //     if (data.data && data.data.dream && data.data.dream.imageUrls) {
+  //       setGeneratedImages(data.data.dream.imageUrls);
+  //       setMessage("Vision generated successfully!");
+  //     } else {
+  //       setMessage("No images returned from API.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error generating vision:", error);
+  //     setMessage("Error generating vision.");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  // const checkTaskStatus = async (taskId) => {
+  //   let attempts = 10; // Try for 10 attempts (200 sec total)
+  //   let delay = 20000; // Wait 20 seconds between each attempt
+
+  //   for (let i = 0; i < attempts; i++) {
+  //     console.log(`Checking status for task: ${taskId}, Attempt: ${i + 1}`);
+
+  //     try {
+  //       const response = await axios.get(
+  //         `${apiUrl}/api/face_swap/status/${taskId}`,
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+  //           },
+  //         }
+  //       );
+
+  //       const statusData = response.data;
+  //       console.log("Status Response:", statusData);
+
+  //       if (
+  //         statusData.data.status === "completed" &&
+  //         statusData.data.output?.image_url
+  //       ) {
+  //         setGeneratedImages([statusData.data.output.image_url]); // Set the swapped image
+  //         return;
+  //       } else if (statusData.status === "failed") {
+  //         setMessage("Face swap failed. Please try again.");
+  //         return;
+  //       }
+  //     } catch (error) {
+  //       console.error("Error checking task status:", error);
+  //     }
+
+  //     await new Promise((resolve) => setTimeout(resolve, delay)); // Wait before retrying
+  //   }
+
+  //   setMessage("Face swap timed out. Please try again.");
+  // };
+
   const handleGenerateVision = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setMessage("");
 
     if (!user || !user._id) {
       setMessage("User not authenticated.");
@@ -59,12 +198,20 @@ const Template = ({ showModals, setShowModals, updateTableData }) => {
       );
 
       const data = response.data;
-      console.log("API Response:", data); // Log the response to check for errors
+      console.log("API Response:", data);
 
-      if (data.imagePath) {
-        setGeneratedImages([data.imagePath]); // Ensure it updates correctly
+      // if (data.data?.task_id) {
+      //   const taskId = data.data.task_id;
+
+      if (data?.task_id) {
+        const taskId = data.task_id;
+
+        console.log("Task ID received:", taskId);
+
+        // Wait for the face swap task to complete
+        await checkTaskStatus(taskId);
       } else {
-        setMessage("Failed to generate vision.");
+        setMessage("No task ID returned from API.");
       }
     } catch (error) {
       console.error("Error generating vision:", error);
@@ -72,6 +219,47 @@ const Template = ({ showModals, setShowModals, updateTableData }) => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const checkTaskStatus = async (taskId) => {
+    let attempts = 10; // 10 attempts (200 seconds total)
+    let delay = 20000; // 20 seconds between each attempt
+
+    for (let i = 0; i < attempts; i++) {
+      console.log(`Checking status for task: ${taskId}, Attempt: ${i + 1}`);
+
+      try {
+        const response = await axios.get(
+          `${apiUrl}/api/face_swap/status/${taskId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+            },
+          }
+        );
+
+        const statusData = response.data;
+        console.log("Status Response:", statusData);
+
+        if (
+          statusData.data.status === "completed" &&
+          statusData.data.output?.image_url
+        ) {
+          setGeneratedImages([statusData.data.output.image_url]); // Set the swapped image
+          setMessage("Vision generated successfully!");
+          return;
+        } else if (statusData.data.status === "failed") {
+          setMessage("Face swap failed. Please try again.");
+          return;
+        }
+      } catch (error) {
+        console.error("Error checking task status:", error);
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, delay)); // Wait before retrying
+    }
+
+    setMessage("Face swap timed out. Please try again.");
   };
 
   const handleSaveVision = async () => {
