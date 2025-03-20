@@ -18,11 +18,70 @@ const Template = ({ showModals, setShowModals, updateTableData }) => {
   const { user } = useAuth();
   console.log("User from useAuth:", user);
 
+  // const handleImageUpload = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     setUploadedImage(file);
+  //   }
+  // };
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setUploadedImage(file);
+      resizeImage(file, 2048, 2048)
+        .then((resizedImage) => {
+          setUploadedImage(resizedImage);
+        })
+        .catch((error) => {
+          console.error("Error resizing image:", error);
+        });
     }
+  };
+
+  // Function to resize image using Canvas API
+  const resizeImage = (file, maxWidth, maxHeight) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.src = URL.createObjectURL(file);
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        let width = img.width;
+        let height = img.height;
+
+        // Maintain aspect ratio
+        if (width > maxWidth || height > maxHeight) {
+          if (width > height) {
+            height *= maxWidth / width;
+            width = maxWidth;
+          } else {
+            width *= maxHeight / height;
+            height = maxHeight;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+
+        canvas.toBlob(
+          (blob) => {
+            if (blob) {
+              resolve(
+                new File([blob], file.name, {
+                  type: "image/jpeg",
+                  lastModified: Date.now(),
+                })
+              );
+            } else {
+              reject(new Error("Failed to create blob"));
+            }
+          },
+          "image/jpeg",
+          0.9
+        );
+      };
+      img.onerror = (err) => reject(err);
+    });
   };
 
   const [imageUrl, setImageUrl] = useState(null);
@@ -291,6 +350,8 @@ const Template = ({ showModals, setShowModals, updateTableData }) => {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+            "X-API-Key": "your_api_key_here",
+            "X-Api-Key": "",
           },
         }
       );
