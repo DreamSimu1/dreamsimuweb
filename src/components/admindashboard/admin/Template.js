@@ -27,7 +27,7 @@ const Template = ({ showModals, setShowModals, updateTableData }) => {
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      resizeImage(file, 2048, 2048)
+      resizeImage(file, 1024, 1024)
         .then((resizedImage) => {
           setUploadedImage(resizedImage);
         })
@@ -77,7 +77,7 @@ const Template = ({ showModals, setShowModals, updateTableData }) => {
             }
           },
           "image/jpeg",
-          0.7
+          0.3
         );
       };
       img.onerror = (err) => reject(err);
