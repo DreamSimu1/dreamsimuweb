@@ -77,7 +77,7 @@ const Template = ({ showModals, setShowModals, updateTableData }) => {
             }
           },
           "image/jpeg",
-          0.9
+          0.7
         );
       };
       img.onerror = (err) => reject(err);
