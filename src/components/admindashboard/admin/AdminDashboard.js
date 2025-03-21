@@ -387,36 +387,71 @@ const AdminDashboard = () => {
   }, [user, boardType]);
 
   // Handle Drag-and-Drop
+  // const handleDragEnd = async (result) => {
+  //   if (!result.destination) return; // Ignore invalid drops
+
+  //   const { source, destination } = result;
+
+  //   if (source.droppableId === destination.droppableId) {
+  //     return; // No need to update the database if staying in the same list
+  //   }
+
+  //   const updatedVisions = [...visions];
+  //   const updatedBoardVisions = [...boardVisions];
+
+  //   let movedItem;
+
+  //   if (source.droppableId === "visionsList") {
+  //     movedItem = updatedVisions.splice(source.index, 1)[0];
+  //     if (boardType === "template") {
+  //       updatedBoardVisions = updatedBoardVisions.filter(
+  //         (item) => !item._id.startsWith("template-") // Remove first template image
+  //       );
+  //     }
+
+  //     updatedBoardVisions.splice(destination.index, 0, movedItem);
+
+  //     // await moveToBoard(movedItem._id);
+  //     await moveToBoard(movedItem);
+  //   } else {
+  //     movedItem = updatedBoardVisions.splice(source.index, 1)[0];
+  //     updatedVisions.splice(destination.index, 0, movedItem);
+  //     await removeFromBoard(movedItem._id); // Update database
+  //   }
+
+  //   setVisions(updatedVisions);
+  //   setBoardVisions(updatedBoardVisions);
+  // };
+
   const handleDragEnd = async (result) => {
     if (!result.destination) return; // Ignore invalid drops
 
     const { source, destination } = result;
+    const isTemplateBoard = boardType === "template";
 
-    if (source.droppableId === destination.droppableId) {
-      return; // No need to update the database if staying in the same list
-    }
-
+    // Clone visions to avoid mutating state directly
     const updatedVisions = [...visions];
-    const updatedBoardVisions = [...boardVisions];
-
+    let updatedBoardVisions = [...boardVisions];
     let movedItem;
 
     if (source.droppableId === "visionsList") {
       movedItem = updatedVisions.splice(source.index, 1)[0];
-      if (boardType === "template") {
+
+      // If dropping onto a template board, do NOT remove template images
+      if (!isTemplateBoard) {
         updatedBoardVisions = updatedBoardVisions.filter(
-          (item) => !item._id.startsWith("template-") // Remove first template image
+          (item) => !item._id.startsWith("template-")
         );
       }
 
       updatedBoardVisions.splice(destination.index, 0, movedItem);
 
-      // await moveToBoard(movedItem._id);
-      await moveToBoard(movedItem);
+      // Ensure correct API is called
+      await moveToBoard(movedItem, isTemplateBoard);
     } else {
       movedItem = updatedBoardVisions.splice(source.index, 1)[0];
       updatedVisions.splice(destination.index, 0, movedItem);
-      await removeFromBoard(movedItem._id); // Update database
+      await removeFromBoard(movedItem._id);
     }
 
     setVisions(updatedVisions);
@@ -447,7 +482,42 @@ const AdminDashboard = () => {
   //     console.error("Error moving vision to board:", error);
   //   }
   // };
-  const moveToBoard = async (vision) => {
+  // const moveToBoard = async (vision) => {
+  //   if (!vision || !vision._id) {
+  //     console.error("Invalid vision object, missing _id");
+  //     return;
+  //   }
+
+  //   const token = localStorage.getItem("jwtToken");
+  //   if (!token) {
+  //     console.error("No authentication token found");
+  //     return;
+  //   }
+
+  //   // Use the appropriate endpoint based on `vision.imageUrls?.[0]`
+  //   const endpoint = vision.imageUrls?.[0]
+  //     ? "move-to-board-template"
+  //     : "move-to-board";
+
+  //   try {
+  //     const response = await fetch(`${apiUrl}/api/${endpoint}/${vision._id}`, {
+  //       method: "PUT",
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ board: true }),
+  //     });
+
+  //     if (!response.ok) {
+  //       console.error("Failed to update vision to board");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error moving vision to board:", error);
+  //   }
+  // };
+
+  const moveToBoard = async (vision, isTemplateBoard) => {
     if (!vision || !vision._id) {
       console.error("Invalid vision object, missing _id");
       return;
@@ -459,8 +529,8 @@ const AdminDashboard = () => {
       return;
     }
 
-    // Use the appropriate endpoint based on `vision.imageUrls?.[0]`
-    const endpoint = vision.imageUrls?.[0]
+    // Choose the correct endpoint
+    const endpoint = isTemplateBoard
       ? "move-to-board-template"
       : "move-to-board";
 
