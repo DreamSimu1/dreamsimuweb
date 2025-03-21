@@ -529,7 +529,7 @@ const AdminDashboard = () => {
       return;
     }
 
-    `vision.imageUrls?.[0]`;
+    // `vision.imageUrls?.[0]`;
     const endpoint = vision.imageUrls?.[0]
       ? "move-to-board-template"
       : "move-to-board";
