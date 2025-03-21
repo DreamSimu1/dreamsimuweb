@@ -517,7 +517,7 @@ const AdminDashboard = () => {
   //   }
   // };
 
-  const moveToBoard = async (vision, isTemplateBoard) => {
+  const moveToBoard = async (vision) => {
     if (!vision || !vision._id) {
       console.error("Invalid vision object, missing _id");
       return;
@@ -529,8 +529,8 @@ const AdminDashboard = () => {
       return;
     }
 
-    // Choose the correct endpoint
-    const endpoint = isTemplateBoard
+    `vision.imageUrls?.[0]`;
+    const endpoint = vision.imageUrls?.[0]
       ? "move-to-board-template"
       : "move-to-board";
 
