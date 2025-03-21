@@ -163,9 +163,130 @@ const AdminDashboard = () => {
   }, [boardType]);
 
   // Fetch visions already on the board
+  // useEffect(() => {
+  //   const fetchBoardVisions = async () => {
+  //     try {
+  //       const token = localStorage.getItem("jwtToken");
+  //       if (!token) {
+  //         console.error("No authentication token found");
+  //         return;
+  //       }
+
+  //       const userId = user?._id;
+
+  //       // Fetch visions on the board
+  //       const userVisionsResponse = await axios.get(
+  //         `${apiUrl}/api/get-all-board`,
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //         }
+  //       );
+
+  //       // Fetch template visions on board
+  //       const templateVisionsResponse = await axios.get(
+  //         `${apiUrl}/api/get-template-visions-board/${userId}`,
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //         }
+  //       );
+
+  //       // Merge both board visions
+  //       setBoardVisions([
+  //         ...userVisionsResponse.data,
+  //         ...templateVisionsResponse.data,
+  //       ]);
+  //     } catch (error) {
+  //       console.error("Error fetching visions:", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchBoardVisions();
+  // }, [user]);
+  // useEffect(() => {
+  //   const fetchBoardVisions = async () => {
+  //     try {
+  //       const token = localStorage.getItem("jwtToken");
+  //       if (!token) {
+  //         console.error("No authentication token found");
+  //         return;
+  //       }
+
+  //       const userId = user?._id;
+  //       let mergedVisions = [];
+
+  //       // Fetch user visions on the board
+  //       const userVisionsResponse = await axios.get(
+  //         `${apiUrl}/api/get-all-board`,
+  //         { headers: { Authorization: `Bearer ${token}` } }
+  //       );
+
+  //       // Fetch template visions on board
+  //       const templateVisionsResponse = await axios.get(
+  //         `${apiUrl}/api/get-template-visions-board/${userId}`,
+  //         { headers: { Authorization: `Bearer ${token}` } }
+  //       );
+
+  //       mergedVisions = [
+  //         ...userVisionsResponse.data,
+  //         ...templateVisionsResponse.data,
+  //       ];
+
+  //       // If it's a template board, add local images *only if there are missing slots*
+  //       if (boardType === "template") {
+  //         const localImages = [
+  //           "/images/1.jpg",
+  //           "/images/2.jpg",
+  //           "/images/3.jpg",
+  //           "/images/4.jpg",
+  //           "/images/5.png",
+  //           "/images/6.jpg",
+  //           "/images/7.jpg",
+  //           "/images/8.jpg",
+  //           "/images/9.jpg",
+  //           "/images/10.jpg",
+  //           "/images/11.jpg",
+  //           "/images/12.jpg",
+  //           "/images/13.jpg",
+  //           "/images/14.jpg",
+  //           "/images/15.jpg",
+  //           "/images/16.jpg",
+  //         ];
+
+  //         // Shuffle local images
+  //         const shuffledImages = [...localImages].sort(
+  //           () => 0.5 - Math.random()
+  //         );
+
+  //         // Fill missing slots up to 16 images
+  //         while (mergedVisions.length < 16 && shuffledImages.length > 0) {
+  //           mergedVisions.push({
+  //             _id: `template-${mergedVisions.length}`,
+  //             imageUrl: shuffledImages.pop(),
+  //           });
+  //         }
+  //       }
+
+  //       setBoardVisions(mergedVisions);
+  //     } catch (error) {
+  //       console.error("Error fetching visions:", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchBoardVisions();
+  // }, [user, boardType]);
   useEffect(() => {
     const fetchBoardVisions = async () => {
       try {
+        setLoading(true); // Start loading state
+
         const token = localStorage.getItem("jwtToken");
         if (!token) {
           console.error("No authentication token found");
@@ -173,41 +294,97 @@ const AdminDashboard = () => {
         }
 
         const userId = user?._id;
+        let mergedVisions = [];
 
-        // Fetch visions on the board
+        console.log("Fetching board visions...");
+
+        // Fetch user visions on the board
         const userVisionsResponse = await axios.get(
           `${apiUrl}/api/get-all-board`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          { headers: { Authorization: `Bearer ${token}` } }
         );
+
+        console.log("User Visions Response:", userVisionsResponse.data);
 
         // Fetch template visions on board
         const templateVisionsResponse = await axios.get(
           `${apiUrl}/api/get-template-visions-board/${userId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          { headers: { Authorization: `Bearer ${token}` } }
         );
 
-        // Merge both board visions
-        setBoardVisions([
+        console.log("Template Visions Response:", templateVisionsResponse.data);
+
+        // Merge both fetched visions
+        mergedVisions = [
           ...userVisionsResponse.data,
           ...templateVisionsResponse.data,
-        ]);
+        ];
+
+        console.log("Merged Visions Before Local Images:", mergedVisions);
+
+        // Check if fetched visions are actually available
+        if (mergedVisions.length === 0) {
+          console.warn("⚠️ No fetched visions found, using local images...");
+        } else {
+          console.log("✅ Fetched visions found, using them.");
+        }
+
+        // If it's a template board and no visions were fetched, use local images
+        if (boardType === "template") {
+          const localImages = [
+            "/images/1.jpg",
+            "/images/2.jpg",
+            "/images/3.jpg",
+            "/images/4.jpg",
+            "/images/5.png",
+            "/images/6.jpg",
+            "/images/7.jpg",
+            "/images/8.jpg",
+            "/images/9.jpg",
+            "/images/10.jpg",
+            "/images/11.jpg",
+            "/images/12.jpg",
+            "/images/13.jpg",
+            "/images/14.jpg",
+            "/images/15.jpg",
+            "/images/16.jpg",
+          ];
+
+          // Shuffle local images
+          const shuffledImages = [...localImages].sort(
+            () => 0.5 - Math.random()
+          );
+
+          console.log("Shuffled Local Images:", shuffledImages);
+
+          // Ensure the board has at most 16 images
+          while (mergedVisions.length < 16 && shuffledImages.length > 0) {
+            mergedVisions.push({
+              _id: `template-${mergedVisions.length}`,
+              imageUrl: shuffledImages.pop(),
+            });
+          }
+
+          console.log(
+            "Final Board Visions After Adding Local Images:",
+            mergedVisions
+          );
+        }
+
+        setBoardVisions(mergedVisions);
       } catch (error) {
-        console.error("Error fetching visions:", error);
+        console.error("❌ Error fetching visions:", error);
       } finally {
         setLoading(false);
       }
     };
 
     fetchBoardVisions();
-  }, [user]);
+  }, [user, boardType]); // Dependencies ensure the board updates correctly
+
+  useEffect(() => {
+    console.log("useEffect triggered"); // Check if it runs
+  }, [user, boardType]);
 
   // Handle Drag-and-Drop
   const handleDragEnd = async (result) => {
@@ -226,7 +403,14 @@ const AdminDashboard = () => {
 
     if (source.droppableId === "visionsList") {
       movedItem = updatedVisions.splice(source.index, 1)[0];
+      if (boardType === "template") {
+        updatedBoardVisions = updatedBoardVisions.filter(
+          (item) => !item._id.startsWith("template-") // Remove first template image
+        );
+      }
+
       updatedBoardVisions.splice(destination.index, 0, movedItem);
+
       // await moveToBoard(movedItem._id);
       await moveToBoard(movedItem);
     } else {
@@ -561,11 +745,15 @@ const AdminDashboard = () => {
                         </option>
                       ))}
                     </select>
-                    <div className="flex flex-col items-center p-6 bg-gray-100 min-h-screen">
+                    <div
+                      className="flex flex-col items-center p-6 bg-gray-100 min-h-screen"
+                      style={{ marginTop: "20px" }}
+                    >
                       <select
-                        className="mb-4 p-2 border rounded"
+                        className="mt-4 p-2 border rounded"
                         value={boardType}
                         onChange={(e) => setBoardType(e.target.value)}
+                        style={{ marginTop: "10px" }}
                       >
                         <option value="manual">Manual Vision Board</option>
                         <option value="template">Template Vision Board</option>
