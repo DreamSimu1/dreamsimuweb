@@ -428,7 +428,9 @@ const AdminDashboard = () => {
 
     const { source, destination } = result;
     const isTemplateBoard = boardType === "template";
-
+    if (source.droppableId === destination.droppableId) {
+      return; // No need to update the database if staying in the same list
+    }
     // Clone visions to avoid mutating state directly
     const updatedVisions = [...visions];
     let updatedBoardVisions = [...boardVisions];
@@ -438,9 +440,9 @@ const AdminDashboard = () => {
       movedItem = updatedVisions.splice(source.index, 1)[0];
 
       // If dropping onto a template board, do NOT remove template images
-      if (!isTemplateBoard) {
+      if (boardType === "template") {
         updatedBoardVisions = updatedBoardVisions.filter(
-          (item) => !item._id.startsWith("template-")
+          (item) => !item._id.startsWith("template-") // Remove first template image
         );
       }
 
