@@ -36,7 +36,7 @@ const AdminDashboard = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [layout, setLayout] = useState([]);
   const [visionId, setVisionId] = useState(null);
-
+  const [selectedVision, setSelectedVision] = useState(null);
   const [boardSize, setBoardSize] = useState("4x4");
   const visionBoardRef = useRef(null);
 
@@ -459,7 +459,15 @@ const AdminDashboard = () => {
     setVisions(updatedVisions);
     setBoardVisions(updatedBoardVisions);
   };
-
+  const handlePlaceVision = (row, col) => {
+    if (selectedVision) {
+      setBoardVisions((prev) => [
+        ...prev,
+        { ...selectedVision, row, col }, // Add selected vision at chosen spot
+      ]);
+      setSelectedVision(null); // Clear selection after placing
+    }
+  };
   // const moveToBoard = async (id) => {
   //   const token = localStorage.getItem("jwtToken");
   //   if (!token) {
@@ -848,67 +856,77 @@ const AdminDashboard = () => {
                             My Vision Board
                           </h1>
                           {/* Vision Board */}
-                          <div className="vision-board-container">
-                            <Droppable droppableId="visionBoard">
-                              {(provided) => (
-                                <div
-                                  // className="bg-white p-4 rounded-lg shadow-md w-64"
-                                  style={{
-                                    display: "grid",
-                                    gridTemplateRows: `repeat(${rows}, 200px)`,
-                                    gridTemplateColumns: `repeat(${cols}, 200px)`,
-                                    gap: "10px",
-                                    backgroundColor: "#dc3545",
-                                    border: "2px solid black",
-                                    width: `${cols * 210}px`,
-                                    height: `${rows * 210}px`,
-                                    overflow: "hidden", // Prevent nested scrolling issue
-                                  }}
-                                  {...provided.droppableProps}
-                                  ref={provided.innerRef}
-                                >
-                                  {boardVisions.map((vision, index) => (
-                                    <Draggable
-                                      key={vision._id}
-                                      draggableId={vision._id}
-                                      index={index}
-                                    >
-                                      {(provided) => (
-                                        <div
-                                          className="border border-gray-300 flex items-center justify-center"
-                                          style={{
-                                            width: "200px",
-                                            height: "200px",
-                                            backgroundColor: "#fff",
-                                            position: "relative",
-                                          }}
-                                          ref={provided.innerRef}
-                                          {...provided.draggableProps}
-                                          {...provided.dragHandleProps}
-                                        >
-                                          <img
-                                            src={
-                                              vision.imageUrl ||
-                                              (vision.imageUrls &&
-                                              vision.imageUrls.length > 0
-                                                ? vision.imageUrls[0]
-                                                : "default-image.jpg")
-                                            }
-                                            alt={vision.text}
+
+                          <div
+                            style={{
+                              width: "100%", // Take full width of the screen
+                              overflowX: "auto", // Enable horizontal scrolling
+                              whiteSpace: "nowrap",
+                              paddingBottom: "10px",
+                            }}
+                          >
+                            <div className="vision-board-container">
+                              <Droppable droppableId="visionBoard">
+                                {(provided) => (
+                                  <div
+                                    // className="bg-white p-4 rounded-lg shadow-md w-64"
+                                    style={{
+                                      display: "grid",
+                                      gridTemplateRows: `repeat(${rows}, 200px)`,
+                                      gridTemplateColumns: `repeat(${cols}, 200px)`,
+                                      gap: "10px",
+                                      backgroundColor: "#dc3545",
+                                      border: "2px solid black",
+                                      width: `${cols * 210}px`,
+                                      height: `${rows * 210}px`,
+                                      overflow: "hidden", // Prevent nested scrolling issue
+                                    }}
+                                    {...provided.droppableProps}
+                                    ref={provided.innerRef}
+                                  >
+                                    {boardVisions.map((vision, index) => (
+                                      <Draggable
+                                        key={vision._id}
+                                        draggableId={vision._id}
+                                        index={index}
+                                      >
+                                        {(provided) => (
+                                          <div
+                                            className="border border-gray-300 flex items-center justify-center"
                                             style={{
-                                              width: "100%",
-                                              height: "100%",
-                                              objectFit: "cover",
+                                              width: "200px",
+                                              height: "200px",
+                                              backgroundColor: "#fff",
+                                              position: "relative",
                                             }}
-                                          />
-                                        </div>
-                                      )}
-                                    </Draggable>
-                                  ))}
-                                  {provided.placeholder}
-                                </div>
-                              )}
-                            </Droppable>
+                                            ref={provided.innerRef}
+                                            {...provided.draggableProps}
+                                            {...provided.dragHandleProps}
+                                          >
+                                            <img
+                                              src={
+                                                vision.imageUrl ||
+                                                (vision.imageUrls &&
+                                                vision.imageUrls.length > 0
+                                                  ? vision.imageUrls[0]
+                                                  : "default-image.jpg")
+                                              }
+                                              alt={vision.text}
+                                              style={{
+                                                width: "100%",
+                                                height: "100%",
+                                                objectFit: "cover",
+                                              }}
+                                            />
+                                          </div>
+                                        )}
+                                      </Draggable>
+                                    ))}
+                                    {provided.placeholder}
+                                  </div>
+                                )}
+                              </Droppable>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -916,6 +934,7 @@ const AdminDashboard = () => {
                   </div>
                 </DragDropContext>
               )}
+
               <DeleteVision
                 showModalss={showModalss}
                 setShowModalss={setShowModalss}
